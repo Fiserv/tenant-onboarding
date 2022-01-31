@@ -1,6 +1,6 @@
 //mod github;
 
-pub fn doTeam(execute: bool) {
+pub fn do_team(execute: bool) {
     println!("doTeam dry");
 
     if (execute) {

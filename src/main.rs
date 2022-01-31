@@ -63,7 +63,9 @@ fn main() {
 
     //now call each function corresponding to the flags
     //remember that passing in EXECUTE will control if that actually runs
-    team::doTeam(execute);
+    team::do_team(execute);
+    //repo::do_repo(execute);
+    //dbscripts::dbscripts(execute);
 
 
     /*let args = Cli::parse();
