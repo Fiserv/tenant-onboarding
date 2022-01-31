@@ -12,7 +12,7 @@ The program will do a few things for the user.
 6. Generate the necessary DB snippets needed (-d)
 7. (delete coming later...)
 
-# How to use
+## How to use
 
 Either update a config file or pass in data through the CLI
 

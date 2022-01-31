@@ -3,7 +3,9 @@
 use clap::{App, Arg, Parser};
 use clap::arg;
 
-mod mods;
+mod team;
+mod repo;
+mod dbscripts;
 
 /// Search for a pattern in a file and display the lines that contain it.
 #[derive(Parser)]
@@ -19,23 +21,50 @@ struct Cli {
 }
 
 fn main() {
+    let mut doteam = false;
+    let mut dorepo = false;
+    let mut execute = false;
+    let mut dbscripts = false;
+
     let args = App::new("Tenant Boarding")
         .author("DevStudio Team")
         .about("Use this to setup a tenant")
         .args(&[
-            Arg::new("team")
+            Arg::new("doteam")
                 .short('t')
                 .long("doteam")
                 .takes_value(false)
                 .help("create github team name"),
-            arg!(-r --dorepo "create github repo"),
-            arg!(-d --dbscripts "create db scripts"),
-            arg!(-e --execute "execute for real.  without it will just be a dry run")
+            arg!(dorepo: -r --dorepo "create github repo"),
+            arg!(dbscripts: -d --dbscripts "create db scripts"),
+            arg!(execute: -e --execute "execute for real.  without it will just be a dry run")
         ]).get_matches();
 
-    if args.is_present("team") {
-        println!("i see it!")
+    //set the flags you need
+    if args.is_present("doteam") {
+        doteam = true;
+        println!("{}", doteam)
     }
+
+    if args.is_present("dorepo") {
+        dorepo = true;
+        println!("{}", dorepo)
+    }
+
+    if args.is_present("dbscripts") {
+        dbscripts = true;
+        println!("{}", dbscripts)
+    }
+
+    if args.is_present("execute") {
+        execute = true;
+        println!("{}", execute)
+    }
+
+    //now call each function corresponding to the flags
+    //remember that passing in EXECUTE will control if that actually runs
+    team::doTeam(execute);
+
 
     /*let args = Cli::parse();
 
