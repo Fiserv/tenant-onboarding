@@ -11,6 +11,12 @@ The program will do a few things for the user.
 5. Update the basic files to have the proper names
 6. Generate the necessary DB snippets needed (-d)
 7. (delete coming later...)
+8. (integrate with devops to deploy mockserver??)
+
+## How to build
+
+1. checkout the repo
+2. in the repo `cargo build`
 
 ## How to use
 
@@ -28,13 +34,13 @@ to -r --execute
 
 YAML sucks...
 
-config.json will hold specific info that will be used in the repo & files.
+config.yaml will hold specific info that will be used in the repo & files.
 
 TO will look for it at the same level.
 
 ## Logs
 
-Logs will be written out to to-TIMESTAMP.log
+Logs will be written out to logs/to-TIMESTAMP.log
 
 ## DB snippets
 
@@ -54,8 +60,24 @@ to -h
 
 ### Full shabang
 
-to -trdv
+to -trdv  OR to -a
 
 ### Only DB files
 
 to -d
+
+## Owners
+
+1. skeleton = alvin
+   1. logging = alvin
+2. github calls = andrew
+3. create github team = andrew
+   1. assign devstudio members
+   2. assign tenant members (fiserv emails only)
+4. create github repo = abhishek
+   1. set team
+   2. set webhooks
+5. dbscripts = tania
+6. prep tenant repo = tania
+   1. fill in tenant.json
+   2. fill in product.yaml

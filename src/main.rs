@@ -4,8 +4,8 @@ use clap::{App, Arg, Parser};
 use clap::arg;
 
 mod team;
-mod repo;
-mod dbscripts;
+//mod repo;
+//mod dbscripts;
 
 /// Search for a pattern in a file and display the lines that contain it.
 #[derive(Parser)]
