@@ -1,0 +1,52 @@
+tenantName: name
+prettyTenantName: pretty tenant name
+github:
+  repoName: reponame
+  teamName: team name
+  users:
+    - alvin.cho@fiserv.com
+    - tania.sarkar@fisrev.com
+  labels:
+    contacts:
+      - alvin.cho@fiserv.com
+      - tania.sarkar@fiserv.com
+studio:
+  active: false
+  beta: true
+  internal: false
+  solution:
+    - Merchants
+  runbox:
+    #enable runbox
+    sandbox: true
+    sandboxType: mock
+    editParameterAPIExplorer: true
+    mockserver:
+      mockServerUrl: 'http://tenant-banking-cards-mock-service:4010'
+    liveSandbox:
+      serverUrl: 'https://qa.api.fiservapps.com/reporting'
+      authenticationScheme: HMAC
+      username: McdjzLKKksIVxliNpiJlHPZ7QnnFBiXX
+      password: z9IsGDuXMRLFqiEFHXazQVyPGT6cht8aWi22MZVSudb
+      selfSignedCert: false
+  tenantServer:
+    tenantHost: 'https://tenant-generic.dev-developer-portal.svc'
+    tenantPort: '8443'
+    providerAPIUrl: /v1/products/SignatureInternational
+  selfService:
+    doc: true
+    runbox: false
+    apikeys: false
+    cert: false
+  tags:
+    region:
+      - North America
+    channelType:
+      - OMNI
+      - Card Not Present
+    integration:
+      - RestFUL
+    segment:
+      - Enterprise
+    feature: []
+    industry: []

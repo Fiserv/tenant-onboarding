@@ -2,6 +2,16 @@
 
 use clap::{App, Arg, Parser};
 use clap::arg;
+use log::{debug, error, info, trace, warn, LevelFilter, SetLoggerError};
+use log4rs::{
+    append::{
+        console::{ConsoleAppender, Target},
+        file::FileAppender,
+    },
+    config::{Appender, Config, Root},
+    encode::pattern::PatternEncoder,
+    filter::threshold::ThresholdFilter,
+};
 
 mod team;
 //mod repo;
@@ -20,11 +30,41 @@ struct Cli {
     path: std::path::PathBuf,
 }
 
-fn main() {
+fn main() -> Result<(), SetLoggerError> {
+    let level = log::LevelFilter::Info;
+    let file_path = "foo.log";
+
     let mut doteam = false;
     let mut dorepo = false;
     let mut execute = false;
     let mut dbscripts = false;
+
+    // Build a stderr logger.
+    let stderr = ConsoleAppender::builder().target(Target::Stderr).build();
+
+    // Logging to log file.
+    let logfile = FileAppender::builder()
+        // Pattern: https://docs.rs/log4rs/*/log4rs/encode/pattern/index.html
+        .encoder(Box::new(PatternEncoder::new("{d} {l} - {m}\n")))
+        .build(file_path)
+        .unwrap();
+
+    // Log Trace level output to file where trace is the default level
+    // and the programmatically specified level to stderr.
+    let config = Config::builder()
+        .appender(Appender::builder().build("logfile", Box::new(logfile)))
+        .appender(
+            Appender::builder()
+                .filter(Box::new(ThresholdFilter::new(level)))
+                .build("stderr", Box::new(stderr)),
+        )
+        .build(
+            Root::builder()
+                .appender("logfile")
+                .appender("stderr")
+                .build(LevelFilter::Trace),
+        )
+        .unwrap();
 
     let args = App::new("Tenant Boarding")
         .author("DevStudio Team")
@@ -41,32 +81,47 @@ fn main() {
         ]).get_matches();
 
     //set the flags you need
+    if args.is_present("execute") {
+        execute = true;
+        println!("execute flag {}", execute);
+    }
+
     if args.is_present("doteam") {
         doteam = true;
-        println!("{}", doteam)
+        println!("doteam flag {}", doteam);
+
+        team::do_team(execute);
     }
 
     if args.is_present("dorepo") {
         dorepo = true;
-        println!("{}", dorepo)
+        println!("dorepo flag {}", dorepo);
     }
 
     if args.is_present("dbscripts") {
         dbscripts = true;
-        println!("{}", dbscripts)
-    }
-
-    if args.is_present("execute") {
-        execute = true;
-        println!("{}", execute)
+        println!("dbscripts flag {}", dbscripts);
     }
 
     //now call each function corresponding to the flags
     //remember that passing in EXECUTE will control if that actually runs
-    team::do_team(execute);
+    //team::do_team(execute);
     //repo::do_repo(execute);
     //dbscripts::dbscripts(execute);
 
+    // Use this to change log levels at runtime.
+    // This means you can change the default log level to trace
+    // if you are trying to debug an issue and need more logs on then turn it off
+    // once you are done.
+    let _handle = log4rs::init_config(config)?;
+
+    error!("Goes to stderr and file");
+    warn!("Goes to stderr and file");
+    info!("Goes to stderr and file");
+    debug!("Goes to file only");
+    trace!("Goes to file only");
+
+    Ok(())
 
     /*let args = Cli::parse();
 
