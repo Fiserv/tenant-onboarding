@@ -50,7 +50,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let filename = "to".to_string();
 
     let level = log::LevelFilter::Info;
-    let file_path = format!("-{}{}.log", filename, timestamp);
+    let file_path = format!("{}-{}.log", filename, timestamp);
 
     let config_file = "../../config.yaml";
     let mut do_team = false;

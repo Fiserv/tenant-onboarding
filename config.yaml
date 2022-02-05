@@ -4,17 +4,17 @@ github:
   repoName: reponame
   teamName: team name
   users:
-    - alvin.cho@fiserv.com
-    - tania.sarkar@fisrev.com
+    - alvin@fiserv.com
+    - tania@fisrev.com
   labels:
     contacts:
-      - alvin.cho@fiserv.com
-      - tania.sarkar@fiserv.com
+      - andrew@fiserv.com
+      - abhishek@fiserv.com
 studio:
   active: false
   beta: true
   internal: false
-  solution:
+  solutions:
     - Merchants
   runbox:
     #enable runbox
