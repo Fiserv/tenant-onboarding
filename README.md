@@ -81,3 +81,14 @@ to -d
 6. prep tenant repo = tania
    1. fill in tenant.json
    2. fill in product.yaml
+
+
+## How to get started with Rust
+
+Use google.
+
+### Get System up
+
+### Basic build commands
+
+### Useful links

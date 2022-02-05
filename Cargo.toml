@@ -10,3 +10,7 @@ clap-verbosity-flag = "0.4.1"
 clap = { version = "3.0", features = ["derive"] }
 log4rs = "1.0.0"
 log = "0.4.14"
+serde = "1.0"
+serde_yaml = "0.8"
+chrono = "0.4.19"
+yaml-rust = "0.4"

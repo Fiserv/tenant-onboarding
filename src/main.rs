@@ -1,5 +1,11 @@
 #![allow(unused)]
 
+extern crate yaml_rust;
+use yaml_rust::{YamlLoader, YamlEmitter};
+use std::fs::File;
+use std::io::Read;
+use std::error::Error;
+use chrono::{DateTime, Local};
 use clap::{App, Arg, Parser};
 use clap::arg;
 use log::{debug, error, info, trace, warn, LevelFilter, SetLoggerError};
@@ -12,13 +18,14 @@ use log4rs::{
     encode::pattern::PatternEncoder,
     filter::threshold::ThresholdFilter,
 };
+use serde::{Serialize, Deserialize};
 
 mod team;
 //mod repo;
 //mod dbscripts;
 
 /// Search for a pattern in a file and display the lines that contain it.
-#[derive(Parser)]
+/*#[derive(Parser)]
 struct Cli {
     #[clap(flatten)]
     verbose: clap_verbosity_flag::Verbosity,
@@ -28,11 +35,17 @@ struct Cli {
     /// The path to the file to read
     #[clap(parse(from_os_str))]
     path: std::path::PathBuf,
-}
+}*/
 
-fn main() -> Result<(), SetLoggerError> {
+fn main() -> Result<(), Box<dyn std::error::Error>> {
+    let now: DateTime<Local> = Local::now();
+    println!("timestamp: {}", now.format("%Y-%m-%d-%H:%M:%S").to_string());
+
+    let timestamp = now.format("%Y-%m-%d-%H:%M:%S").to_string();
+    let filename = "to".to_string();
+
     let level = log::LevelFilter::Info;
-    let file_path = "foo.log";
+    let file_path = format!("-{}{}.log", filename, timestamp);
 
     let mut doteam = false;
     let mut dorepo = false;
@@ -80,6 +93,16 @@ fn main() -> Result<(), SetLoggerError> {
             arg!(execute: -e --execute "execute for real.  without it will just be a dry run")
         ]).get_matches();
 
+    //reading YAML file...
+    let mut file = std::fs::File::open("../../config.yaml")?;
+    let mut contents = String::new();
+
+    file.read_to_string(&mut contents).expect("unable to read string");
+    let yaml = YamlLoader::load_from_str(&contents).unwrap();
+    
+    //let d: String = serde_yaml::to_string(f)?;
+    println!("Read YAML string: {}", contents);
+
     //set the flags you need
     if args.is_present("execute") {
         execute = true;
@@ -90,7 +113,7 @@ fn main() -> Result<(), SetLoggerError> {
         doteam = true;
         println!("doteam flag {}", doteam);
 
-        team::do_team(execute);
+        team::do_team(execute, yaml);
     }
 
     if args.is_present("dorepo") {
