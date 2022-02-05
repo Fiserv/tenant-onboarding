@@ -89,6 +89,37 @@ Use google.
 
 ### Get System up
 
+### Setup debugger
+
+in VScode setup the launch.json in the same directory
+
+```json
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "(Windows) Launch",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceRoot}/target/debug/tenant-boarding.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceRoot}",
+            "environment": [],
+            "externalConsole": true
+        },
+        {
+            "name": "(OSX) Launch",
+            "type": "lldb",
+            "request": "launch",
+            "program": "${workspaceRoot}/target/debug/tenant-onboarding",
+            "args": ["-te"],
+            "cwd": "${workspaceRoot}",
+        }
+    ]
+}
+```
+
 ### Basic build commands
 
 ### Useful links
