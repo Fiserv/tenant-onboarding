@@ -2,12 +2,18 @@
 
 extern crate yaml_rust;
 use yaml_rust::{YamlLoader, YamlEmitter};
+use serde::{Serialize, Deserialize};
+
 use std::fs::File;
 use std::io::Read;
+use std::env;
 use std::error::Error;
+
 use chrono::{DateTime, Local};
+
 use clap::{App, Arg, Parser};
 use clap::arg;
+
 use log::{debug, error, info, trace, warn, LevelFilter, SetLoggerError};
 use log4rs::{
     append::{
@@ -18,7 +24,6 @@ use log4rs::{
     encode::pattern::PatternEncoder,
     filter::threshold::ThresholdFilter,
 };
-use serde::{Serialize, Deserialize};
 
 mod team;
 //mod repo;
@@ -47,8 +52,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let level = log::LevelFilter::Info;
     let file_path = format!("-{}{}.log", filename, timestamp);
 
-    let mut doteam = false;
-    let mut dorepo = false;
+    let config_file = "../../config.yaml";
+    let mut do_team = false;
+    let mut do_repo = false;
     let mut execute = false;
     let mut dbscripts = false;
 
@@ -83,18 +89,21 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         .author("DevStudio Team")
         .about("Use this to setup a tenant")
         .args(&[
-            Arg::new("doteam")
+            Arg::new("do_team")
                 .short('t')
-                .long("doteam")
+                .long("do_team")
                 .takes_value(false)
                 .help("create github team name"),
-            arg!(dorepo: -r --dorepo "create github repo"),
+            arg!(do_repo: -r --do_repo "create github repo"),
             arg!(dbscripts: -d --dbscripts "create db scripts"),
             arg!(execute: -e --execute "execute for real.  without it will just be a dry run")
         ]).get_matches();
 
     //reading YAML file...
-    let mut file = std::fs::File::open("../../config.yaml")?;
+    println!("cwd {:?}", std::env::current_dir());
+    println!("cwd exec {:?}", std::env::current_exe());
+
+    let mut file = std::fs::File::open(config_file)?;
     let mut contents = String::new();
 
     file.read_to_string(&mut contents).expect("unable to read string");
@@ -108,17 +117,21 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         execute = true;
         println!("execute flag {}", execute);
     }
+    else {
+        println!("Doing DRY run.");
+        info!("Doing DRY run");
+    }
 
-    if args.is_present("doteam") {
-        doteam = true;
-        println!("doteam flag {}", doteam);
+    if args.is_present("do_team") {
+        do_team = true;
+        println!("do_team flag {}", do_team);
 
         team::do_team(execute, yaml);
     }
 
-    if args.is_present("dorepo") {
-        dorepo = true;
-        println!("dorepo flag {}", dorepo);
+    if args.is_present("do_repo") {
+        do_repo = true;
+        println!("do_repo flag {}", do_repo);
     }
 
     if args.is_present("dbscripts") {

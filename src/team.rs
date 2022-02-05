@@ -26,6 +26,12 @@ pub fn do_team(execute: bool, yaml: Vec<Yaml>) {
         println!("executing doTeam");
     }
 
-    let tenant_name = &yaml[0];
+    let y = &yaml[0];
     //println!("obj {}", tenant_name[0].as_str().unwrap());
+    println!("{:?}", y); //hashstring is printed
+    println!("the tenant name{:?}", y["tenantName"].as_str().unwrap());
+
+    /*for x in &yaml {
+        println!("{}", x);
+    }*/
 }
