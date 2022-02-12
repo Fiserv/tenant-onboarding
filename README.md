@@ -30,6 +30,12 @@ To actually execute for REAL, you'll need the extra flag.
 
 to -r --execute
 
+### Using Startup Script
+
+From root directory run startup script
+
+Example :  ./startup.sh -f '-te'
+
 ## Using the config file
 
 YAML sucks...
