@@ -1,5 +1,6 @@
 #![allow(unused)]
 
+
 extern crate yaml_rust;
 use yaml_rust::{YamlLoader, YamlEmitter};
 use serde::{Serialize, Deserialize};
@@ -26,7 +27,9 @@ use log4rs::{
 };
 
 mod team;
-//mod repo;
+mod gitsource { pub mod gitutils; }
+ 
+ 
 //mod dbscripts;
 
 /// Search for a pattern in a file and display the lines that contain it.
@@ -44,9 +47,9 @@ struct Cli {
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let now: DateTime<Local> = Local::now();
-    println!("timestamp: {}", now.format("%Y-%m-%d-%H:%M:%S").to_string());
+    println!("timestamp: {}", now.format("%Y-%m-%d-%H-%M-%S").to_string());
 
-    let timestamp = now.format("%Y-%m-%d-%H:%M:%S").to_string();
+    let timestamp = now.format("%Y-%m-%d-%H-%M-%S").to_string();
     let filename = "to".to_string();
 
     let level = log::LevelFilter::Info;
@@ -133,6 +136,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         println!("do_team flag {}", do_team);
 
         team::do_team(execute, yaml);
+       
+        gitsource::gitutils::function();
     }
 
     if args.is_present("do_repo") {
