@@ -3,36 +3,38 @@ prettyTenantName: pretty tenant name
 github:
   repoName: reponame
   teamName: team name
-  users:
+  teamMembers:
     - alvin@fiserv.com
-    - tania@fisrev.com
-  labels:
-    contacts:
-      - andrew@fiserv.com
-      - abhishek@fiserv.com
+    - tania@fiserv.com
+  supportContacts:
+    - andrew@fiserv.com
+    - abhishek@fiserv.com
 studio:
   active: false
   beta: true
   internal: false
   solutions:
-    - Merchants
+    merchants: true
+    financialInstitutions: false
   runbox:
-    #enable runbox
+    # enable runbox
     sandbox: true
     sandboxType: mock
     editParameterAPIExplorer: true
     mockserver:
-      mockServerUrl: 'http://tenant-banking-cards-mock-service:4010'
+      mockServerUrl: 'http://tenant-name-mock-service:4010'
     liveSandbox:
-      serverUrl: 'https://qa.api.fiservapps.com/reporting'
+      serverUrl: 'https://qa.api.fiservapps.com/tenantName'
       authenticationScheme: HMAC
       username: McdjzLKKksIVxliNpiJlHPZ7QnnFBiXX
       password: z9IsGDuXMRLFqiEFHXazQVyPGT6cht8aWi22MZVSudb
       selfSignedCert: false
   tenantServer:
-    tenantHost: 'https://tenant-generic.dev-developer-portal.svc'
-    tenantPort: '8443'
-    providerAPIUrl: /v1/products/SignatureInternational
+    # If genericTenantServer is true, custom host and port is not used.
+    genericTenantServer: false
+    customTenantHost: 'https://some-custom-app.svc'
+    customTenantPort: '8443'
+    providerAPIUrl: /v1/products/TenantName
   selfService:
     doc: true
     runbox: false
@@ -40,13 +42,24 @@ studio:
     cert: false
   tags:
     region:
-      - North America
+      northAmerica: true
+      emea: false
+      latam: false
+      apac: false
     channelType:
-      - OMNI
-      - Card Not Present
+      omni: true
+      cardPresent: false
+      cardNotPresent: true
     integration:
-      - RestFUL
+      restful: true
+      sdk: false
+      soap: false
+      xml: false
     segment:
-      - Enterprise
+      cmm: false
+      enterprise: true
+      government: false
+      partner: false
+      smb: false
     feature: []
     industry: []
