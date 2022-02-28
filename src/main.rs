@@ -1,5 +1,9 @@
 #![allow(unused)]
 
+/*
+TODO
+
+*/
 
 extern crate yaml_rust;
 use yaml_rust::{YamlLoader, YamlEmitter};
@@ -46,10 +50,13 @@ struct Cli {
 }*/
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let now: DateTime<Local> = Local::now();
-    println!("timestamp: {}", now.format("%Y-%m-%d-%H-%M-%S").to_string());
+    info!("Tenant Onboarding Starting");
 
-    let timestamp = now.format("%Y-%m-%d-%H-%M-%S").to_string();
+    let now: DateTime<Local> = Local::now();
+    //println!("timestamp: {}", now.format("%Y-%m-%d_%H_%M_%S").to_string());
+    debug!("timestamp: {}", now.format("%Y-%m-%d_%H_%M_%S").to_string());
+
+    let timestamp = now.format("%Y-%m-%d_%H_%M_%S").to_string();
     let filename = "to".to_string();
 
     let level = log::LevelFilter::Info;
@@ -162,6 +169,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     debug!("Goes to file only");
     trace!("Goes to file only");
 
+    info!("Tenant Onboarding Stop");
     Ok(())
 
     /*let args = Cli::parse();
