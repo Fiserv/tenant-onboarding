@@ -32,6 +32,7 @@ use log4rs::{
 
 mod team;
 mod gitsource { pub mod gitutils; }
+mod dbscripts;
  
  
 //mod dbscripts;
@@ -62,7 +63,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let level = log::LevelFilter::Info;
     let file_path = format!("{}-{}.log", filename, timestamp);
 
-    let config_file = "../../config.yaml";
+    let config_file = "../../tenant-config.yaml";
     let mut do_team = false;
     let mut do_repo = false;
     let mut execute = false;
@@ -142,7 +143,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         do_team = true;
         println!("do_team flag {}", do_team);
 
-        team::do_team(execute, yaml);
+        team::do_team(execute, &yaml);
        
         gitsource::gitutils::function();
     }
@@ -155,6 +156,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     if args.is_present("dbscripts") {
         dbscripts = true;
         println!("dbscripts flag {}", dbscripts);
+
+        dbscripts::create_dbscripts(execute, &yaml);
     }
 
     //now call each function corresponding to the flags

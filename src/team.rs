@@ -11,7 +11,7 @@ use log4rs::{
 };
 use yaml_rust::{Yaml, YamlLoader, YamlEmitter};
 
-pub fn do_team(execute: bool, yaml: Vec<Yaml>) {
+pub fn do_team(execute: bool, yaml: &Vec<Yaml>) {
     error!("do_team Goes to stderr and file");
     warn!("do_team Goes to stderr and file");
     info!("do_team Goes to stderr and file");
