@@ -12,6 +12,7 @@ The program will do a few things for the user.
 6. Generate the necessary DB snippets needed (-d)
 7. (delete coming later...)
 8. (integrate with devops to deploy mockserver??)
+9. (integrate with bitbucket to commit DB changes)
 
 ## How to build
 

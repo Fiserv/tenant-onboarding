@@ -16,6 +16,7 @@ studio:
   solutions:
     merchants: true
     financialInstitutions: false
+  linkout: true
   runbox:
     # enable runbox
     sandbox: true
