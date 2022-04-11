@@ -12,5 +12,11 @@ log4rs = "1.0.0"
 log = "0.4.14"
 serde = "1.0"
 serde_yaml = "0.8"
+serde_json = "1.0.61"
+serde_derive = "1.0.119"
 chrono = "0.4.19"
 yaml-rust = "0.4"
+exitfailure = "0.5.1"
+reqwest = { version = "0.11.0", features = ["json"] }
+tokio = { version = "1.0.2", features = ["full"] }
+futures = "0.3"
