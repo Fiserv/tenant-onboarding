@@ -25,7 +25,6 @@ use log4rs::{
     encode::pattern::PatternEncoder,
     filter::threshold::ThresholdFilter,
 };
-
 mod team;
 mod gitsource { pub mod gitutils; }
  
@@ -133,11 +132,10 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     if args.is_present("do_team") {
         do_team = true;
-        println!("do_team flag {}", do_team);
 
         team::do_team(execute, yaml);
-       
-        gitsource::gitutils::function();
+        
+        gitsource::gitutils::get_github_team(); 
     }
 
     if args.is_present("do_repo") {
