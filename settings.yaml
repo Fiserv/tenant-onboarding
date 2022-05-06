@@ -1,0 +1,6 @@
+github:
+  gitHubRawContentHost:                   'https://raw.githubusercontent.com'
+  gitHubContentBranch:                    'feature/create-github-repo'
+  gitHubSourceOwner:                      'Fiserv'
+  gitHubUser:                             'username'
+  gitHubAuthToken:                        'yourToken'
