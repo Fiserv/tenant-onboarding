@@ -82,7 +82,7 @@ to -d
 3. create github team = andrew
    1. assign devstudio members
    2. assign tenant members (fiserv emails only)
-4. create github repo = abhishek
+4. create github repo from template repo = abhishek
    1. set team
    2. set webhooks
 5. dbscripts = tania
