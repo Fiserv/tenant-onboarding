@@ -1,0 +1,68 @@
+  ---
+Name of product: Sample Tenant
+GitHub essentials:
+  Team Memebers: john.doe@fiserv.com, abc.test@fiserv.com
+  supportContacts:
+  - bug:
+      assignees: andrew.an@fiserv.com, tania.sarkar@fiserv.com, alvin.cho@fiserv.com
+  - feedback:
+      assignees: abhishek.singh@fiserv.com, tania.sarkar@fiserv.com, alvin.cho@fiserv.com
+  - enhancement:
+      assignees: tania.sarkar@fiserv.com, tania.sarkar@fiserv.com, alvin.cho@fiserv.com
+Studio essentials:
+  Beta: true
+  Internal: false
+  Solution Areas:
+  - name: merchants
+    value: true
+    customer_segments:
+    - name: SMB
+      value: true
+    - name: Enterprise
+      value: true
+    - name: customer-mid-market
+      value: false
+  - name: carat
+    value: true
+  - name: financial-institutions
+    value: false
+    customer_segments:
+    - name: Banks
+      value: false
+    - name: Credit Unions
+      value: false
+  Tags:
+    region:
+      North America: true
+      EMEA: false
+      LATAM: false
+      APAC: false
+    channelType:
+      OMNI: true
+      Card Present: false
+      Card Not Present: true
+    integration:
+      restful: true
+      sdk: false
+      soap: false
+      xml: false
+    feature:
+    industry:
+Runbox essentials:
+- sandbox_type: mock server
+  value: true
+- sandbox_type: live sandbox server
+  value: true
+  connection details:
+    API gateway details:
+    - name: Apigee
+      value: true
+      serverUrl: https://qa.api.fiservapps.com/tenantName
+      Authentication Name: HMAC
+      username: "<...>"
+      password: "..."
+      self signed certificate: false
+    - name: Datapower
+      value: false
+      server Url: ''
+      self signed certificate: false
