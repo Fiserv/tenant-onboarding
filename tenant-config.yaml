@@ -1,66 +1,76 @@
-tenantName: SampleOnBoardingTenant
-prettyTenantName: Sample OnBoarding Tenant
-github:
-  repoName: test-repo
-  teamName: Fiserv Developer Portal
-  teamMembers:
-    - alvin@fiserv.com
-    - tania@fiserv.com
-  supportContacts:
-    - andrew@fiserv.com
-    - abhishek@fiserv.com
-studio:
-  active: false
-  beta: true
-  internal: false
-  solutions:
-    merchants: true
-    financialInstitutions: false
-  linkout: true
-  runbox:
-    # enable runbox
-    sandbox: true
-    sandboxType: mock
-    editParameterAPIExplorer: true
-    mockserver:
-      mockServerUrl: 'http://tenant-name-mock-service:4010'
-    liveSandbox:
-      serverUrl: 'https://qa.api.fiservapps.com/tenantName'
-      authenticationScheme: HMAC
-      username: McdjzLKKksIVxliNpiJlHPZ7QnnFBiXX
-      password: z9IsGDuXMRLFqiEFHXazQVyPGT6cht8aWi22MZVSudb
-      selfSignedCert: false
-  tenantServer:
-    # If genericTenantServer is true, custom host and port is not used.
-    genericTenantServer: false
-    customTenantHost: 'https://some-custom-app.svc'
-    customTenantPort: '8443'
-    providerAPIUrl: /v1/products/SampleOnBoardingTenant
-  selfService:
-    doc: true
-    runbox: false
-    apikeys: false
-    cert: false
-  tags:
-    region:
-      northAmerica: true
-      emea: false
-      latam: false
-      apac: false
-    channelType:
-      omni: true
-      cardPresent: false
-      cardNotPresent: true
-    integration:
+Name of product: Sample Tenant
+GitHub essentials:
+  Repository Name: sample-tenant
+  Team Memebers: john.doe@fiserv.com, abc.test@fiserv.com
+  Support Contacts:
+  - Bug Reporting:
+      Assignees: andrew.an@fiserv.com, tania.sarkar@fiserv.com, alvin.cho@fiserv.com
+  - Feedback Reporting:
+      Assignees: abhishek.singh@fiserv.com, tania.sarkar@fiserv.com, alvin.cho@fiserv.com
+  - Enhancement Reporting:
+      Assignees: tania.sarkar@fiserv.com, tania.sarkar@fiserv.com, alvin.cho@fiserv.com
+  # This section is related to Product versioning
+  Github Branches:
+  - Name: Preview
+    Value: true
+  - Name: Previous
+    Value: true
+Studio essentials:
+  Beta: true
+  Internal: false
+  Solution Areas:
+  - Name: merchants
+    Value: true
+    Customer Segments:
+    - Name: SMB
+      Value: true
+    - Name: Enterprise
+      Value: true
+    - Name: customer-mid-market
+      Value: false
+  - Name: carat
+    Value: true
+  - Name: financial-institutions
+    Value: false
+    Customer Segments:
+    - Name: Banks
+      Value: false
+    - Name: Credit Unions
+      Value: false
+  Tags:
+    Region of Operation:
+      North America: true
+      EMEA: false
+      LATAM: false
+      APAC: false
+    Channel Type:
+      OMNI: true
+      Card Present: false
+      Card Not Present: true
+    Integration:
       restful: true
       sdk: false
       soap: false
       xml: false
-    segment:
-      cmm: false
-      enterprise: true
-      government: false
-      partner: false
-      smb: false
-    feature: []
-    industry: []
+    Feature: 
+    Industry:
+Runbox essentials:
+- Sandbox Type: mock server
+  Value: true
+  # Do not fill up this section
+  Mock Server Url: ""
+- Sandbox Type: live sandbox server
+  Value: false
+  connection details:
+    API gateway details:
+    - name: Apigee
+      value: true
+      serverUrl: https://qa.api.fiservapps.com/tenantName
+      Authentication Name: HMAC
+      username: "<...>"
+      password: "..."
+      self signed certificate: false
+    - name: Datapower
+      value: false
+      server Url: ''
+      self signed certificate: false
