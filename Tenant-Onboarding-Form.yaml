@@ -1,57 +1,114 @@
 Name of product: Sample Tenant
+
+Tenant Type:
+- Name: Full service Tenant
+  Value: true
+- Name: Link out Tenant
+  Value: false
+
+# Please fill out this section if you are a Link out Tenant
+Link out Tenant essentials:
+  External Link: ''
+  Studio Essentials:
+    Product Areas:
+    - Name: merchants
+      Value: true
+      Customer Segments:
+      - Name: SMB
+        Value: true
+      - Name: Enterprise
+        Value: true
+      - Name: customer-mid-market
+        Value: false
+    - Name: carat
+      Value: true
+    - Name: financial-institutions
+      Value: false
+      Customer Segments:
+      - Name: Banks
+        Value: false
+      - Name: Credit Unions
+        Value: false
+    Tags:
+      Region of Operation:
+        North America: true
+        EMEA: false
+        LATAM: false
+        APAC: false
+      Channel Type:
+        OMNI: true
+        Card Present: false
+        Card Not Present: true
+      Integration:
+        restful: true
+        sdk: false
+        soap: false
+        xml: false
+      Feature: []
+      Industry: []
+
+# Please fill out the below sections if you are a Full service Tenant
 GitHub essentials:
+  Repository Name: sample-tenant
   Team Memebers: john.doe@fiserv.com, abc.test@fiserv.com
-  supportContacts:
-  - bug:
-      assignees: andrew.an@fiserv.com, tania.sarkar@fiserv.com, alvin.cho@fiserv.com
-  - feedback:
-      assignees: abhishek.singh@fiserv.com, tania.sarkar@fiserv.com, alvin.cho@fiserv.com
-  - enhancement:
-      assignees: tania.sarkar@fiserv.com, tania.sarkar@fiserv.com, alvin.cho@fiserv.com
+  Support Contacts:
+  - Bug Reporting:
+      Assignees: andrew.an@fiserv.com, tania.sarkar@fiserv.com, alvin.cho@fiserv.com
+  - Feedback Reporting:
+      Assignees: abhishek.singh@fiserv.com, tania.sarkar@fiserv.com, alvin.cho@fiserv.com
+  - Enhancement Reporting:
+      Assignees: tania.sarkar@fiserv.com, tania.sarkar@fiserv.com, alvin.cho@fiserv.com
+  Github Branches:
+  - Name: Preview
+    Value: true
+  - Name: Previous
+    Value: true
+
 Studio essentials:
   Beta: true
   Internal: false
-  Solution Areas:
-  - name: merchants
-    value: true
-    customer_segments:
-    - name: SMB
-      value: true
-    - name: Enterprise
-      value: true
-    - name: customer-mid-market
-      value: false
-  - name: carat
-    value: true
-  - name: financial-institutions
-    value: false
-    customer_segments:
-    - name: Banks
-      value: false
-    - name: Credit Unions
-      value: false
+  Product Areas:
+  - Name: merchants
+    Value: true
+    Customer Segments:
+    - Name: SMB
+      Value: true
+    - Name: Enterprise
+      Value: true
+    - Name: customer-mid-market
+      Value: false
+  - Name: carat
+    Value: true
+  - Name: financial-institutions
+    Value: false
+    Customer Segments:
+    - Name: Banks
+      Value: false
+    - Name: Credit Unions
+      Value: false
   Tags:
-    region:
+    Region of Operation:
       North America: true
       EMEA: false
       LATAM: false
       APAC: false
-    channelType:
+    Channel Type:
       OMNI: true
       Card Present: false
       Card Not Present: true
-    integration:
+    Integration:
       restful: true
       sdk: false
       soap: false
       xml: false
-    feature:
-    industry:
+    Feature:
+    Industry:
 Runbox essentials:
-- sandbox_type: mock server
-  value: true
-- sandbox_type: live sandbox server
-  value: true
+- Sandbox Type: mock server
+  Value: true
+  Mock Server Url: ''
+- Sandbox Type: live sandbox server
+  Value: false
   connection details:
     API gateway details:
     - name: Apigee
