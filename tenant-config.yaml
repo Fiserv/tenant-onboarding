@@ -1,4 +1,48 @@
 Name of product: Sample Tenant
+Tenant Type:
+- Name: Full service Tenant
+  Value: true
+- Name: Link out Tenant
+  Value: false
+Link out Tenant essentials:
+  External Link: ''
+  Studio Essentials:
+    Product Areas:
+    - Name: merchants
+      Value: true
+      Customer Segments:
+      - Name: SMB
+        Value: true
+      - Name: Enterprise
+        Value: true
+      - Name: customer-mid-market
+        Value: false
+    - Name: carat
+      Value: true
+    - Name: financial-institutions
+      Value: false
+      Customer Segments:
+      - Name: Banks
+        Value: false
+      - Name: Credit Unions
+        Value: false
+    Tags:
+      Region of Operation:
+        North America: true
+        EMEA: false
+        LATAM: false
+        APAC: false
+      Channel Type:
+        OMNI: true
+        Card Present: false
+        Card Not Present: true
+      Integration:
+        restful: true
+        sdk: false
+        soap: false
+        xml: false
+      Feature: []
+      Industry: []
 GitHub essentials:
   Repository Name: sample-tenant
   Team Memebers: john.doe@fiserv.com, abc.test@fiserv.com
@@ -9,7 +53,6 @@ GitHub essentials:
       Assignees: abhishek.singh@fiserv.com, tania.sarkar@fiserv.com, alvin.cho@fiserv.com
   - Enhancement Reporting:
       Assignees: tania.sarkar@fiserv.com, tania.sarkar@fiserv.com, alvin.cho@fiserv.com
-  # This section is related to Product versioning
   Github Branches:
   - Name: Preview
     Value: true
@@ -18,7 +61,7 @@ GitHub essentials:
 Studio essentials:
   Beta: true
   Internal: false
-  Solution Areas:
+  Product Areas:
   - Name: merchants
     Value: true
     Customer Segments:
@@ -52,13 +95,12 @@ Studio essentials:
       sdk: false
       soap: false
       xml: false
-    Feature: 
+    Feature:
     Industry:
 Runbox essentials:
 - Sandbox Type: mock server
   Value: true
-  # Do not fill up this section
-  Mock Server Url: ""
+  Mock Server Url: ''
 - Sandbox Type: live sandbox server
   Value: false
   connection details:
