@@ -1,9 +1,12 @@
 Name of product: Sample Tenant
+
 Tenant Type:
 - Name: Full service Tenant
   Value: true
 - Name: Link out Tenant
   Value: false
+
+# Please fill out this section if you are a Link out Tenant
 Link out Tenant essentials:
   External Link: ''
   Studio Essentials:
@@ -43,6 +46,8 @@ Link out Tenant essentials:
         xml: false
       Feature: []
       Industry: []
+
+# Please fill out the below sections if you are a Full service Tenant
 GitHub essentials:
   Repository Name: sample-tenant
   Team Memebers: john.doe@fiserv.com, abc.test@fiserv.com
@@ -58,6 +63,7 @@ GitHub essentials:
     Value: true
   - Name: Previous
     Value: true
+
 Studio essentials:
   Beta: true
   Internal: false
