@@ -1,51 +1,11 @@
+#refer to github.com/fiserv/tenant-docs for more instructions
+
 Name of product: Sample Tenant
 
 Tenant Type:
-- Name: Full service Tenant
-  Value: true
-- Name: Link out Tenant
-  Value: false
-
-# Please fill out this section if you are a Link out Tenant
-Link out Tenant essentials:
-  External Link: ''
-  Studio Essentials:
-    Product Areas:
-    - Name: merchants
-      Value: true
-      Customer Segments:
-      - Name: SMB
-        Value: true
-      - Name: Enterprise
-        Value: true
-      - Name: customer-mid-market
-        Value: false
-    - Name: carat
-      Value: true
-    - Name: financial-institutions
-      Value: false
-      Customer Segments:
-      - Name: Banks
-        Value: false
-      - Name: Credit Unions
-        Value: false
-    Tags:
-      Region of Operation:
-        North America: true
-        EMEA: false
-        LATAM: false
-        APAC: false
-      Channel Type:
-        OMNI: true
-        Card Present: false
-        Card Not Present: true
-      Integration:
-        restful: true
-        sdk: false
-        soap: false
-        xml: false
-      Feature: []
-      Industry: []
+- Full service: false
+- Doc only: true
+- Link out: false
 
 # Please fill out the below sections if you are a Full service Tenant
 GitHub essentials:
@@ -59,66 +19,49 @@ GitHub essentials:
   - Enhancement Reporting:
       Assignees: tania.sarkar@fiserv.com, tania.sarkar@fiserv.com, alvin.cho@fiserv.com
   Github Branches:
-  - Name: Preview
-    Value: true
-  - Name: Previous
-    Value: true
+    Preview: true
+    Previous: true
 
 Studio essentials:
+  External link: 'https://example.com' #fill out this field if you are a linkout tenant
   Beta: true
   Internal: false
+  Carat: false
   Product Areas:
-  - Name: merchants
-    Value: true
-    Customer Segments:
-    - Name: SMB
-      Value: true
-    - Name: Enterprise
-      Value: true
-    - Name: customer-mid-market
-      Value: false
-  - Name: carat
-    Value: true
-  - Name: financial-institutions
-    Value: false
-    Customer Segments:
-    - Name: Banks
-      Value: false
-    - Name: Credit Unions
-      Value: false
+  - Merchants:
+      Customer segements:
+        SMB: true
+        Enterprise: true
+  - Financial instustions:
+      Customer segements:
+        Banks: false
+        Credit Untions: false
+        Large financial instutitions: false
   Tags:
     Region of Operation:
       North America: true
       EMEA: false
       LATAM: false
       APAC: false
-    Channel Type:
-      OMNI: true
-      Card Present: false
-      Card Not Present: true
     Integration:
       restful: true
       sdk: false
       soap: false
       xml: false
-    Feature:
-    Industry:
+    Feature: ["Feature1", "Feature2"]
+    Industry: ["Industry1", "Industry2"]
 Runbox essentials:
-- Sandbox Type: mock server
-  Value: true
-  Mock Server Url: ''
-- Sandbox Type: live sandbox server
-  Value: false
-  connection details:
-    API gateway details:
-    - name: Apigee
-      value: true
-      serverUrl: https://qa.api.fiservapps.com/tenantName
-      Authentication Name: HMAC
-      username: "<...>"
-      password: "..."
-      self signed certificate: false
-    - name: Datapower
-      value: false
-      server Url: ''
-      self signed certificate: false
+  Runbox: true
+  Live edit: true
+  Sandbox:
+    Type:
+      mock: true
+      live: false #this overrules mock setting
+    Live Sandbox details: #for tenant advocates only.  send info private to your advocate.
+      API gateway details:
+        Gateway Type:
+          APIGEE: true
+          Data Power: false
+        Server URL: https://api.test.com/tenantName
+        Authentication Type: HMAC
+        Self signed certificate: false
