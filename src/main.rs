@@ -32,6 +32,9 @@ use log4rs::{
 mod team;
 mod gitsource { pub mod gitutils; }
 mod dbscripts;
+use tokio;
+use futures::executor::block_on;
+
  
  
 //mod dbscripts;
@@ -126,7 +129,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let yaml = YamlLoader::load_from_str(&contents).unwrap();
     
     //let d: String = serde_yaml::to_string(f)?;
-    println!("Read YAML string: {}", contents);
+    //println!("Read YAML string: {}", contents);
 
     //set the flags you need
     if args.is_present("execute") {
@@ -157,6 +160,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         println!("dbscripts flag {}", dbscripts);
 
         dbscripts::create_dbscripts(execute, &yaml);
+        dbscripts::insert_dbscripts(execute);
     }
 
     //now call each function corresponding to the flags
@@ -165,11 +169,11 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     //repo::do_repo(execute);
     //dbscripts::dbscripts(execute);
 
-    error!("Goes to stderr and file");
+    /*error!("Goes to stderr and file");
     warn!("Goes to stderr and file");
     info!("Goes to stderr and file");
     debug!("Goes to file only");
-    trace!("Goes to file only");
+    trace!("Goes to file only");*/
 
     info!("Tenant Onboarding Stop");
     Ok(())

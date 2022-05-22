@@ -4,3 +4,8 @@ github:
   gitHubSourceOwner:                      'Fiserv'
   gitHubUser:                             'username'
   gitHubAuthToken:                        'yourToken'
+mongdb:
+  db:                                     ''
+  url:                                    ''
+  user:                                   ''
+  password:                               ''
