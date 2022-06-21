@@ -18,6 +18,7 @@ use std::io::{BufRead, BufReader, Error, ErrorKind};
 use std::path::Path;
 use mongodb::{Client, options::ClientOptions};
 use mongodb::bson::{doc, Document};
+use cmd_lib::*;
 
 /*
     take the parsed config.yaml file as an object
@@ -62,11 +63,33 @@ pub fn create_dbscripts(execute: bool, yaml: &Vec<Yaml>) {
 }
 
 /*
+- this will call the mongodb cli to import the db file
+*/
+pub fn insert_dbscripts(execute: bool) -> CmdResult {
+    log::info!("Insert Starting");
+
+    let connection_string = "USE GOOD STRING";
+    let options = "--db=test --collection=tenants";
+    let filename = "--file=../../db-scripts/dev_db_script.json";
+
+    run_cmd! (
+        pwd;
+        echo "mongoimport $options $connection_string $filename;"
+        mongoimport $options $connection_string $filename;
+    )?;
+
+    log::info!("insert_dbscripts end");
+    Ok(())
+}
+
+//OLD
+/*
 - setup connection to db.  use settings.yaml for data
 - set the proper db
 - run the dev script job
 - close connection & clean up
 */
+/*
 #[tokio::main]
 pub async fn insert_dbscripts(execute: bool) -> Result<(), Box<dyn std::error::Error>> {
     log::info!("Insert Starting");
@@ -103,3 +126,4 @@ pub async fn insert_dbscripts(execute: bool) -> Result<(), Box<dyn std::error::E
     log::info!("insert_dbscripts end");
     Ok(())
 }
+*/

@@ -22,6 +22,13 @@ The program will do a few things for the user.
 
 ## How to use
 
+### PREP
+It makes use of MongoDB tools. mongodbimport.  You'll need to have this installed first.
+If you're on mac then you can just homebrew install it.
+
+brew tap mongodb/brew
+brew install mongodb-database-tools
+
 Either update a config file or pass in data through the CLI
 
 ## Dry run
