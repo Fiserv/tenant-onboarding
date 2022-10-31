@@ -4,15 +4,15 @@ This is a quick program to make onboarding tenants even faster.  A single comman
 
 The program will do a few things for the user.
 
-1. Create a github team (-t)
-2. Create a github repo from the sample repo using the supplied name (-r)
-3. Setup the github webooks
+1. Create a github team (-t) -- Abhishek
+2. Create a github repo from the sample repo using the supplied name (-r) -- Abhishek
+3. Setup the github webooks -- Abhishek
 4. Setup branch protections
-5. Add the devstudio and tenant github teams to the repo
+5. Add the devstudio and tenant github teams to the repo -- Abhishek
 6. Update the basic files to have the proper names
-7. Generate the necessary DB snippets needed (-d)
-8. (delete coming later...)
-9. (integrate with Gitlab to commit DB changes)
+7. Generate the necessary DB snippets needed (-d)  -- Tania
+8. (delete coming later...) -- Tania
+9. (integrate with Gitlab to commit DB changes) -- Tania
 
 ## How to build
 
@@ -91,6 +91,7 @@ to -d
 4. create github repo from template repo = abhishek
    1. set team
    2. set webhooks
+   3. add github validators
 5. dbscripts = tania
 6. prep tenant repo = tania
    1. fill in tenant.json
