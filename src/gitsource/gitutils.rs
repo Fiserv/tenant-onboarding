@@ -13,7 +13,7 @@ pub fn function() {
 #[tokio::main]
 pub async fn get_github_team() -> Result<(), Box<dyn Error>> {
     let client = reqwest::Client::new();
-    let doge = client
+    let github_data = client
         .get("https://api.github.com/orgs/Fiserv/teams")
         .bearer_auth("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")
         .header("User-Agent", "tenant-onbaording")
@@ -22,6 +22,6 @@ pub async fn get_github_team() -> Result<(), Box<dyn Error>> {
         .await?
         .text()
         .await?;
-    println!("{:}", doge);
+    println!("Github Team --- {:}", github_data);
     Ok(())
 }
