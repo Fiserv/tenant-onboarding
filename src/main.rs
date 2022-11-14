@@ -141,18 +141,17 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         info!("Doing DRY run");
     }
 
-    if args.is_present("do_team") {
-        do_team = true;
-
-        team::do_team(execute, &yaml);
-        gitsource::gitutils::get_github_team(); 
-       
-        
+    if args.is_present("do_repo") {
+        do_repo = true; 
+        println!("Creating new repo {}", do_repo);
+       let stats = gitsource::gitutils::create_repo(&yaml);
+        println!("STATUS-----: {:#?} ", stats);
     }
 
-    if args.is_present("do_repo") {
-        do_repo = true;
-        println!("do_repo flag {}", do_repo);
+    if args.is_present("do_team") {
+        do_team = true;
+        team::do_team(execute, &yaml);
+        //gitsource::gitutils::get_github_team(&yaml);  
     }
 
     if args.is_present("dbscripts") {
