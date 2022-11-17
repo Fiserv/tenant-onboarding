@@ -30,7 +30,7 @@ use log4rs::{
     filter::threshold::ThresholdFilter,
 };
 mod team;
-mod gitsource { pub mod gitutils; }
+mod gitsource { pub mod gitrepo; pub mod gitteam; }
 mod dbscripts;
 use tokio;
 use futures::executor::block_on;
@@ -141,18 +141,17 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         info!("Doing DRY run");
     }
 
-    if args.is_present("do_team") {
-        do_team = true;
-
-        team::do_team(execute, &yaml);
-        gitsource::gitutils::get_github_team(); 
-       
-        
+    if args.is_present("do_repo") {
+        do_repo = true; 
+        println!("Creating new repo {}", do_repo);
+       let stats = gitsource::gitrepo::create_repo(&yaml);
+        println!("STATUS-----: {:#?} ", stats);
     }
 
-    if args.is_present("do_repo") {
-        do_repo = true;
-        println!("do_repo flag {}", do_repo);
+    if args.is_present("do_team") {
+        do_team = true;
+        //team::do_team(execute, &yaml);
+        gitsource::gitteam::create_github_team(&yaml);  
     }
 
     if args.is_present("dbscripts") {

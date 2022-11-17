@@ -1,8 +1,8 @@
 tenantName: SampleOnBoardingTenant
 prettyTenantName: Sample OnBoarding Tenant
 github:
-  repoName: test-repo
-  teamName: Fiserv Developer Portal
+  repoName: SampleOnBoardingTenant
+  teamName: SampleOnBoardingTenant-team
   teamMembers:
     - alvin@fiserv.com
     - tania@fiserv.com
