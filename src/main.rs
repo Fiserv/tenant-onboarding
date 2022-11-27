@@ -30,7 +30,7 @@ use log4rs::{
     filter::threshold::ThresholdFilter,
 };
 mod team;
-mod gitsource { pub mod gitrepo; pub mod gitteam; }
+mod gitsource { pub mod gitrepo; pub mod gitteam; pub mod githooks; }
 mod dbscripts;
 use tokio;
 use futures::executor::block_on;
@@ -68,6 +68,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let config_file = "../../tenant-config.yaml";
     let mut do_team = false;
     let mut do_repo = false;
+    let mut do_hooks = false;
     let mut execute = false;
     let mut dbscripts = false;
 
@@ -114,6 +115,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 .takes_value(false)
                 .help("create github team name"),
             arg!(do_repo: -r --do_repo "create github repo"),
+            arg!(do_hooks: -h --do_hooks "create github repo"),
             arg!(dbscripts: -d --dbscripts "create db scripts"),
             arg!(execute: -e --execute "execute for real.  without it will just be a dry run")
         ]).get_matches();
@@ -152,6 +154,13 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         do_team = true;
         //team::do_team(execute, &yaml);
         gitsource::gitteam::create_github_team(&yaml);  
+    }
+
+    if args.is_present("do_hooks") {
+        do_hooks = true;
+        println!("Calling hooks {}", do_hooks);
+        let stats_h = gitsource::githooks::add_hooks_repo(&yaml); 
+        println!("Hooks STATUS-----: {:#?} ", stats_h);
     }
 
     if args.is_present("dbscripts") {
