@@ -9,7 +9,8 @@ The program will do a few things for the user.
 3. Setup the github webooks (-h)-- Abhishek
 4. Setup branch protections
 5. Add the devstudio and tenant github teams to the repo -- Abhishek
-6. Update the basic files to have the proper names
+6. Update the basic files to have the proper names - Abhishek 
+   - Fill out tenant.json and product-layout.yaml file. 
 7. Generate the necessary DB snippets needed (-d)  -- Tania
 8. (delete coming later...) -- Tania
 9. (integrate with Gitlab to commit DB changes) -- Tania
