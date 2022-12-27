@@ -5,12 +5,6 @@ use std::time::Duration;
 use yaml_rust::{Yaml, YamlLoader, YamlEmitter};
 use serde_json::Value;
 use reqwest::{Client, Method};
-
-
-const GITHUB_API:&str ="https://api.github.com/orgs/Fiserv/teams";
-const GITHUB_TOKENT:&str = "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";
-const GITHUB_REPO_GEN_API:&str = "https://api.github.com/repos/Fiserv/sample-tenant-repo/generate";
- 
  
 #[derive(Serialize, Deserialize, Debug)] 
 struct RepoInfo { 
@@ -22,11 +16,20 @@ struct RepoInfo {
 }
 
 #[tokio::main]
-pub async fn create_repo(yaml: &Vec<Yaml>) -> Result<(), Box<dyn Error>> {
+pub async fn create_repo(config_yaml: &Vec<Yaml> , settings_yaml: &Vec<Yaml>) -> Result<(bool), Box<dyn Error>> {
 
-    let y = &yaml[0]; 
-    let tenant_repo = y["github"]["repoName"].as_str().unwrap();
-    println!("tenant_repo {:#?}", tenant_repo);
+    let mut created = false;
+
+    let config = &config_yaml[0]; 
+    let tenant_repo = config["github"]["repoName"].as_str().unwrap();
+
+    let setting = &settings_yaml[0]; 
+    let github_api = setting["github"]["gitHubAPIUrl"].as_str().unwrap();
+    let github_token = setting["github"]["gitHubAuthToken"].as_str().unwrap();
+    let github_repo_gen_api = setting["github"]["gitHubTemplateRepo"].as_str().unwrap();    
+ 
+
+    println!("Adding new Tenant Repo {:#?}", tenant_repo);
  
  let repo_data = RepoInfo { 
         owner: "Fiserv".to_string(),
@@ -37,23 +40,26 @@ pub async fn create_repo(yaml: &Vec<Yaml>) -> Result<(), Box<dyn Error>> {
         };
   
     let github_client = reqwest::Client::new();
-    let post_req = github_client.request(Method::POST, GITHUB_REPO_GEN_API)
-    .bearer_auth(GITHUB_TOKENT)
+    let post_req = github_client.request(Method::POST, github_repo_gen_api)
+    .bearer_auth(github_token)
     .header("User-Agent", "tenant-onbaording")
     .header("Accept", "application/vnd.github+json")
     .timeout(Duration::from_secs(5))
     .json(&repo_data);
 
     let resp_data = post_req.send().await?; 
-
-    println!("Status {}", resp_data.status());
-    //if (resp_data.status() == reqwest::StatusCode::CREATED) 
-    let res_body = resp_data.bytes().await?;
-
-    let v = res_body.to_vec();
-    let s = String::from_utf8_lossy(&v);
-    println!("response: {} ", s);
- 
-    Ok(())
+    
+            //if (resp_data.status() == reqwest::StatusCode::CREATED) 
+    if (resp_data.status() == reqwest::StatusCode::UNPROCESSABLE_ENTITY) 
+    {
+        println!("Status {}", resp_data.status());
+        let res_body = resp_data.bytes().await?; 
+        let str_body = res_body.to_vec();
+        let str_response = String::from_utf8_lossy(&str_body);
+        println!("response: {} ", str_response);
+        created = true;
+    } 
+    
+    Ok((created))
 }
 

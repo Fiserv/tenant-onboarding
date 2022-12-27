@@ -1,10 +1,5 @@
 #![allow(unused)]
 
-/*
-TODO
-
-*/
-
 extern crate yaml_rust;
 use yaml_rust::{YamlLoader, YamlEmitter};
 use serde::{Serialize, Deserialize};
@@ -56,20 +51,18 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     info!("Tenant Onboarding Starting");
 
     let now: DateTime<Local> = Local::now();
-    //println!("timestamp: {}", now.format("%Y-%m-%d_%H_%M_%S").to_string());
     debug!("timestamp: {}", now.format("%Y-%m-%d_%H_%M_%S").to_string());
-
     let timestamp = now.format("%Y-%m-%d_%H_%M_%S").to_string();
-    let filename = "to".to_string();
-
     let level = log::LevelFilter::Info;
-    let file_path = format!("{}-{}.log", filename, timestamp);
+    let log_file_path = format!("{}_{}.log", "tenant-onboarding".to_string(), timestamp);
 
     let config_file = "../../tenant-config.yaml";
-    let mut do_team = false;
-    let mut do_repo = false;
-    let mut do_hooks = false;
-    let mut execute = false;
+    let settings_file = "../../settings.yaml";
+
+    let mut do_team   = false;
+    let mut do_repo   = false;
+    let mut do_hooks  = false;
+    let mut execute   = false;
     let mut dbscripts = false;
 
     // Build a stderr logger.
@@ -79,7 +72,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let logfile = FileAppender::builder()
         // Pattern: https://docs.rs/log4rs/*/log4rs/encode/pattern/index.html
         .encoder(Box::new(PatternEncoder::new("{d} {l} - {m}\n")))
-        .build(file_path)
+        .build(log_file_path)
         .unwrap();
 
     // Log Trace level output to file where trace is the default level
@@ -124,15 +117,21 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("cwd {:?}", std::env::current_dir());
     println!("cwd exec {:?}", std::env::current_exe());
 
-    let mut file = std::fs::File::open(config_file)?;
-    let mut contents = String::new();
+    let mut config_file_content = std::fs::File::open(config_file)?;
+    let mut config_contents = String::new();
 
-    file.read_to_string(&mut contents).expect("unable to read string");
-    let yaml = YamlLoader::load_from_str(&contents).unwrap();
+    config_file_content.read_to_string(&mut config_contents).expect("unable to read Tenant Config Yaml string");
+    let yaml_config = YamlLoader::load_from_str(&config_contents).unwrap();
+
+    let mut settings_file_content = std::fs::File::open(settings_file)?;
+    let mut settings_contents = String::new();
+
+    settings_file_content.read_to_string(&mut settings_contents).expect("unable to read Tenant Config Yaml string");
+    let yaml_settings = YamlLoader::load_from_str(&settings_contents).unwrap();
     
     //let d: String = serde_yaml::to_string(f)?;
-    //println!("Read YAML string: {}", contents);
-
+   // println!("Read YAML string: {}", config_contents);
+ 
     //set the flags you need
     if args.is_present("execute") {
         execute = true;
@@ -144,22 +143,24 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     }
 
     if args.is_present("do_repo") {
-        do_repo = true; 
-        println!("Creating new repo {}", do_repo);
-       let stats = gitsource::gitrepo::create_repo(&yaml);
-        println!("STATUS-----: {:#?} ", stats);
+        println!("Creating New Tenant Repo : {}", do_repo);
+        do_repo = gitsource::gitrepo::create_repo(&yaml_config , &yaml_settings).unwrap();
+        println!("REPO CREATED-----: {:#?} ",  do_repo);
     }
 
     if args.is_present("do_team") {
-        do_team = true;
-        //team::do_team(execute, &yaml);
-        gitsource::gitteam::create_github_team(&yaml);  
+       // println!("REPO CREATED 1-----: {:#?} ",  do_repo);
+       if (do_repo){
+              //team::do_team(execute, &yaml_config);
+              do_team = gitsource::gitteam::create_github_team(&yaml_config , &yaml_settings).unwrap(); 
+           println!("TEAM CREATED-----: {:#?} ",  do_team); 
+        }
     }
 
     if args.is_present("do_hooks") {
         do_hooks = true;
         println!("Calling hooks {}", do_hooks);
-        let stats_h = gitsource::githooks::add_hooks_repo(&yaml); 
+        let stats_h = gitsource::githooks::add_hooks_repo(&yaml_config ,  &yaml_settings).unwrap(); 
         println!("Hooks STATUS-----: {:#?} ", stats_h);
     }
 
@@ -167,7 +168,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         dbscripts = true;
         println!("dbscripts flag {}", dbscripts);
 
-        dbscripts::create_dbscripts(execute, &yaml);
+        dbscripts::create_dbscripts(execute, &yaml_config);
         dbscripts::insert_dbscripts(execute);
     }
 
