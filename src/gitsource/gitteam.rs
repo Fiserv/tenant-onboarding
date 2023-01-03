@@ -6,10 +6,6 @@ use yaml_rust::{Yaml, YamlLoader, YamlEmitter};
 use serde_json::Value;
 use reqwest::{Client, Method};
 
-const GITHUB_API:&str ="https://api.github.com/orgs/Fiserv/teams";
-const GITHUB_TOKENT:&str = "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";
-const GITHUB_REPO_GEN_API:&str = "https://api.github.com/repos/Fiserv/sample-tenant-repo/generate";
-
 #[derive(Serialize, Deserialize, Debug)] 
 struct TeamInfo { 
     name: String,
@@ -20,31 +16,38 @@ struct TeamInfo {
 }
 
 
+// #[tokio::main]
+// pub async fn get_github_team() -> Result<(), Box<dyn Error>> {
+
+//  let github_client = reqwest::Client::new();
+//     let github_data = github_client
+//                         .get(github_api)
+//                         .bearer_auth(GITHUB_TOKENT)
+//                         .header("User-Agent", "tenant-onbaording")
+//                         .timeout(Duration::from_secs(3))
+//                         .send()
+//                         .await?
+//                         .text()
+//                         .await?;  
+//                         println!("Status {}", github_data);  
+//     Ok(())
+// }
+
+
 #[tokio::main]
-pub async fn get_github_team() -> Result<(), Box<dyn Error>> {
+pub async fn create_github_team(config_yaml: &Vec<Yaml> , settings_yaml: &Vec<Yaml> ) -> Result<(bool), Box<dyn Error>> {
 
- let github_client = reqwest::Client::new();
-    let github_data = github_client
-        .get(GITHUB_API)
-        .bearer_auth(GITHUB_TOKENT)
-        .header("User-Agent", "tenant-onbaording")
-        .timeout(Duration::from_secs(3))
-        .send()
-        .await?
-        .text()
-        .await?;  
-        println!("Status {}", github_data);  
-    Ok(())
-}
+    let mut created = false;
 
+    let config = &config_yaml[0]; 
+    let tenant_team = config["github"]["teamName"].as_str().unwrap();
+    let tenant_repo = config["github"]["repoName"].as_str().unwrap();
 
-#[tokio::main]
-pub async fn create_github_team(yaml: &Vec<Yaml>) -> Result<(), Box<dyn Error>> {
-
-    let y = &yaml[0]; 
-    let tenant_team = y["github"]["teamName"].as_str().unwrap();
-    let tenant_repo = y["github"]["repoName"].as_str().unwrap();
-    println!("tenant_repo {:#?}", tenant_team);
+    let setting = &settings_yaml[0];
+    let github_api = setting["github"]["gitHubAPIUrl"].as_str().unwrap();
+    let github_token = setting["github"]["gitHubAuthToken"].as_str().unwrap();
+  
+    println!("Adding new Tenant Team {:#?}", tenant_team);
 
     let teams_data = TeamInfo { 
         name: tenant_team.to_string(),
@@ -55,8 +58,8 @@ pub async fn create_github_team(yaml: &Vec<Yaml>) -> Result<(), Box<dyn Error>> 
         };
    
     let github_client = reqwest::Client::new();
-    let post_req = github_client.request(Method::POST, GITHUB_API)
-    .bearer_auth(GITHUB_TOKENT)
+    let post_req = github_client.request(Method::POST, github_api)
+    .bearer_auth(github_token)
     .header("User-Agent", "tenant-onbaording")
     .header("Accept", "application/vnd.github+json")
     .timeout(Duration::from_secs(5))
@@ -64,13 +67,15 @@ pub async fn create_github_team(yaml: &Vec<Yaml>) -> Result<(), Box<dyn Error>> 
 
     let resp_data = post_req.send().await?; 
 
-    println!("Status {}", resp_data.status());
     //if (resp_data.status() == reqwest::StatusCode::CREATED) 
-    let res_body = resp_data.bytes().await?;
-
-    let v = res_body.to_vec();
-    let s = String::from_utf8_lossy(&v);
-    println!("response: {} ", s);
- 
-    Ok(())
+    if (resp_data.status() == reqwest::StatusCode::UNPROCESSABLE_ENTITY) 
+    {
+        println!("Status {}", resp_data.status());
+        let res_body = resp_data.bytes().await?; 
+        let str_body = res_body.to_vec();
+        let str_response = String::from_utf8_lossy(&str_body);
+        println!("response: {} ", str_response);
+        created = true;
+    }
+    Ok((created))
 }

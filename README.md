@@ -85,8 +85,8 @@ to -d
 
 1. skeleton = alvin
    1. logging = alvin
-2. github calls = andrew
-3. create github team = andrew
+2. github calls = abhishek
+3. create github team = abhishek
    1. assign devstudio members
    2. assign tenant members (fiserv emails only)
 4. create github repo from template repo = abhishek
