@@ -67,8 +67,8 @@ pub async fn create_github_team(config_yaml: &Vec<Yaml> , settings_yaml: &Vec<Ya
 
     let resp_data = post_req.send().await?; 
 
-    //if (resp_data.status() == reqwest::StatusCode::CREATED) 
-    if (resp_data.status() == reqwest::StatusCode::UNPROCESSABLE_ENTITY) 
+    //if (resp_data.status() == reqwest::StatusCode::UNPROCESSABLE_ENTITY) 
+    if (resp_data.status() == reqwest::StatusCode::CREATED) 
     {
         println!("Status {}", resp_data.status());
         let res_body = resp_data.bytes().await?; 
@@ -77,5 +77,6 @@ pub async fn create_github_team(config_yaml: &Vec<Yaml> , settings_yaml: &Vec<Ya
         println!("response: {} ", str_response);
         created = true;
     }
+
     Ok((created))
 }
