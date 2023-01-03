@@ -2,9 +2,11 @@ name: Tenant Onboarding Tool
 on:
   push:
   pull_request:
-
+ 
 jobs:
   Tenant-Generator:
-    runs-on: ubuntu-latest
+    run-on: ubuntu-latest
     steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - uses: actions/checkout@v3
+      - name: Build
+        run: ./startup.sh -r
