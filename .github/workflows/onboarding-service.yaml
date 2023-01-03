@@ -1,0 +1,13 @@
+name: Tenant Onboarding Tool
+on:
+  workflow_call:
+
+jobs:
+  Tenant-Generator:
+  run-on: ubuntu-latest
+
+
+  steps:
+  - uses: actions/checkout@v3
+  - name: Build
+    run: ./startup.sh -r
