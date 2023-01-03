@@ -6,6 +6,7 @@ github:
   gitHubAuthToken:                        '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'
   gitHubAPI:                              'https://api.github.com/orgs/Fiserv/'
   gitHubAPIUrl:                           'https://api.github.com/orgs/Fiserv/teams'
+  gitHubAPIRepo:                          'https://api.github.com/repos/Fiserv/'
   gitHubTemplateRepo:                     'https://api.github.com/repos/Fiserv/sample-tenant-repo/generate'
   gitHubDevHook:                          'https://dev-developer.fiserv.com/api/github-push'
   gitHubDevHookKey:                       'secret123'  

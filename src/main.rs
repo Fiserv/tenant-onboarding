@@ -157,11 +157,13 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         }
     }
 
-    if args.is_present("do_hooks") {
-        do_hooks = true;
-        println!("Calling hooks {}", do_hooks);
-        let stats_h = gitsource::githooks::add_hooks_repo(&yaml_config ,  &yaml_settings).unwrap(); 
-        println!("Hooks STATUS-----: {:#?} ", stats_h);
+    if args.is_present("do_hooks") { 
+       // println!("Calling hooks {}", do_hooks);
+       if (do_team){
+            do_hooks = gitsource::githooks::add_hooks_repo(&yaml_config ,  &yaml_settings).unwrap(); 
+         println!("Hooks STATUS-----: {:#?} ", do_hooks);
+       }
+
     }
 
     if args.is_present("dbscripts") {
