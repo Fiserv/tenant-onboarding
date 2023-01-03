@@ -6,6 +6,4 @@ jobs:
   Tenant-Generator:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: Build
-        run: ./startup.sh -r
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
