@@ -1,6 +1,7 @@
 name: Tenant Onboarding Tool
 on:
-  workflow_call:
+  push:
+  pull_request:
 
 jobs:
   Tenant-Generator:
