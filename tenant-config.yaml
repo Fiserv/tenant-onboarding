@@ -1,8 +1,8 @@
-tenantName: SampleOnBoardingTenant
-prettyTenantName: Sample OnBoarding Tenant
+tenantName: TestOnBoardingTenant
+prettyTenantName: Test OnBoarding Tenant
 github:
-  repoName: SampleOnBoardingTenant
-  teamName: SampleOnBoardingTenant-team
+  repoName: TestOnBoardingTenant
+  teamName: TestOnBoardingTenant-team
   teamMembers:
     - alvin@fiserv.com
     - tania@fiserv.com

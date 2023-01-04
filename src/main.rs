@@ -143,7 +143,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     }
 
     if args.is_present("do_repo") {
-        println!("Creating New Tenant Repo : {}", do_repo);
+        println!("Creating New Tenant Repo");
         do_repo = gitsource::gitrepo::create_repo(&yaml_config , &yaml_settings).unwrap();
         println!("REPO CREATED-----: {:#?} ",  do_repo);
     }
