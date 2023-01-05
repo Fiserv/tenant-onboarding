@@ -70,7 +70,7 @@ async fn add_hooks(path: &str , key: &str ,tenant_repo: &str, setting_yaml: &Vec
     let github_api = setting["github"]["gitHubAPIRepo"].as_str().unwrap(); 
     let github_repo_hooks_api = format!("{}{}{}", github_api.to_string(), tenant_repo.to_string() , "/hooks".to_string());
  
-    println!("github_repo_hooks_api: {} ", github_repo_hooks_api);
+    //println!("github_repo_hooks_api: {} ", github_repo_hooks_api);
     let mut check = false;
     let github_client = reqwest::Client::new();
 
@@ -99,11 +99,12 @@ async fn add_hooks(path: &str , key: &str ,tenant_repo: &str, setting_yaml: &Vec
     let resp_data = post_req.send().await?; 
 
    // println!("resp_data: {:#?} ", resp_data);
+       
     if (resp_data.status() == reqwest::StatusCode::CREATED) {
         let res_body = resp_data.bytes().await?; 
         let vec_body = res_body.to_vec();
         let res_str = String::from_utf8_lossy(&vec_body);
-    //    println!("response: {} ", res_str);
+        println!("{} : Hook Added", path );
         check = true;
     }
   

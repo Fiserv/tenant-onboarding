@@ -143,7 +143,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     }
 
     if args.is_present("do_repo") {
-        println!("Creating New Tenant Repo");
+        //println!("Creating New Tenant Repo");
         do_repo = gitsource::gitrepo::create_repo(&yaml_config , &yaml_settings).unwrap();
         println!("REPO CREATED-----: {:#?} ",  do_repo);
     }
@@ -161,7 +161,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
        // println!("Calling hooks {}", do_hooks);
        if (do_team){
             do_hooks = gitsource::githooks::add_hooks_repo(&yaml_config ,  &yaml_settings).unwrap(); 
-         println!("Hooks STATUS-----: {:#?} ", do_hooks);
+         println!("WEBHOOKS ADDED-----: {:#?} ", do_hooks);
        }
 
     }
@@ -186,7 +186,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     debug!("Goes to file only");
     trace!("Goes to file only");*/
 
-    info!("Tenant Onboarding Stop");
+    info!("<<<<<<<<TENANT ONBOARDING PROCESS COMPLETED>>>>>>>>>");
     Ok(())
 
     /*let args = Cli::parse();
