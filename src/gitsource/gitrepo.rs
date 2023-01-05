@@ -48,15 +48,14 @@ pub async fn create_repo(config_yaml: &Vec<Yaml> , settings_yaml: &Vec<Yaml>) ->
     .json(&repo_data);
 
     let resp_data = post_req.send().await?; 
-    
+    println!("Adding Repo Status {}", resp_data.status());
     //if (resp_data.status() == reqwest::StatusCode::UNPROCESSABLE_ENTITY) 
     if (resp_data.status() == reqwest::StatusCode::CREATED) 
     {
-        println!("Status {}", resp_data.status());
         let res_body = resp_data.bytes().await?; 
         let str_body = res_body.to_vec();
         let str_response = String::from_utf8_lossy(&str_body);
-        println!("response: {} ", str_response);
+        println!("Adding Repo Response: {} ", str_response);
         created = true;
     } 
     
