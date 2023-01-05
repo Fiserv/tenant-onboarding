@@ -1,8 +1,8 @@
-tenantName: SampleOnBoardingTenant
-prettyTenantName: Sample OnBoarding Tenant
+tenantName: RustTenant
+prettyTenantName: Rust OnBoarding Tenant
 github:
-  repoName: SampleOnBoardingTenant
-  teamName: SampleOnBoardingTenant-team
+  repoName: RustTenant
+  teamName: RustTenant-team
   teamMembers:
     - alvin@fiserv.com
     - tania@fiserv.com

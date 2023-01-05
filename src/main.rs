@@ -143,7 +143,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     }
 
     if args.is_present("do_repo") {
-        println!("Creating New Tenant Repo : {}", do_repo);
+        println!("Creating New Tenant Repo");
         do_repo = gitsource::gitrepo::create_repo(&yaml_config , &yaml_settings).unwrap();
         println!("REPO CREATED-----: {:#?} ",  do_repo);
     }
@@ -152,7 +152,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
        // println!("REPO CREATED 1-----: {:#?} ",  do_repo);
        if (do_repo){
               //team::do_team(execute, &yaml_config);
-              do_team = gitsource::gitteam::create_github_team(&yaml_config , &yaml_settings).unwrap(); 
+              do_team = gitsource::gitteam::process_github_team(&yaml_config , &yaml_settings).unwrap(); 
            println!("TEAM CREATED-----: {:#?} ",  do_team); 
         }
     }
