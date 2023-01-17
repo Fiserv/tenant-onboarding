@@ -1,0 +1,17 @@
+{
+  "name": "tenant_onboarding",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node service.js $issue",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "asingh2023",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.2.2",
+    "html2json": "^1.0.2",
+    "markdown-it": "^13.0.1"
+  }
+}
