@@ -426,6 +426,8 @@ async function updateTenantJSONFile() {
     tenant_Data.product.documenttree = `/v1/docs/${yamlData.Tenant_Name}`;
     tenant_Data.product.documenttreeV2 = `/v2/docs/${yamlData.Tenant_Name}`;
     tenant_Data.product.sandbox = `/v2/sandboxrun/${yamlData.Tenant_Name}`;
+    tenant_Data.product.accessConfig = `/v1/fileAccess/${yamlData.Tenant_Name}`;
+    tenant_Data.product.assets = `/v1/assets/${yamlData.Tenant_Name}`;
   }
 
   if (

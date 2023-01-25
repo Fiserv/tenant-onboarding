@@ -29,6 +29,8 @@
     "documenttree": "/v1/docs/Test-Tenant",
     "documenttreeV2": "/v2/docs/Test-Tenant",
     "sandbox": "/v2/sandboxrun/Test-Tenant",
+    "accessConfig": "/v1/fileAccess/Test-Tenant",
+    "assets": "/v1/assets/Test-Tenant",
     "feature": [
       {
         "name": "plugins",
