@@ -38,9 +38,6 @@ jobs:
       - run: echo "🍏 This job's status is ${{ job.status }}."
       - name: Pusging tenant file remotely
         uses: nkoppel/push-files-to-another-repository@v1.1.1
-        run: |
-          pwd
-          ls -la
         env:
           API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
         with:
