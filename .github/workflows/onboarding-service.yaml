@@ -34,7 +34,7 @@ jobs:
           cd ${{github.workspace}}
           pwd
           ls -la
-
+          fi
       #- run: ./startup.sh -f '-rthe'           fi   
       - run: echo "🍏 This job's status is ${{ job.status }}."
       - name: Pusging tenant file remotely
