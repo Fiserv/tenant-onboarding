@@ -23,7 +23,7 @@ jobs:
           npm install
           echo " Repo: ${{ github.repository }}"
           echo " Space: ${{ github.workspace }}"
-          result=$(npm run markdown ${{github.workspace }})
+          result=$(npm run start 279)
           echo "**********TEST RESULTS*********************"
           echo "$result"
         #run: ./startup.sh -f '-rthe'
