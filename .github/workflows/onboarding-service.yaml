@@ -34,5 +34,5 @@ jobs:
           tenant=$(./startup.sh -f)
           echo "$tenant"
           fi       
-        run: ./startup.sh -f '-rthe'
+      - run: ./startup.sh -f '-rthe'
       - run: echo "🍏 This job's status is ${{ job.status }}."
