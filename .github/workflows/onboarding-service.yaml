@@ -26,4 +26,11 @@ jobs:
           result=$(npm run start 279)
           echo "**********TEST RESULTS*********************"
           echo "$result"
+          if [[ $result == *'FAILED'* ]] ;then
+          echo "Onboarding config writer failed and exiting the Job..."
+          exit 1
+          elif [[ $result == *'PASSED'* ]] ;then
+          echo "Onboarding config writer Ran Successfully....🍏"
+          fi          
         #run: ./startup.sh -f '-rthe'
+      - run: echo "🍏 This job's status is ${{ job.status }}."

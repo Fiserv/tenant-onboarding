@@ -472,10 +472,13 @@ async function service() {
       }
     }
   } catch (e) {
-    errorMessage("Tenant onboarding config writer failed", e.message);
+    errorMessage("FAILED", e.message);
     check = false;
   }
-  printMessage("Tenant onboarding config writer check: " + check);
+  if(check){
+    printMessage("PASSED");
+  }
+  
   return check;
 }
 
