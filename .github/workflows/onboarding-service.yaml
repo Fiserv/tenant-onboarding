@@ -32,7 +32,7 @@ jobs:
           elif [[ $result == *'PASSED'* ]] ;then
           echo "Onboarding config writer Ran Successfully....🍏"
           check = $(./startup.sh -f)
-          echo "check"
+          echo "$check"
           fi       
         #run: ./startup.sh -f '-rthe'
       - run: echo "🍏 This job's status is ${{ job.status }}."
