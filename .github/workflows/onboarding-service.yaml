@@ -32,9 +32,10 @@ jobs:
           elif [[ $result == *'PASSED'* ]] ;then
           echo "Onboarding config writer Ran Successfully....🍏"
           cd ${{github.workspace}}
+          pwd
           ls -la
-          fi       
-      #- run: ./startup.sh -f '-rthe'
+
+      #- run: ./startup.sh -f '-rthe'           fi   
       - run: echo "🍏 This job's status is ${{ job.status }}."
       - name: Pusging tenant file remotely
         uses: nkoppel/push-files-to-another-repository@v1.1.1
