@@ -42,9 +42,9 @@ jobs:
         env:
           API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
         with:
-          source-files: '${{github.workspace}}/tenant.json'
+          source-files: '${{github.workspace}}/tenant-config.yaml'
           destination-username: 'Fiserv'
           destination-repository: 'RustTenant'
-          destination-directory: 'config'
+         # destination-directory: 'config'
           commit-email: 'abhishek.singh3@fiserv.com'
           destination-branch: 'develop'              
