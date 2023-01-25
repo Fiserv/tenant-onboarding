@@ -34,7 +34,7 @@ const tenantConfigurator = async (issueNo) => {
       headers: {
         "User-Agent": "tenant-onbaording",
         Accept: "application/vnd.github+json",
-        Authorization: `Bearer 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`,
+        Authorization: `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`,
       },
     };
 

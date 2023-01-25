@@ -3,7 +3,7 @@ github:
   gitHubContentBranch:                    'feature/create-github-repo'
   gitHubSourceOwner:                      'Fiserv'
   gitHubUser:                             'username'
-  gitHubAuthToken:                        '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'
+  gitHubAuthToken:                        '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'
   gitHubAPI:                              'https://api.github.com/orgs/Fiserv/'
   gitHubAPIUrl:                           'https://api.github.com/orgs/Fiserv/teams'
   gitHubAPIRepo:                          'https://api.github.com/repos/Fiserv/'

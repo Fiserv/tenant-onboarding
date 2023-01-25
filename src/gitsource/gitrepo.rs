@@ -47,6 +47,9 @@ pub async fn create_repo(config_yaml: &Vec<Yaml> , settings_yaml: &Vec<Yaml>) ->
     .timeout(Duration::from_secs(5))
     .json(&repo_data);
 
+    println!("github_token {}", github_token);
+
+
     let resp_data = post_req.send().await?; 
     println!("Adding Repo Status {}", resp_data.status());
     //if (resp_data.status() == reqwest::StatusCode::UNPROCESSABLE_ENTITY) 
