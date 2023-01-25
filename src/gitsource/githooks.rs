@@ -33,7 +33,7 @@ pub async fn add_hooks_repo(config_yaml: &Vec<Yaml>, settings_yaml: &Vec<Yaml>) 
     //let mut github_repo_hooks_api = String::new();
 
     let config = &config_yaml[0]; 
-    let tenant_repo = config["github"]["repoName"].as_str().unwrap();
+    let tenant_repo = config["GitHub_essentials"]["Repository_Name"].as_str().unwrap();
  
     let setting = &settings_yaml[0]; 
     let github_token = setting["github"]["gitHubAuthToken"].as_str().unwrap();

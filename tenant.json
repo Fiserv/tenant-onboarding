@@ -1,6 +1,6 @@
 {
-  "title": "Support",
-  "name": "Support",
+  "title": "Test-Tenant",
+  "name": "Test-Tenant",
   "brand": "Fiserv",
   "brandLogoURL": "",
   "solution": [
@@ -24,11 +24,11 @@
     "logoURL": "",
     "description": "Developer Studio Support pages",
     "longDescription": "Developer Studio Support pages",
-    "layout": "/v1/layouts/Support",
-    "documentation": "/v1/docs/Support",
-    "documenttree": "/v1/docs/Support",
-    "documenttreeV2": "/v2/docs/Support",
-    "sandbox": "/v1/sandboxrun/Support",
+    "layout": "/v1/layouts/Test-Tenant",
+    "documentation": "/v1/docs/Test-Tenant",
+    "documenttree": "/v1/docs/Test-Tenant",
+    "documenttreeV2": "/v2/docs/Test-Tenant",
+    "sandbox": "/v2/sandboxrun/Test-Tenant",
     "feature": [
       {
         "name": "plugins",
@@ -45,17 +45,17 @@
       "bug": {
         "label": "bug,SupportPages",
         "template": "bug.md",
-        "assignees": "TaniaSarkar89"
+        "assignees": "asingh2023"
       },
       "feedback": {
         "label": "feedback,SupportPages",
         "template": "feedback.md",
-        "assignees": "TaniaSarkar89"
+        "assignees": "asingh2023"
       },
       "enhancement": {
         "label": "enhancement,SupportPages",
         "template": "feature.md",
-        "assignees": "TaniaSarkar89"
+        "assignees": "asingh2023"
       }
     }
   ]

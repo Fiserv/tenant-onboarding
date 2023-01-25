@@ -56,7 +56,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let level = log::LevelFilter::Info;
     let log_file_path = format!("{}_{}.log", "tenant-onboarding".to_string(), timestamp);
 
-    let config_file = "../../tenant-config.yaml";
+    //let config_file = "../../tenant-config.yaml";
+    let config_file = "../../Tenant-Onboarding-Form1.yaml";
     let settings_file = "../../settings.yaml";
 
     let mut do_team   = false;

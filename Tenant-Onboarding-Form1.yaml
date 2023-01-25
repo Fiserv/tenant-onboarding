@@ -1,0 +1,66 @@
+Tenant_Name: Test-Tenant
+Tenant_Type:
+  - Full_service: true
+  - Doc_only: false
+  - Link_out: false
+GitHub_essentials:
+  Repository_Name: test-tenant
+  Team_Memebers: john.doe@fiserv.com, abc.test@fiserv.com
+  Support:
+    - BugReporting:
+        Assignees: asingh2023
+    - Feedback_Reporting:
+        Assignees: asingh2023
+    - Enhancement_Reporting:
+        Assignees: asingh2023
+  Github_Branches:
+    Preview: true
+    Previous: true
+  Repository: test-tenant
+  Teams_Members: asingh2023
+Studio_essentials:
+  External_link: https://fiserv.com
+  Beta: true
+  Internal: false
+  Carat: true
+  Product_Areas:
+    - Merchants:
+        Customer_segements:
+          SMB: true
+          Enterprise: true
+    - Financial_Instituitions:
+        Customer_segements:
+          Banks: true
+          Credit_Unions: true
+          Large_financial_instutitions: true
+  Tags:
+    Region_of_Operation:
+      North_America: true
+      EMEA: true
+      LATAM: true
+      APAC: true
+    Integration:
+      restful: true
+      sdk: true
+      soap: false
+      xml: false
+    Feature:
+      - Feature1
+      - Feature2
+    Industry: Retail , Banking
+Runbox_essentials:
+  Runbox: true
+  Live_edit: true
+  Sandbox:
+    Type:
+      mock: true
+      live: true
+    Live_Sandbox_details:
+      API_gateway_details:
+        Gateway_Type:
+          APIGEE: true
+          Data_Power: false
+        Server_URL: https://api.test.com/tenantName
+        Authentication_Type: HMAC
+        Self_signed_certificate: false
+  TRunbox: true

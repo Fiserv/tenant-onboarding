@@ -21,7 +21,7 @@ pub async fn create_repo(config_yaml: &Vec<Yaml> , settings_yaml: &Vec<Yaml>) ->
     let mut created = false;
 
     let config = &config_yaml[0]; 
-    let tenant_repo = config["github"]["repoName"].as_str().unwrap();
+    let tenant_repo = config["GitHub_essentials"]["Repository_Name"].as_str().unwrap();
 
     let setting = &settings_yaml[0]; 
     let github_api = setting["github"]["gitHubAPIUrl"].as_str().unwrap();

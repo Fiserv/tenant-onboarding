@@ -22,8 +22,8 @@ pub async fn process_github_team(config_yaml: &Vec<Yaml> , settings_yaml: &Vec<Y
     let mut team_added = false;
     
     let config = &config_yaml[0]; 
-    let tenant_team = config["github"]["teamName"].as_str().unwrap();
-    let tenant_repo = config["github"]["repoName"].as_str().unwrap();
+    let tenant_team = config["GitHub_essentials"]["Repository_Name"].as_str().unwrap();
+    let tenant_repo = config["GitHub_essentials"]["Repository_Name"].as_str().unwrap();
 
     let setting = &settings_yaml[0];
     let github_api = setting["github"]["gitHubAPIUrl"].as_str().unwrap();
