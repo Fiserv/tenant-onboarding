@@ -33,8 +33,6 @@ jobs:
           echo "Onboarding config writer Ran Successfully....🍏"
           cd ${{github.workspace}}
           ls -la
-          tenant=$(./startup.sh -f)
-          echo "tenant"
           fi       
       #- run: ./startup.sh -f '-rthe'
       - run: echo "🍏 This job's status is ${{ job.status }}."
@@ -48,8 +46,4 @@ jobs:
           destination-repository: 'RustTenant'
           destination-directory: 'config'
           commit-email: 'abhishek.singh3@fiserv.com'
-          destination-branch: 'develop'
-        run: |
-          pwd
-          cd ${{github.workspace}}
-          ls -la                
+          destination-branch: 'develop'              
