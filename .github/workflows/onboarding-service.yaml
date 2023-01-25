@@ -34,17 +34,19 @@ jobs:
           cd ${{github.workspace}}
           pwd
           ls -la
-          fi
+          tenant=$(./startup.sh -f '-rthe')
+          echo "tenant"
+          fi      
       #- run: ./startup.sh -f '-rthe'           fi   
       - run: echo "🍏 This job's status is ${{ job.status }}."
-      - name: Pusging tenant file remotely
-        uses: nkoppel/push-files-to-another-repository@v1.1.1
-        env:
-          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
-        with:
-          source-files: 'tenant.json'
-          destination-username: 'Fiserv'
-          destination-repository: 'RustTenant'
-         # destination-directory: 'config'
-          commit-email: 'abhishek.singh3@fiserv.com'
-          destination-branch: 'develop'              
+      # - name: Pusging tenant file remotely
+      #   uses: nkoppel/push-files-to-another-repository@v1.1.1
+      #   env:
+      #     API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+      #   with:
+      #     source-files: 'tenant.json'
+      #     destination-username: 'Fiserv'
+      #     destination-repository: 'RustTenant'
+      #    # destination-directory: 'config'
+      #     commit-email: 'abhishek.singh3@fiserv.com'
+      #     destination-branch: 'develop'              
