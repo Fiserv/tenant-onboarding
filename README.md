@@ -36,7 +36,7 @@ Either update a config file or pass in data through the CLI
 Default mode is a dry run that will print out info about what happened to a log.  This way you can confirm you did the right thing before you really create a repo.
 
 To actually execute for REAL, you'll need the extra flag.
-
+Example :  ./startup.sh -f
 to -r --execute
 
 ### Using Startup Script
