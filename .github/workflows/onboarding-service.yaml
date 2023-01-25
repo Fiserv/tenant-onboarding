@@ -12,4 +12,18 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Build
-        run: ./startup.sh -f '-rthe'
+        run: |
+          pwd
+          cd ${{github.workspace}}/scripts
+          ls -la
+          npmv=$(npm --version)
+          echo "NPM version installed : " $npmv
+          nodev=$(node --version)
+          echo "Node version installed : " $nodev
+          npm install
+          echo " Repo: ${{ github.repository }}"
+          echo " Space: ${{ github.workspace }}"
+          result=$(npm run markdown ${{github.workspace }})
+          echo "**********TEST RESULTS*********************"
+          echo "$result"
+        #run: ./startup.sh -f '-rthe'
