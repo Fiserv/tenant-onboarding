@@ -25,7 +25,7 @@ jobs:
           echo " Space: ${{ github.workspace }}"
           echo "Key : ${{ secrets.API_TOKEN_GITHUB }}"
           result=$(npm run start 279)
-          echo "**********TEST RESULTS*********************"
+          echo "********** TENANT CONFIGURATION *********************"
           echo "$result"
           if [[ $result == *'FAILED'* ]] ;then
           echo "Onboarding config writer failed and exiting the Job..."
@@ -34,7 +34,10 @@ jobs:
           echo "Onboarding config writer Ran Successfully....🍏"
           cd ${{github.workspace}}
           pwd
-          ls -la 
+          ls -la
+          tenant=$(./startup.sh -f '-rthe')
+          echo "********** TENANT GENERATOR *********************"
+          echo "$tenant"
           fi      
       #- run: tenant=$(./startup.sh -f '-rthe')           
       # - run: echo "🍏 This job's status is ${{ job.status }}."
