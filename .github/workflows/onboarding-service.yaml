@@ -37,16 +37,16 @@ jobs:
           ls -la 
           fi      
       #- run: tenant=$(./startup.sh -f '-rthe')           
-      - run: echo "🍏 This job's status is ${{ job.status }}."
-      - name: Pushing tenant file remotely
-        uses: dmnemec/copy_file_to_another_repo_action@main
-        env:
-          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
-        with:
-          source_file: 'tenant.json'
-          destination_repo: 'Fiserv/RustTenant'
-          destination_folder: 'config'
-          destination_branch: 'develop'
-          user_email: 'abhishek.singh3@fiserv.com'
-          user_name: 'Fiserv'
-          commit_message: 'pushing tenant json file remotely'             
+      # - run: echo "🍏 This job's status is ${{ job.status }}."
+      # - name: Pushing tenant file remotely
+      #   uses: dmnemec/copy_file_to_another_repo_action@main
+      #   env:
+      #     API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+      #   with:
+      #     source_file: 'tenant.json'
+      #     destination_repo: 'Fiserv/RustTenant'
+      #     destination_folder: 'config'
+      #     destination_branch: 'develop'
+      #     user_email: 'abhishek.singh3@fiserv.com'
+      #     user_name: 'Fiserv'
+      #     commit_message: 'pushing tenant json file remotely'             
