@@ -32,7 +32,7 @@ pub async fn process_github_team(config_yaml: &Vec<Yaml> , settings_yaml: &Vec<Y
 
 
     let github_teams_api = format!("{}/{}", github_api.to_string(), tenant_team.to_string().to_lowercase());
-    let github_auth = format!("{}{}", "ghp_xcY9YfxjBk5Tlbj", github_token.to_string());
+    let github_auth = format!("{}{}", "github_pat_11ATLOXZQ0envgS8Xk8OJx_tjsW3CYTBKZEl", github_token.to_string());
     println!(" Tenant Team : {} " , github_teams_api);
 
     let github_client = reqwest::Client::new();

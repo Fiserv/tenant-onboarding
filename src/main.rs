@@ -149,6 +149,14 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         println!("REPO CREATED-----: {:#?} ",  do_repo);
     }
 
+    if args.is_present("do_hooks") { 
+        // println!("Calling hooks {}", do_hooks);
+        if (do_repo){
+             do_hooks = gitsource::githooks::add_hooks_repo(&yaml_config ,  &yaml_settings).unwrap(); 
+          println!("WEBHOOKS ADDED-----: {:#?} ", do_hooks);
+        } 
+     }
+
     if args.is_present("do_team") {
        // println!("REPO CREATED 1-----: {:#?} ",  do_repo);
        if (do_repo){
@@ -157,16 +165,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
            println!("TEAM CREATED-----: {:#?} ",  do_team); 
         }
     }
-
-    if args.is_present("do_hooks") { 
-       // println!("Calling hooks {}", do_hooks);
-       if (do_team){
-            do_hooks = gitsource::githooks::add_hooks_repo(&yaml_config ,  &yaml_settings).unwrap(); 
-         println!("WEBHOOKS ADDED-----: {:#?} ", do_hooks);
-       }
-
-    }
-
+ 
     if args.is_present("dbscripts") {
         dbscripts = true;
         println!("dbscripts flag {}", dbscripts);

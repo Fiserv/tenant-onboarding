@@ -30,7 +30,7 @@ pub async fn create_repo(config_yaml: &Vec<Yaml> , settings_yaml: &Vec<Yaml>) ->
     let github_owner = setting["github"]["gitHubSourceOwner"].as_str().unwrap();
 
     println!("Adding new Tenant Repo {:#?}", tenant_repo); 
-    let github_auth = format!("{}{}", "ghp_xcY9YfxjBk5Tlbj", github_token.to_string());  
+    let github_auth = format!("{}{}", "github_pat_11ATLOXZQ0envgS8Xk8OJx_tjsW3CYTBKZEl", github_token.to_string());  
  let repo_data = RepoInfo { 
         owner: github_owner.to_string(),
         name: tenant_repo.to_string(),

@@ -69,7 +69,7 @@ async fn add_hooks(path: &str , key: &str ,tenant_repo: &str, setting_yaml: &Vec
     let github_token = setting["github"]["gitHubAuthToken"].as_str().unwrap();
     let github_api = setting["github"]["gitHubAPIRepo"].as_str().unwrap(); 
     let github_repo_hooks_api = format!("{}{}{}", github_api.to_string(), tenant_repo.to_string() , "/hooks".to_string());
-    let github_auth = format!("{}{}", "ghp_xcY9YfxjBk5Tlbj", github_token.to_string());
+    let github_auth = format!("{}{}", "github_pat_11ATLOXZQ0envgS8Xk8OJx_tjsW3CYTBKZEl", github_token.to_string());
     //println!("github_repo_hooks_api: {} ", github_repo_hooks_api);
     let mut check = false;
     let github_client = reqwest::Client::new();
