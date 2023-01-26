@@ -52,7 +52,7 @@ pub async fn process_github_team(config_yaml: &Vec<Yaml> , settings_yaml: &Vec<Y
         let put_req_api = format!("{}/{}/{}/{}/{}" , github_api , tenant_team.to_string().to_lowercase(),"repos" , github_owner,tenant_repo );
       
         let put_req = github_client.request(Method::PUT, put_req_api)
-                                    .bearer_auth(github_token)
+                                    .bearer_auth(github_auth)
                                     .header("User-Agent", "tenant-onbaording")
                                     .header("Accept", "application/vnd.github+json")
                                     .timeout(Duration::from_secs(5));
@@ -78,7 +78,7 @@ pub async fn process_github_team(config_yaml: &Vec<Yaml> , settings_yaml: &Vec<Y
             };
 
         let post_req = github_client.request(Method::POST, github_api)
-            .bearer_auth(github_token)
+            .bearer_auth(github_auth)
             .header("User-Agent", "tenant-onbaording")
             .header("Accept", "application/vnd.github+json")
             .timeout(Duration::from_secs(5))

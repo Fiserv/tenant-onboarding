@@ -27,19 +27,13 @@ const tenantConfigurator = async (issueNo) => {
       tenant_onboarding_file,
       "utf8"
     );
-    const yamlData = await yaml.load(tenant_yaml);
-
-    const tokentValue = await settingsYaml();
-
-    console.log(`Toekn ====>>> : ${tokentValue}`)
-
+    const yamlData = await yaml.load(tenant_yaml); 
     const url = `https://api.github.com/repos/Fiserv/Support/issues/${issueNo}`;
     
     const config = {
       headers: {
         "User-Agent": "tenant-onbaording",
-        Accept: "application/vnd.github+json",
-        Authorization: tokentValue,
+        Accept: "application/vnd.github+json" 
       },
     };
 
@@ -51,9 +45,7 @@ const tenantConfigurator = async (issueNo) => {
       .then(function (response) {
         const tenantConfig = response?.data?.body;
         const md_result = md.render(tenantConfig);
-        const result_data = html2json(md_result);
-
-        printMessage("result_data : " + JSON.stringify(result_data));
+        const result_data = html2json(md_result); 
 
         let last_title;
         for (const obj of result_data.child) {
@@ -417,26 +409,7 @@ const tenantConfigurator = async (issueNo) => {
 };
 
 
-async function settingsYaml(){
   
-  try{
-    const tenant_yaml = fs.readFileSync(
-      settings_yaml,
-      "utf8"
-    );
-    const yamlData = await yaml.load(tenant_yaml);
-    const token =  yamlData.github.gitHubAuthToken;
-
-    console.log(token);
-
-    return token
-
-  }catch(e){
-    return "";
-  }
-}
-   
-
 async function updateTenantJSONFile() {
   const tenant_yaml = fs.readFileSync(
     tenant_onboarding_file,

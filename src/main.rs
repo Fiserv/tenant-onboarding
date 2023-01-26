@@ -115,8 +115,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         ]).get_matches();
 
     //reading YAML file...
-    println!("cwd {:?}", std::env::current_dir());
-    println!("cwd exec {:?}", std::env::current_exe());
+    //println!("cwd {:?}", std::env::current_dir());
+    //println!("cwd exec {:?}", std::env::current_exe());
 
     let mut config_file_content = std::fs::File::open(config_file)?;
     let mut config_contents = String::new();
@@ -136,39 +136,38 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     //set the flags you need
     if args.is_present("execute") {
         execute = true;
-        println!("execute flag {}", execute);
+        info!("execute flag {}", execute);
     }
-    else {
-        println!("Doing DRY run.");
+    else { 
         info!("Doing DRY run");
     }
 
     if args.is_present("do_repo") {
         //println!("Creating New Tenant Repo");
         do_repo = gitsource::gitrepo::create_repo(&yaml_config , &yaml_settings).unwrap();
-        println!("REPO CREATED-----: {:#?} ",  do_repo);
+        info!("REPO CREATED-----: {:#?} ",  do_repo);
     }
 
     if args.is_present("do_hooks") { 
         // println!("Calling hooks {}", do_hooks);
         if (do_repo){
              do_hooks = gitsource::githooks::add_hooks_repo(&yaml_config ,  &yaml_settings).unwrap(); 
-          println!("WEBHOOKS ADDED-----: {:#?} ", do_hooks);
+             info!("WEBHOOKS ADDED-----: {:#?} ", do_hooks);
         } 
      }
 
     if args.is_present("do_team") {
        // println!("REPO CREATED 1-----: {:#?} ",  do_repo);
-       if (do_repo){
+      // if (do_repo){
               //team::do_team(execute, &yaml_config);
               do_team = gitsource::gitteam::process_github_team(&yaml_config , &yaml_settings).unwrap(); 
-           println!("TEAM CREATED-----: {:#?} ",  do_team); 
-        }
+              info!("TEAM CREATED-----: {:#?} ",  do_team); 
+      //  }
     }
  
     if args.is_present("dbscripts") {
         dbscripts = true;
-        println!("dbscripts flag {}", dbscripts);
+        info!("dbscripts flag {}", dbscripts);
 
         dbscripts::create_dbscripts(execute, &yaml_config);
         dbscripts::insert_dbscripts(execute);
