@@ -53,7 +53,7 @@ const tenantConfigurator = async (issueNo) => {
         const md_result = md.render(tenantConfig);
         const result_data = html2json(md_result);
 
-        printMessage("result_data : " + result_data);
+        printMessage("result_data : " + JSON.stringify(result_data));
 
         let last_title;
         for (const obj of result_data.child) {
