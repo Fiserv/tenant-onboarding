@@ -47,6 +47,8 @@ const tenantConfigurator = async (issueNo) => {
         const md_result = md.render(tenantConfig);
         const result_data = html2json(md_result); 
 
+     
+
         let last_title;
         for (const obj of result_data.child) {
           if (obj?.node === "element") {
@@ -57,17 +59,15 @@ const tenantConfigurator = async (issueNo) => {
             try {
               if (obj?.tag === "p") {
                 const tagValue = obj?.child[0].text.trim();
-
+                
                 switch (last_title) {
                   case tenant_enum.TENANT_NAME:
                     {
                       yamlData["Tenant_Name"] = tagValue;
                       if (
-                        yamlData["GitHub_essentials"].RepositoryName !=
-                        undefined
+                        yamlData["GitHub_essentials"].Repository_Name != undefined
                       ) {
-                        yamlData["GitHub_essentials"].RepositoryName =
-                          tagValue.toLowerCase();
+                        yamlData["GitHub_essentials"].Repository_Name = tagValue.toLowerCase();
                       }
                     }
                     break;
@@ -75,9 +75,9 @@ const tenantConfigurator = async (issueNo) => {
                   case tenant_enum.TENANT_MEMBERS:
                     {
                       if (
-                        yamlData["GitHub_essentials"].Teams_Members != undefined
+                        yamlData["GitHub_essentials"].Team_Members != undefined
                       ) {
-                        yamlData["GitHub_essentials"].Teams_Members = tagValue;
+                        yamlData["GitHub_essentials"].Team_Members = tagValue;
                       }
                     }
                     break;
@@ -109,11 +109,9 @@ const tenantConfigurator = async (issueNo) => {
                   case tenant_enum.ENCHANCEMENT_REPORTING:
                     {
                       if (
-                        yamlData.GitHub_essentials.Support[1].Feedback_Reporting
-                          .Assignees != undefined
+                        yamlData.GitHub_essentials.Support[2].Enhancement_Reporting.Assignees != undefined
                       ) {
-                        yamlData.GitHub_essentials.Support[1].Feedback_Reporting.Assignees =
-                          tagValue;
+                        yamlData.GitHub_essentials.Support[2].Enhancement_Reporting.Assignees = tagValue;
                       }
                     }
                     break;
@@ -255,7 +253,7 @@ const tenantConfigurator = async (issueNo) => {
                             }
                             if (tagValue === tenant_type_enum.DOC_ONLY) {
                               if (
-                                yamlData["Tenant_Type"][1].Full_service !=
+                                yamlData["Tenant_Type"][1].Doc_only !=
                                 undefined
                               ) {
                                 yamlData["Tenant_Type"][1].Doc_only = true;
@@ -263,7 +261,7 @@ const tenantConfigurator = async (issueNo) => {
                             }
                             if (tagValue === tenant_type_enum.LINK_OUT) {
                               if (
-                                yamlData["Tenant_Type"][2].Full_service !=
+                                yamlData["Tenant_Type"][2].Link_out !=
                                 undefined
                               ) {
                                 yamlData["Tenant_Type"][2].Link_out = true;
@@ -411,6 +409,7 @@ const tenantConfigurator = async (issueNo) => {
 
   
 async function updateTenantJSONFile() {
+ 
   const tenant_yaml = fs.readFileSync(
     tenant_onboarding_file,
     "utf8"
@@ -432,29 +431,19 @@ async function updateTenantJSONFile() {
     tenant_Data.product.assets = `/v1/assets/${yamlData.Tenant_Name}`;
   }
 
-  if (
-    yamlData.GitHub_essentials.Support[0].BugReporting.Assignees != undefined
-  ) {
-    tenant_Data.supportConfig[0].bug.assignees =
-      yamlData.GitHub_essentials.Support[0].BugReporting.Assignees;
+  if (  yamlData.GitHub_essentials.Support[0].Bug_Reporting.Assignees != undefined ) {
+    tenant_Data.supportConfig[0].bug.assignees = yamlData.GitHub_essentials.Support[0].Bug_Reporting.Assignees;
   }
 
-  if (
-    yamlData.GitHub_essentials.Support[1].Feedback_Reporting.Assignees != undefined
-  ) {
-    tenant_Data.supportConfig[0].feedback.assignees =
-      yamlData.GitHub_essentials.Support[1].Feedback_Reporting.Assignees;
+  if ( yamlData.GitHub_essentials.Support[1].Feedback_Reporting.Assignees != undefined ) {
+    tenant_Data.supportConfig[0].feedback.assignees = yamlData.GitHub_essentials.Support[1].Feedback_Reporting.Assignees;
   }
-  if (
-    yamlData.GitHub_essentials.Support[2].Enhancement_Reporting.Assignees != undefined
-  ) {
-    tenant_Data.supportConfig[0].enhancement.assignees =
-      yamlData.GitHub_essentials.Support[2].Enhancement_Reporting.Assignees;
+  if (  yamlData.GitHub_essentials.Support[2].Enhancement_Reporting.Assignees != undefined  ) {
+    tenant_Data.supportConfig[0].enhancement.assignees = yamlData.GitHub_essentials.Support[2].Enhancement_Reporting.Assignees;
   }
   return new Promise((resolve, rejects) => {
     printMessage(JSON.stringify(tenant_Data, null, 2));
-    fsPromises
-      .writeFile(tenant_json_file, JSON.stringify(tenant_Data, null, 2))
+    fsPromises .writeFile(tenant_json_file, JSON.stringify(tenant_Data, null, 2))
       .then(() => {
         resolve(true);
       })
@@ -462,6 +451,9 @@ async function updateTenantJSONFile() {
         rejects(false);
       });
   });
+ 
+
+
 }
 
 async function service() {

@@ -184,8 +184,13 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     info!("Goes to stderr and file");
     debug!("Goes to file only");
     trace!("Goes to file only");*/
-
     info!("<<<<<<<<TENANT ONBOARDING PROCESS COMPLETED>>>>>>>>>");
+    if (do_repo){
+        let config = &yaml_config[0]; 
+        let tenant_repo = config["GitHub_essentials"]["Repository_Name"].as_str().unwrap();
+        println!("{}", tenant_repo);
+    } 
+ 
     Ok(())
 
     /*let args = Cli::parse();

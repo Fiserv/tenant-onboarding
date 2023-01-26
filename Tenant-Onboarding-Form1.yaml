@@ -1,13 +1,13 @@
-Tenant_Name: Test-Tenant
+Tenant_Name: cool-tenant
 Tenant_Type:
   - Full_service: true
   - Doc_only: false
   - Link_out: false
 GitHub_essentials:
-  Repository_Name: test-tenant
-  Team_Memebers: john.doe@fiserv.com, abc.test@fiserv.com
+  Repository_Name: cool-tenant
+  Team_Members: asingh2023
   Support:
-    - BugReporting:
+    - Bug_Reporting:
         Assignees: asingh2023
     - Feedback_Reporting:
         Assignees: asingh2023
@@ -47,7 +47,7 @@ Studio_essentials:
     Feature:
       - Feature1
       - Feature2
-    Industry: Retail , Banking
+    Industry: Banking , Retail
 Runbox_essentials:
   Runbox: true
   Live_edit: true

@@ -1,6 +1,6 @@
 {
-  "title": "Test-Tenant",
-  "name": "Test-Tenant",
+  "title": "DummyTenant",
+  "name": "DummyTenant",
   "brand": "Fiserv",
   "brandLogoURL": "Duffy",
   "solution": [
@@ -24,13 +24,13 @@
     "logoURL": "",
     "description": "Developer Studio Support pages",
     "longDescription": "Developer Studio Support pages",
-    "layout": "/v1/layouts/Test-Tenant",
-    "documentation": "/v1/docs/Test-Tenant",
-    "documenttree": "/v1/docs/Test-Tenant",
-    "documenttreeV2": "/v2/docs/Test-Tenant",
-    "sandbox": "/v2/sandboxrun/Test-Tenant",
-    "accessConfig": "/v1/fileAccess/Test-Tenant",
-    "assets": "/v1/assets/Test-Tenant",
+    "layout": "/v1/layouts/DummyTenant",
+    "documentation": "/v1/docs/DummyTenant",
+    "documenttree": "/v1/docs/DummyTenant",
+    "documenttreeV2": "/v2/docs/DummyTenant",
+    "sandbox": "/v2/sandboxrun/DummyTenant",
+    "accessConfig": "/v1/fileAccess/DummyTenant",
+    "assets": "/v1/assets/DummyTenant",
     "feature": [
       {
         "name": "plugins",
