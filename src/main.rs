@@ -158,11 +158,11 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     if args.is_present("do_team") {
        // println!("REPO CREATED 1-----: {:#?} ",  do_repo);
-      // if (do_repo){
+        if (do_repo){
               //team::do_team(execute, &yaml_config);
               do_team = gitsource::gitteam::process_github_team(&yaml_config , &yaml_settings).unwrap(); 
               info!("TEAM CREATED-----: {:#?} ",  do_team); 
-      //  }
+         }
     }
  
     if args.is_present("dbscripts") {
