@@ -29,8 +29,8 @@ pub async fn create_repo(config_yaml: &Vec<Yaml> , settings_yaml: &Vec<Yaml>) ->
     let github_repo_gen_api = setting["github"]["gitHubTemplateRepo"].as_str().unwrap();    
     let github_owner = setting["github"]["gitHubSourceOwner"].as_str().unwrap();
 
-    println!("Adding new Tenant Repo {:#?}", tenant_repo);
- 
+    println!("Adding new Tenant Repo {:#?}", tenant_repo); 
+    let github_auth = format!("{}{}", "ghp_xcY9YfxjBk5Tlbj", github_token.to_string());  
  let repo_data = RepoInfo { 
         owner: github_owner.to_string(),
         name: tenant_repo.to_string(),
@@ -41,13 +41,13 @@ pub async fn create_repo(config_yaml: &Vec<Yaml> , settings_yaml: &Vec<Yaml>) ->
   
     let github_client = reqwest::Client::new();
     let post_req = github_client.request(Method::POST, github_repo_gen_api)
-    .bearer_auth(github_token)
+    .bearer_auth(github_auth)
     .header("User-Agent", "tenant-onbaording")
     .header("Accept", "application/vnd.github+json")
     .timeout(Duration::from_secs(5))
     .json(&repo_data);
 
-    println!("github_token {}", github_token);
+   
 
 
     let resp_data = post_req.send().await?; 

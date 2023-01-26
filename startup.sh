@@ -8,7 +8,8 @@ done
 echo "Building Tenant Onboarding app..."
 cargo build
 
-echo "ext Flag: $args"; 
+echo "ext Flag: $args" 
+echo "ext Flag: $3" 
 cd target/debug
-./tenant-onboarding $args
+./tenant-onboarding $3 $args
  

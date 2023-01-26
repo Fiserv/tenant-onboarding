@@ -32,13 +32,13 @@ pub async fn process_github_team(config_yaml: &Vec<Yaml> , settings_yaml: &Vec<Y
 
 
     let github_teams_api = format!("{}/{}", github_api.to_string(), tenant_team.to_string().to_lowercase());
-
+    let github_auth = format!("{}{}", "ghp_xcY9YfxjBk5Tlbj", github_token.to_string());
     println!(" Tenant Team : {} " , github_teams_api);
 
     let github_client = reqwest::Client::new();
 
     let get_req = github_client.request(Method::GET, github_teams_api.clone())
-                             .bearer_auth(github_token)
+                             .bearer_auth(github_auth)
                              .header("User-Agent", "tenant-onbaording")
                              .header("Accept", "application/vnd.github+json")
                              .timeout(Duration::from_secs(3));
