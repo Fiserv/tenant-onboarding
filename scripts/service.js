@@ -31,7 +31,7 @@ const tenantConfigurator = async (issueNo) => {
 
     const tokentValue = await settingsYaml();
 
-    coneole.log(`Toekn ====>>> : ${tokentValue}`)
+    console.log(`Toekn ====>>> : ${tokentValue}`)
 
     const url = `https://api.github.com/repos/Fiserv/Support/issues/${issueNo}`;
     printMessage("GITHUB URL : " + url);
