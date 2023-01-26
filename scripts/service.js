@@ -18,6 +18,7 @@ const fsPromises = fs.promises;
 
 const tenant_onboarding_file = "../Tenant-Onboarding-Form1.yaml";
 const tenant_json_file = "../tenant.json";
+const settings_yaml = "../settings.yaml";
 
 const tenantConfigurator = async (issueNo) => {
   let check = true;
@@ -28,13 +29,17 @@ const tenantConfigurator = async (issueNo) => {
     );
     const yamlData = await yaml.load(tenant_yaml);
 
+    const tokentValue = await settingsYaml();
+
+    coneole.log(`Toekn ====>>> : ${tokentValue}`)
+
     const url = `https://api.github.com/repos/Fiserv/Support/issues/${issueNo}`;
     printMessage("GITHUB URL : " + url);
     const config = {
       headers: {
         "User-Agent": "tenant-onbaording",
         Accept: "application/vnd.github+json",
-        Authorization: `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`,
+        Authorization: tokentValue,
       },
     };
 
@@ -408,6 +413,27 @@ const tenantConfigurator = async (issueNo) => {
   return check;
 };
 
+
+async function settingsYaml(){
+  
+  try{
+    const tenant_yaml = fs.readFileSync(
+      settings_yaml,
+      "utf8"
+    );
+    const yamlData = await yaml.load(tenant_yaml);
+    const token =  yamlData.github.gitHubAuthToken;
+
+    console.log(token);
+
+    return token
+
+  }catch(e){
+    return "";
+  }
+}
+   
+
 async function updateTenantJSONFile() {
   const tenant_yaml = fs.readFileSync(
     tenant_onboarding_file,
@@ -472,6 +498,7 @@ async function service() {
       if (check) {
         check = await updateTenantJSONFile();
       }
+      
     }
   } catch (e) {
     errorMessage("FAILED", e.message);

@@ -23,6 +23,7 @@ jobs:
           npm install
           echo " Repo: ${{ github.repository }}"
           echo " Space: ${{ github.workspace }}"
+          echo "Key : ${{ secrets.API_TOKEN_GITHUB }}"
           result=$(npm run start 279)
           echo "**********TEST RESULTS*********************"
           echo "$result"
@@ -33,11 +34,9 @@ jobs:
           echo "Onboarding config writer Ran Successfully....🍏"
           cd ${{github.workspace}}
           pwd
-          ls -la
-          tenant=$(./startup.sh -f '-rthe')
-          echo "tenant"
+          ls -la 
           fi      
-      #- run: ./startup.sh -f '-rthe'           fi   
+      #- run: tenant=$(./startup.sh -f '-rthe')           
       - run: echo "🍏 This job's status is ${{ job.status }}."
       - name: Pushing tenant file remotely
         uses: dmnemec/copy_file_to_another_repo_action@main
