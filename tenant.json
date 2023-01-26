@@ -1,8 +1,8 @@
 {
-  "title": "Test-Tenant",
-  "name": "Test-Tenant",
+  "title": "Duffy",
+  "name": "Duffy",
   "brand": "Fiserv",
-  "brandLogoURL": "",
+  "brandLogoURL": "Duffy",
   "solution": [
     "support"
   ],

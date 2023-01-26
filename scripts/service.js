@@ -34,7 +34,7 @@ const tenantConfigurator = async (issueNo) => {
     console.log(`Toekn ====>>> : ${tokentValue}`)
 
     const url = `https://api.github.com/repos/Fiserv/Support/issues/${issueNo}`;
-    printMessage("GITHUB URL : " + url);
+    
     const config = {
       headers: {
         "User-Agent": "tenant-onbaording",
@@ -52,6 +52,9 @@ const tenantConfigurator = async (issueNo) => {
         const tenantConfig = response?.data?.body;
         const md_result = md.render(tenantConfig);
         const result_data = html2json(md_result);
+
+        printMessage("result_data : " + result_data);
+
         let last_title;
         for (const obj of result_data.child) {
           if (obj?.node === "element") {
