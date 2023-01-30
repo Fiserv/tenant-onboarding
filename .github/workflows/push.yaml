@@ -1,0 +1,33 @@
+name: Tenant Onboarding Tool
+on:
+  push: 
+  pull_request:
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+ 
+jobs:
+  Tenant-Generator:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout sourc repo
+        uses: actions/checkout@v3
+        with:
+         ref:develop
+         repository: ${{github.workspace}}
+      - name: Get Files 
+        uses: action/github-script@v3
+        with:
+         scripts: |
+          const response = await api.repos.getContent({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            path: '<filepath>',
+            ref: context.sha
+          });
+          return response.data;
+      - name: Push file to des
+        uses: action/github-script@v3
+        with:
+         scripts: |          
+

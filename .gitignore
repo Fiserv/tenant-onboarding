@@ -16,3 +16,4 @@ Cargo.lock
 .DS_store
 launch.json
 *.log
+db-scripts/cool-tenant_dev_db_script.js

@@ -169,8 +169,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         dbscripts = true;
         info!("dbscripts flag {}", dbscripts);
 
-        dbscripts::create_dbscripts(execute, &yaml_config);
-        dbscripts::insert_dbscripts(execute);
+        dbscripts::create_dbscripts(execute, &yaml_config , "dev".to_string());
+        //dbscripts::insert_dbscripts(execute);
     }
 
     //now call each function corresponding to the flags
