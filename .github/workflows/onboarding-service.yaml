@@ -56,7 +56,7 @@ jobs:
         env:
           API_TOKEN_GITHUB: ${{ secrets.API_KEY_GITHUB }}
         with:
-          source_file: '${{github.workspace}}/dbscripts/cool-tenant_dev_db_script.js'
+          source_file: '${{github.workspace}}/db-scripts/cool-tenant_dev_db_script.js'
           destination_repo: 'Fiserv/tenants-data'
           destination_folder: 'dbscripts'
           destination_branch: 'main'
