@@ -33,12 +33,11 @@ jobs:
           echo "Onboarding config writer Ran Successfully....🍏"
           cd ${{github.workspace}}
           pwd
-          ls -la
-          //tenant=$(./startup.sh -f '-rthe')
+          ls -la 
           echo "********** TENANT GENERATOR *********************"
           echo "$tenant"
           fi      
-      #- run: tenant=$(./startup.sh -f '-rthe')           
+      #- run: # tenant=$(./startup.sh -f '-rthe')       
       # - run: echo "🍏 This job's status is ${{ job.status }}."
       - name: Pushing tenant file remotely
         uses: dmnemec/copy_file_to_another_repo_action@main
