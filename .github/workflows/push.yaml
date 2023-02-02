@@ -13,8 +13,8 @@ jobs:
       - name: Checkout sourc repo
         uses: actions/checkout@v3
         with:
-         ref:develop
-         repository: ${{github.workspace}}
+          ref: develop
+          repository: ${{github.workspace}}
       - name: Get Files 
         uses: action/github-script@v3
         with:
