@@ -45,6 +45,7 @@ jobs:
         source_file: 'tenant.json'
         destination_repo: 'Fiserv/cool-tenant'
         destination_folder: 'config'
+        destination_branch: 'develop'
         user_email: 'abhishek.singh3@fiserv.com'
         user_name: 'asingh2023'
         commit_message: 'Pushing file to tenant repo'
