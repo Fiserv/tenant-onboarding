@@ -1,8 +1,7 @@
 {
-  "title": "DummyTenant",
-  "name": "DummyTenant",
+  "title": "",
   "brand": "Fiserv",
-  "brandLogoURL": "Duffy",
+  "brandLogoURL": "https://raw.githubusercontent.com/Fiserv/Banking-Product-Cards/develop/assets/images/4_Cards-min%20copy.jpg",
   "solution": [
     "support"
   ],
@@ -24,13 +23,13 @@
     "logoURL": "",
     "description": "Developer Studio Support pages",
     "longDescription": "Developer Studio Support pages",
-    "layout": "/v1/layouts/DummyTenant",
-    "documentation": "/v1/docs/DummyTenant",
-    "documenttree": "/v1/docs/DummyTenant",
-    "documenttreeV2": "/v2/docs/DummyTenant",
-    "sandbox": "/v2/sandboxrun/DummyTenant",
-    "accessConfig": "/v1/fileAccess/DummyTenant",
-    "assets": "/v1/assets/DummyTenant",
+    "layout": "/v1/layouts/",
+    "documentation": "/v1/docs/",
+    "documenttree": "/v1/docs/",
+    "documenttreeV2": "/v2/docs/",
+    "sandbox": "/v2/sandboxrun/",
+    "accessConfig": "/v1/fileAccess/",
+    "assets": "/v1/assets/",
     "feature": [
       {
         "name": "plugins",
@@ -47,18 +46,19 @@
       "bug": {
         "label": "bug,SupportPages",
         "template": "bug.md",
-        "assignees": "asingh2023"
+        "assignees": ""
       },
       "feedback": {
         "label": "feedback,SupportPages",
         "template": "feedback.md",
-        "assignees": "asingh2023"
+        "assignees": ""
       },
       "enhancement": {
         "label": "enhancement,SupportPages",
         "template": "feature.md",
-        "assignees": "asingh2023"
+        "assignees": ""
       }
     }
-  ]
+  ],
+  "name": "rookie-tenant"
 }

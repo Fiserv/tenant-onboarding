@@ -9,6 +9,7 @@ const {
   tenant_enum,
   tenant_type_enum,
   regions,
+  convertTokebabCase,
 } = require("./tools");
 const md = require("markdown-it")();
 const html2json = require("html2json").html2json;
@@ -47,8 +48,6 @@ const tenantConfigurator = async (issueNo) => {
         const md_result = md.render(tenantConfig);
         const result_data = html2json(md_result); 
 
-     
-
         let last_title;
         for (const obj of result_data.child) {
           if (obj?.node === "element") {
@@ -59,15 +58,20 @@ const tenantConfigurator = async (issueNo) => {
             try {
               if (obj?.tag === "p") {
                 const tagValue = obj?.child[0].text.trim();
+
+                 
                 
                 switch (last_title) {
                   case tenant_enum.TENANT_NAME:
                     {
-                      yamlData["Tenant_Name"] = tagValue;
+                      const tenantName = convertTokebabCase(tagValue);
+                      
+                      yamlData["Tenant_Name"] = tenantName;
+
                       if (
                         yamlData["GitHub_essentials"].Repository_Name != undefined
                       ) {
-                        yamlData["GitHub_essentials"].Repository_Name = tagValue.toLowerCase();
+                        yamlData["GitHub_essentials"].Repository_Name =  tenantName.toLowerCase();
                       }
                     }
                     break;
@@ -421,7 +425,7 @@ async function updateTenantJSONFile() {
 
   if (yamlData.Tenant_Name != undefined) {
     tenant_Data.title = yamlData.Tenant_Name;
-    tenant_Data.name = yamlData.Tenant_Name;
+    tenant_Data.name = convertTokebabCase(yamlData.Tenant_Name);
     tenant_Data.product.layout = `/v1/layouts/${yamlData.Tenant_Name}`;
     tenant_Data.product.documentation = `/v1/docs/${yamlData.Tenant_Name}`;
     tenant_Data.product.documenttree = `/v1/docs/${yamlData.Tenant_Name}`;
@@ -450,11 +454,11 @@ async function updateTenantJSONFile() {
       .catch((err) => {
         rejects(false);
       });
-  });
- 
-
-
+  }); 
 }
+
+
+
 
 async function service() {
   let check = false;

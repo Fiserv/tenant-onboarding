@@ -1,23 +1,23 @@
-Tenant_Name: cool-tenant
+Tenant_Name: 
 Tenant_Type:
   - Full_service: true
   - Doc_only: false
   - Link_out: false
 GitHub_essentials:
-  Repository_Name: cool-tenant
-  Team_Members: asingh2023
+  Repository_Name: 
+  Team_Members: 
   Support:
     - Bug_Reporting:
-        Assignees: asingh2023
+        Assignees: 
     - Feedback_Reporting:
-        Assignees: asingh2023
+        Assignees: 
     - Enhancement_Reporting:
-        Assignees: asingh2023
+        Assignees: 
   Github_Branches:
     Preview: true
     Previous: true
-  Repository: test-tenant
-  Teams_Members: asingh2023
+  Repository: 
+  Teams_Members: 
 Studio_essentials:
   External_link: https://fiserv.com
   Beta: true
@@ -49,12 +49,12 @@ Studio_essentials:
       - Feature2
     Industry: Banking , Retail
 Runbox_essentials:
-  Runbox: true
+  Runbox: false
   Live_edit: true
   Sandbox:
     Type:
       mock: true
-      live: true
+      live: false
     Live_Sandbox_details:
       API_gateway_details:
         Gateway_Type:

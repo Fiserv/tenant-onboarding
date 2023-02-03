@@ -29,6 +29,16 @@ const printMessage = (message) => {
   console.log(`\x1b[32m \x1b[1m ${message} \x1b[0m`  );
 };
 
+ 
+const convertTokebabCase = str =>
+  str &&
+  str
+    .match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g)
+    .map(x => x.toLowerCase())
+    .join('-'); 
+ 
+ 
+
 
 
 const tenant_enum = {
@@ -75,5 +85,6 @@ module.exports = {
   printMessage,
   tenant_enum,
   tenant_type_enum,
-  regions
+  regions,
+  convertTokebabCase
 };
