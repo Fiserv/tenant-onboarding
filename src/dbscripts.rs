@@ -51,7 +51,7 @@ pub fn create_dbscripts(execute: bool, yaml: &Vec<Yaml>, env_flag: String) {
         || "stage".eq(env_flag.trim())
         || "prod".eq(env_flag.trim()))
     {
-        db_script_file_path =  "../../db-scripts/".to_string() + env_flag.trim() + &"_db_script.js".to_string();
+        db_script_file_path =  "../../dbscripts/".to_string() + env_flag.trim() + &"_db_script.js".to_string();
         path_to_read = Path::new(&db_script_file_path);
         gts_url = "https://tenant-generic.".to_string() + env_flag.trim() + &"-developer-portal.svc".to_string();
         println!("Value of gts_dev_url: {}", gts_url);
@@ -243,7 +243,7 @@ pub fn create_dbscripts(execute: bool, yaml: &Vec<Yaml>, env_flag: String) {
         + "});";
 
     //Write the contents in the db script files one by one.. this is a test content
-    let tenant_db_script = format!("{}{}_{}","../../db-scripts/".to_string()  ,name, "dev_db_script.js".to_string()); 
+    let tenant_db_script = format!("{}{}_{}","../../dbscripts/".to_string()  ,name, "dev_db_script.js".to_string()); 
     fs::write(tenant_db_script, dev_db_script);
     //fs::write(path_to_read, dev_db_script);
 
