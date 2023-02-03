@@ -38,7 +38,7 @@ const tenantConfigurator = async (issueNo) => {
       },
     };
 
-    axios({
+    await axios({
       method: "GET",
       url,
       config,
