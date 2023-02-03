@@ -51,6 +51,11 @@ jobs:
           user_email: 'abhishek.singh3@fiserv.com'
           user_name: 'asingh2023'
           commit_message: 'pushing tenant json file remotely' 
+           
+      - name: Pushing DbScript file remotely
+        uses: dmnemec/copy_file_to_another_repo_action@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_KEY_GITHUB }}
         with:
           source_file: '${{github.workspace}}/tenant.json'
           destination_repo: 'Fiserv/tenants-data'
@@ -58,16 +63,4 @@ jobs:
           destination_branch: 'main'
           user_email: 'abhishek.singh3@fiserv.com'
           user_name: 'asingh2023'
-          commit_message: 'pushing tenant json file remotely'           
-      # - name: Pushing DbScript file remotely
-      #   uses: dmnemec/copy_file_to_another_repo_action@main
-      #   env:
-      #     API_TOKEN_GITHUB: ${{ secrets.API_KEY_GITHUB }}
-      #   with:
-      #     source_file: '${{github.workspace}}/db-scripts/cool-tenant_dev_db_script.js'
-      #     destination_repo: 'Fiserv/tenants-data'
-      #     destination_folder: 'dbscripts'
-      #     destination_branch: 'main'
-      #     user_email: 'abhishek.singh3@fiserv.com'
-      #     user_name: 'asingh2023'
-      #     commit_message: 'pushing tenant json file remotely'                       
+          commit_message: 'pushing tenant json file remotely'
