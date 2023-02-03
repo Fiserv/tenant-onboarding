@@ -1,23 +1,21 @@
-Tenant_Name: 
+Tenant_Name: lego-tenant
 Tenant_Type:
   - Full_service: true
   - Doc_only: false
   - Link_out: false
 GitHub_essentials:
-  Repository_Name: 
-  Team_Members: 
+  Repository_Name: lego-tenant
+  Team_Members: asingh2023
   Support:
     - Bug_Reporting:
-        Assignees: 
+        Assignees: asingh2023
     - Feedback_Reporting:
-        Assignees: 
+        Assignees: asingh2023
     - Enhancement_Reporting:
-        Assignees: 
+        Assignees: asingh2023
   Github_Branches:
     Preview: true
     Previous: true
-  Repository: 
-  Teams_Members: 
 Studio_essentials:
   External_link: https://fiserv.com
   Beta: true
@@ -49,12 +47,12 @@ Studio_essentials:
       - Feature2
     Industry: Banking , Retail
 Runbox_essentials:
-  Runbox: false
+  Runbox: true
   Live_edit: true
   Sandbox:
     Type:
       mock: true
-      live: false
+      live: true
     Live_Sandbox_details:
       API_gateway_details:
         Gateway_Type:
@@ -63,4 +61,3 @@ Runbox_essentials:
         Server_URL: https://api.test.com/tenantName
         Authentication_Type: HMAC
         Self_signed_certificate: false
-  TRunbox: true
