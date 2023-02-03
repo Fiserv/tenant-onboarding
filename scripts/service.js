@@ -420,6 +420,8 @@ async function updateTenantJSONFile() {
   );
   const yamlData = await yaml.load(tenant_yaml);
 
+  printMessage(JSON.stringify(yamlData, null, 2));
+
   const tenant_json = fs.readFileSync(tenant_json_file, "utf8");
   let tenant_Data = JSON.parse(tenant_json);
 
@@ -446,7 +448,9 @@ async function updateTenantJSONFile() {
     tenant_Data.supportConfig[0].enhancement.assignees = yamlData.GitHub_essentials.Support[2].Enhancement_Reporting.Assignees;
   }
   return new Promise((resolve, rejects) => {
+
     printMessage(JSON.stringify(tenant_Data, null, 2));
+
     fsPromises .writeFile(tenant_json_file, JSON.stringify(tenant_Data, null, 2))
       .then(() => {
         resolve(true);
