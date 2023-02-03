@@ -64,14 +64,14 @@ const tenantConfigurator = async (issueNo) => {
                 switch (last_title) {
                   case tenant_enum.TENANT_NAME:
                     {
-                      const tenantName = convertTokebabCase(tagValue);
                       
-                      yamlData["Tenant_Name"] = tenantName;
+                      
+                      yamlData["Tenant_Name"] = convertTokebabCase(tagValue);;
 
                       if (
                         yamlData["GitHub_essentials"].Repository_Name != undefined
                       ) {
-                        yamlData["GitHub_essentials"].Repository_Name =  tenantName.toLowerCase();
+                        yamlData["GitHub_essentials"].Repository_Name =  convertTokebabCase(tagValue);
                       }
                     }
                     break;
