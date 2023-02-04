@@ -13,6 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Build
+        id: build
         run: |
           pwd
           cd ${{github.workspace}}/scripts
@@ -27,6 +28,7 @@ jobs:
           result=$(npm run start 286)
           echo "********** TENANT CONFIGURATION *********************"
           echo "$result"
+          echo "tenant_name=$result" >> $GITHUB_OUTPUT
           if [[ $result == *'FAILED'* ]] ;then
           echo "Onboarding config writer failed and exiting the Job..."
           exit 1
@@ -39,7 +41,7 @@ jobs:
           echo "$tenant"
           fi      
       #- run: # tenant=$(./startup.sh -f '-rthe')       
-      - run: echo "🍏 This job's status is ${{ job.status }} check = $result"
+      - run: echo "🍏 This job's status is ${{ job.status }} check = ${{ steps.build.outputs.tenant_name }}"
       # - name: Pushing tenant file remotely
       #   uses: dmnemec/copy_file_to_another_repo_action@main
       #   env:
