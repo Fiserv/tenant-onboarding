@@ -12,14 +12,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - name: Setup output var
-        id: test 
-        run: echo "TEST=first line\n second line\n third line" >> $GITHUB_OUTPUT
+      # - name: Setup output var
+      #   id: test 
+      #   run: echo "TEST=first line\n second line\n third line" >> $GITHUB_OUTPUT
 
-      - name: Check output var
-        run: |
-          echo ${{steps.test.outputs.TEST}} #Will keep the n from the \n
-          echo -e "${{steps.test.outputs.TEST}}" #Will break the line from the \n
+
 
       - uses: actions/checkout@v3
       - name: Build
@@ -38,7 +35,7 @@ jobs:
           result=$(npm run start 286)
           echo "********** TENANT CONFIGURATION *********************"
           echo "$result"
-          echo "pr_title = $result" >> $GITHUB_OUTPUT
+          echo "TEST=first line\n second line\n third line" >> $GITHUB_OUTPUT
           if [[ $result == *'FAILED'* ]] ;then
           echo "Onboarding config writer failed and exiting the Job..."
           exit 1
@@ -50,6 +47,12 @@ jobs:
           echo "********** TENANT GENERATOR *********************"
           echo "$tenant"
           fi      
+
+      - name: Check output var
+        run: |
+          echo ${{steps.test.outputs.TEST}} #Will keep the n from the \n
+          echo -e "${{steps.test.outputs.TEST}}" #Will break the line from the \n
+
       #- run: # tenant=$(./startup.sh -f '-rthe')       
       #- run: echo "🍏 This job's status is ${{ job.status }} check = ${{ steps.build.outputs.pr_title }}"
       # - name: Pushing tenant file remotely
