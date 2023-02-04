@@ -11,6 +11,16 @@ jobs:
   Tenant-Generator:
     runs-on: ubuntu-latest
     steps:
+
+      - name: Setup output var
+        id: test 
+        run: echo "TEST=first line\n second line\n third line" >> $GITHUB_OUTPUT
+
+      - name: Check output var
+        run: |
+          echo ${{steps.test.outputs.TEST}} #Will keep the n from the \n
+          echo -e "${{steps.test.outputs.TEST}}" #Will break the line from the \n
+
       - uses: actions/checkout@v3
       - name: Build
         id: build
@@ -41,7 +51,7 @@ jobs:
           echo "$tenant"
           fi      
       #- run: # tenant=$(./startup.sh -f '-rthe')       
-      - run: echo "🍏 This job's status is ${{ job.status }} check = ${{ steps.build.outputs.pr_title }}"
+      #- run: echo "🍏 This job's status is ${{ job.status }} check = ${{ steps.build.outputs.pr_title }}"
       # - name: Pushing tenant file remotely
       #   uses: dmnemec/copy_file_to_another_repo_action@main
       #   env:
@@ -67,3 +77,4 @@ jobs:
       #     user_email: 'abhishek.singh3@fiserv.com'
       #     user_name: 'asingh2023'
       #     commit_message: 'pushing tenant json file remotely'
+      
