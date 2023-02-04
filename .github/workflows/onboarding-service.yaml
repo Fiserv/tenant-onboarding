@@ -50,8 +50,8 @@ jobs:
 
       - name: Check output var
         run: |
-          echo ${{steps.test.outputs.TEST}} #Will keep the n from the \n
-          echo -e "${{steps.test.outputs.TEST}}" #Will break the line from the \n
+          echo ${{steps.build.outputs.TEST}} #Will keep the n from the \n
+          echo -e "${{steps.build.outputs.TEST}}" #Will break the line from the \n
 
       #- run: # tenant=$(./startup.sh -f '-rthe')       
       #- run: echo "🍏 This job's status is ${{ job.status }} check = ${{ steps.build.outputs.pr_title }}"
