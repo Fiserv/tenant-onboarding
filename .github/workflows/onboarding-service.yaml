@@ -32,11 +32,11 @@ jobs:
           npm install
           echo " Repo: ${{ github.repository }}"
           echo " Space: ${{ github.workspace }}" 
-          echo "check= $(npm run start 286) >> $GITHUB_OUTPUT"
+          echo "TET= $(npm run start 286) >> $GITHUB_OUTPUT"
           result=$(npm run start 286) >> $GITHUB_OUTPUT
           echo "********** TENANT CONFIGURATION *********************"
           echo "$result"
-          echo "TEST=check" >> $GITHUB_OUTPUT
+          echo "TEST= hummer" >> $GITHUB_OUTPUT
           if [[ $result == *'FAILED'* ]] ;then
           echo "Onboarding config writer failed and exiting the Job..."
           exit 1
@@ -52,7 +52,7 @@ jobs:
       - name: Check output var
         run: |
           echo ${{steps.build.outputs.TEST}} #Will keep the n from the \n
-          echo -e "${{steps.build.outputs.check}}" #Will break the
+          echo -e "${{steps.build.outputs.TET}}" #Will break the
       
 
       #- run: # tenant=$(./startup.sh -f '-rthe')       
