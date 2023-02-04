@@ -35,7 +35,7 @@ jobs:
           result=$(npm run start 286)
           echo "********** TENANT CONFIGURATION *********************"
           echo "$result"
-          echo "TEST = rookieTenant" >> $GITHUB_OUTPUT
+         echo "TEST=first line\n second line\n $result" >> $GITHUB_OUTPUT
           if [[ $result == *'FAILED'* ]] ;then
           echo "Onboarding config writer failed and exiting the Job..."
           exit 1
