@@ -38,13 +38,12 @@ jobs:
           if [[ $result == *'FAILED'* ]] ;then
           echo "Onboarding config writer failed and exiting the Job..."
           exit 1
-          elif [[ $result == *'PASSED'* ]] ;then
+          else 
           echo "Onboarding config writer Ran Successfully....🍏"
           cd ${{github.workspace}}
           pwd
           ls -la 
           echo "********** TENANT GENERATOR *********************"
-          echo "$tenant"
           fi      
 
       - name: Check output var

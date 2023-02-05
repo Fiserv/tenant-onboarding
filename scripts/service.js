@@ -450,7 +450,7 @@ async function updateTenantJSONFile() {
 
     fsPromises .writeFile(tenant_json_file, JSON.stringify(tenant_Data, null, 2))
       .then(() => {
-        resolve(true);
+        resolve(tenant_Data.name);
       })
       .catch((err) => {
         rejects(false);
@@ -463,13 +463,15 @@ async function updateTenantJSONFile() {
 
 async function service() {
   let check = false;
+  let tname = '';
   try {
     //printMessage(`Gihub Issue No. ---->>> ${args}`);
     if (args?.length > 0) {
       check = await tenantConfigurator(args);
       
       if (check) {
-        check = await updateTenantJSONFile();
+         tname = await updateTenantJSONFile();
+        
       }
       
     }
@@ -477,8 +479,8 @@ async function service() {
     errorMessage("FAILED", e.message);
     check = false;
   }
-  if(check){
-    printMessage("PASSED");
+  if(check && tname){
+    printMessage(tname);
   }
   
   return check;
