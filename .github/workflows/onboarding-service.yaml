@@ -32,7 +32,7 @@ jobs:
           npm install
           echo " Repo: ${{ github.repository }}"
           echo " Space: ${{ github.workspace }}" 
-          result=$(node service.js 286)
+          result=$(node service.js 296)
           echo "********** TENANT CONFIGURATION *********************"
           echo "TENANT="$result | xargs >> $GITHUB_OUTPUT 
           if [[ $result == *'FAILED'* ]] ;then
