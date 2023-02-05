@@ -26,8 +26,7 @@ const errorMessage = (type , message) => {
 };
   
 const printMessage = (message) => { 
-  //console.log(`\x1b[32m \x1b[1m ${message} \x1b[0m`  );
-  console.log(message);
+  console.log(`\x1b[32m \x1b[1m${message}\x1b[0m`);
 };
 
  
