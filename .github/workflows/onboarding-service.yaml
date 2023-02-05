@@ -34,7 +34,7 @@ jobs:
           echo " Space: ${{ github.workspace }}" 
           result=$(node service.js 286)
           echo "********** TENANT CONFIGURATION *********************"
-          echo "TENANT=" $result | xargs >> $GITHUB_OUTPUT 
+          echo "TENANT="$result | xargs >> $GITHUB_OUTPUT 
           if [[ $result == *'FAILED'* ]] ;then
           echo "Onboarding config writer failed and exiting the Job..."
           exit 1
