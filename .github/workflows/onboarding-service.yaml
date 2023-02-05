@@ -36,6 +36,7 @@ jobs:
           echo "********** TENANT CONFIGURATION *********************"
           echo "TET=" $result >> $GITHUB_OUTPUT
           echo "TEST= hummer" >> $GITHUB_OUTPUT
+          echo "HI I am running ...."
           echo "$result"
           if [[ $result == *'FAILED'* ]] ;then
           echo "Onboarding config writer failed and exiting the Job..."
