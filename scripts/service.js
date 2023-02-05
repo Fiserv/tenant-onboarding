@@ -417,7 +417,7 @@ async function updateTenantJSONFile() {
   );
   const yamlData = await yaml.load(tenant_yaml);
 
-  printMessage(JSON.stringify(yamlData, null, 2));
+  //printMessage(JSON.stringify(yamlData, null, 2));
 
   const tenant_json = fs.readFileSync(tenant_json_file, "utf8");
   let tenant_Data = JSON.parse(tenant_json);
@@ -446,7 +446,7 @@ async function updateTenantJSONFile() {
   }
   return new Promise((resolve, rejects) => {
 
-    printMessage(JSON.stringify(tenant_Data, null, 2));
+   // printMessage(JSON.stringify(tenant_Data, null, 2));
 
     fsPromises .writeFile(tenant_json_file, JSON.stringify(tenant_Data, null, 2))
       .then(() => {
@@ -464,7 +464,7 @@ async function updateTenantJSONFile() {
 async function service() {
   let check = false;
   try {
-    printMessage(`Gihub Issue No. ---->>> ${args}`);
+    //printMessage(`Gihub Issue No. ---->>> ${args}`);
     if (args?.length > 0) {
       check = await tenantConfigurator(args);
       
