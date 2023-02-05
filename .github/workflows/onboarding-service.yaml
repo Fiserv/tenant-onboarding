@@ -32,7 +32,7 @@ jobs:
           npm install
           echo " Repo: ${{ github.repository }}"
           echo " Space: ${{ github.workspace }}" 
-          result=$(npm run start 286)
+          result=$(node service.js 286)
           echo "********** TENANT CONFIGURATION *********************"
           echo "TET=" $result >> $GITHUB_OUTPUT
           echo "TEST= hummer" >> $GITHUB_OUTPUT
