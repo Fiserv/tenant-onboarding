@@ -32,9 +32,9 @@ jobs:
           npm install
           echo " Repo: ${{ github.repository }}"
           echo " Space: ${{ github.workspace }}" 
-          result=$(npm run start 286) >> $GITHUB_OUTPUT
+          result=$(npm run start 286)
           echo "********** TENANT CONFIGURATION *********************"
-          echo "TET ="$result
+          echo "TET ="$result >> $GITHUB_OUTPUT
           echo "TEST= hummer" >> $GITHUB_OUTPUT
           if [[ $result == *'FAILED'* ]] ;then
           echo "Onboarding config writer failed and exiting the Job..."
