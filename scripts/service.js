@@ -53,14 +53,13 @@ const tenantConfigurator = async (issueNo) => {
           if (obj?.node === "element") {
             // Parsing title
             if (obj?.tag === "h3") {
-              last_title = obj?.child[0].text.trim();
+              last_title = obj?.child[0].text?.trim();
             }
             try {
               if (obj?.tag === "p") {
-                const tagValue = obj?.child[0].text.trim();
-
-                 
                 
+                const tagValue = obj?.child[0].text?.trim();
+ 
                 switch (last_title) {
                   case tenant_enum.TENANT_NAME:
                     { 
@@ -78,6 +77,9 @@ const tenantConfigurator = async (issueNo) => {
                       if (
                         yamlData["GitHub_essentials"].Team_Members != undefined
                       ) {
+ 
+                        const arr = tagValue.split(", ");
+                        const qarr = arr.map(item => item);
                         yamlData["GitHub_essentials"].Team_Members = tagValue;
                       }
                     }
@@ -236,7 +238,7 @@ const tenantConfigurator = async (issueNo) => {
               } else if (obj?.tag === "ul") {
                 for (const chd of obj?.child) {
                   if (chd?.node === "element") {
-                    const val = JSON.stringify(chd?.child[0]?.text.trim());
+                    const val = JSON.stringify(chd?.child[0]?.text?.trim());
                     if (val.includes("[X]")) {
                       const len = val.length;
                       const tagValue = val.slice(4, len - 1).trim();
