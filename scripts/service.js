@@ -64,9 +64,7 @@ const tenantConfigurator = async (issueNo) => {
                   case tenant_enum.TENANT_NAME:
                     { 
                         yamlData["Tenant_Name"] = convertTokebabCase(tagValue);
-                      if (
-                        yamlData["GitHub_essentials"].Repository_Name !=  undefined
-                      ) {
+                      if ( yamlData["GitHub_essentials"].Repository_Name !=  undefined) {
                         yamlData["GitHub_essentials"].Repository_Name = convertTokebabCase(tagValue);
                       }
                     }
@@ -185,10 +183,10 @@ const tenantConfigurator = async (issueNo) => {
 
                   case tenant_enum.INDUSTRY:
                     {
-                      if (
-                        yamlData.Studio_essentials.Tags.Industry != undefined
-                      ) {
+                      if ( yamlData.Studio_essentials.Tags.Industry != undefined ) {
                         yamlData.Studio_essentials.Tags.Industry = tagValue;
+                      }else{
+                        yamlData.Studio_essentials.Tags.Industry = "";
                       }
                     }
                     break;
@@ -276,11 +274,10 @@ const tenantConfigurator = async (issueNo) => {
                         case tenant_enum.CUSTOMER_SEGMENTS_FOR_MERCHANTS:
                           {
                             if (tagValue === "SMB") {
-                              if (
-                                yamlData.Studio_essentials.Product_Areas[0]
-                                  .Merchants.Customer_segements.SMB != undefined
-                              ) {
-                                yamlData.Studio_essentials.Product_Areas[0].Merchants.Customer_segements.SMB = true;
+                              if ( yamlData.Studio_essentials.Product_Areas[0] .Merchants.Customer_segements.SMB != undefined ){  
+                                  yamlData.Studio_essentials.Product_Areas[0].Merchants.Customer_segements.SMB = true;
+                              }else{
+                                yamlData.Studio_essentials.Product_Areas[0].Merchants.Customer_segements.SMB = false;
                               }
                             }
 
