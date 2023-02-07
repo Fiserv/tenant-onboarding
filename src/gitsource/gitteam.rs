@@ -70,12 +70,30 @@ pub async fn process_github_team(config_yaml: &Vec<Yaml> , settings_yaml: &Vec<Y
         repo_names: [format!("{}/{}", github_owner, tenant_repo).to_string()],
         maintainers :my_vec,
         };
-      
+        println!("Team stats {} " , github_data.status());
       /* Checking: if Team already exists in the GitHub: If yes then just add into the Tenant Repo */
     if (github_data.status()  == reqwest::StatusCode::OK){
         // Just add team to the Tenant repo
+       let put_req_api = format!("{}/{}/{}/{}/{}" , github_api , tenant_team.to_string().to_lowercase(),"repos" , github_owner,tenant_repo );
+      
+        let put_req = github_client.request(Method::PUT, put_req_api)
+                                    .bearer_auth(github_auth.clone())
+                                    .header("User-Agent", "tenant-onbaording")
+                                    .header("Accept", "application/vnd.github+json")
+                                    .header("X-GitHub-Api-Version" , "2022-11-28")
+                                    .timeout(Duration::from_secs(5));
 
-        let put_req_api = format!("{}/{}/{}/{}/{}" , github_api , tenant_team.to_string().to_lowercase(),"repos" , github_owner,tenant_repo );
+        let github_data_stats = put_req.send().await?;  
+        
+        if (github_data_stats.status() == reqwest::StatusCode::NO_CONTENT){
+            println!(" github_data_stats : {} " , github_data_stats.status()); 
+            team_added = true; 
+        }else{
+            println!(" Unable to add Team : {} " , github_data_stats.status()); 
+        }
+
+   }else{
+        //Create new Team and then add team to the Tenant repo
        
         let post_req = github_client.request(Method::POST, github_api)
             .bearer_auth(github_auth.clone())

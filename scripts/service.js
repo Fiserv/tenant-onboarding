@@ -64,7 +64,7 @@ const tenantConfigurator = async (issueNo) => {
                   case tenant_enum.TENANT_NAME:
                     { 
                         yamlData["Tenant_Name"] = convertTokebabCase(tagValue);
-                      if ( yamlData["GitHub_essentials"].Repository_Name !=  undefined) {
+                      if ( yamlData["GitHub_essentials"].Repository_Name !=  undefined && tagValue != undefined) {
                         yamlData["GitHub_essentials"].Repository_Name = convertTokebabCase(tagValue);
                       }
                     }
@@ -72,9 +72,7 @@ const tenantConfigurator = async (issueNo) => {
 
                   case tenant_enum.TENANT_MEMBERS:
                     {
-                      if (
-                        yamlData["GitHub_essentials"].Team_Members != undefined
-                      ) {
+                      if ( yamlData["GitHub_essentials"].Team_Members != undefined && tagValue != undefined ) {
  
                         const arr = tagValue.split(", ");
                         const qarr = arr.map(item => item);
@@ -85,22 +83,15 @@ const tenantConfigurator = async (issueNo) => {
 
                   case tenant_enum.BUG_REPORTING:
                     {
-                      if (
-                        yamlData.GitHub_essentials.Support[0].Bug_Reporting
-                          ?.Assignees != undefined
-                      ) {
-                        yamlData.GitHub_essentials.Support[0].Bug_Reporting.Assignees =
-                          tagValue;
+                      if (  yamlData.GitHub_essentials.Support[0].Bug_Reporting.Assignees != undefined && tagValue != undefined ) {
+                        yamlData.GitHub_essentials.Support[0].Bug_Reporting.Assignees = tagValue;
                       }
                     }
                     break;
 
                   case tenant_enum.FEEBDACK_REPORTING:
                     {
-                      if (
-                        yamlData.GitHub_essentials.Support[1].Feedback_Reporting
-                          .Assignees != undefined
-                      ) {
+                      if ( yamlData.GitHub_essentials.Support[1].Feedback_Reporting .Assignees != undefined && tagValue != undefined) {
                         yamlData.GitHub_essentials.Support[1].Feedback_Reporting.Assignees =
                           tagValue;
                       }
@@ -109,9 +100,7 @@ const tenantConfigurator = async (issueNo) => {
 
                   case tenant_enum.ENCHANCEMENT_REPORTING:
                     {
-                      if (
-                        yamlData.GitHub_essentials.Support[2].Enhancement_Reporting.Assignees != undefined
-                      ) {
+                      if ( yamlData.GitHub_essentials.Support[2].Enhancement_Reporting.Assignees != undefined && tagValue != undefined) {
                         yamlData.GitHub_essentials.Support[2].Enhancement_Reporting.Assignees = tagValue;
                       }
                     }
@@ -119,9 +108,7 @@ const tenantConfigurator = async (issueNo) => {
 
                   case tenant_enum.EXTERNAL_LINK:
                     {
-                      if (
-                        yamlData.Studio_essentials.External_link != undefined
-                      ) {
+                      if ( yamlData.Studio_essentials.External_link != undefined  && tagValue != undefined) {
                         yamlData.Studio_essentials.External_link = tagValue;
                       }
                     }
@@ -129,7 +116,7 @@ const tenantConfigurator = async (issueNo) => {
 
                   case tenant_enum.INTERNAL_TENANT:
                     {
-                      if (yamlData.Studio_essentials.Internal != undefined) {
+                      if (yamlData.Studio_essentials.Internal != undefined && tagValue != undefined) {
                         if (tagValue === "No") {
                           yamlData.Studio_essentials.Internal = false;
                         } else {
@@ -141,7 +128,7 @@ const tenantConfigurator = async (issueNo) => {
 
                   case tenant_enum.CARAT_PRODUCT:
                     {
-                      if (yamlData.Studio_essentials.Carat != undefined) {
+                      if (yamlData.Studio_essentials.Carat != undefined && tagValue != undefined) {
                         if (tagValue === "No") {
                           yamlData.Studio_essentials.Carat = false;
                         } else {
@@ -154,9 +141,7 @@ const tenantConfigurator = async (issueNo) => {
                   case tenant_enum.RESTFUL:
                     {
                       if (
-                        yamlData.Studio_essentials.Tags.Integration.restful !=
-                        undefined
-                      ) {
+                        yamlData.Studio_essentials.Tags.Integration.restful != undefined  && tagValue != undefined) {
                         if (tagValue === "Yes") {
                           yamlData.Studio_essentials.Tags.Integration.restful = true;
                         } else {
@@ -169,9 +154,7 @@ const tenantConfigurator = async (issueNo) => {
                   case tenant_enum.SDK:
                     {
                       if (
-                        yamlData.Studio_essentials.Tags.Integration.sdk !=
-                        undefined
-                      ) {
+                        yamlData.Studio_essentials.Tags.Integration.sdk != undefined  && tagValue != undefined) {
                         if (tagValue === "Yes") {
                           yamlData.Studio_essentials.Tags.Integration.sdk = true;
                         } else {
@@ -183,17 +166,15 @@ const tenantConfigurator = async (issueNo) => {
 
                   case tenant_enum.INDUSTRY:
                     {
-                      if ( yamlData.Studio_essentials.Tags.Industry != undefined ) {
-                        yamlData.Studio_essentials.Tags.Industry = tagValue;
-                      }else{
-                        yamlData.Studio_essentials.Tags.Industry = "";
-                      }
+                      if ( yamlData.Studio_essentials.Tags.Industry != undefined && tagValue != undefined) {
+                          yamlData.Studio_essentials.Tags.Industry = tagValue;
+                      } 
                     }
                     break;
 
                   case tenant_enum.RUNBOX:
                     {
-                      if (yamlData.Runbox_essentials.Runbox != undefined) {
+                      if (yamlData.Runbox_essentials.Runbox != undefined && tagValue != undefined) {
                         if (tagValue === "Yes") {
                           yamlData.Runbox_essentials.Runbox = true;
                         } else {
@@ -206,9 +187,7 @@ const tenantConfigurator = async (issueNo) => {
                   case tenant_enum.MOCK_SANDBOX:
                     {
                       if (
-                        yamlData.Runbox_essentials.Sandbox.Type.mock !=
-                        undefined
-                      ) {
+                        yamlData.Runbox_essentials.Sandbox.Type.mock != undefined && tagValue != undefined) {
                         if (tagValue === "Yes") {
                           yamlData.Runbox_essentials.Sandbox.Type.mock = true;
                         } else {
@@ -221,9 +200,7 @@ const tenantConfigurator = async (issueNo) => {
                   case tenant_enum.LIVE_SERVER:
                     {
                       if (
-                        yamlData.Runbox_essentials.Sandbox.Type.live !=
-                        undefined
-                      ) {
+                        yamlData.Runbox_essentials.Sandbox.Type.live !=  undefined  && tagValue != undefined) {
                         if (tagValue === "Yes") {
                           yamlData.Runbox_essentials.Sandbox.Type.live = true;
                         } else {
@@ -246,25 +223,17 @@ const tenantConfigurator = async (issueNo) => {
                           {
                             if (tagValue === tenant_type_enum.FULL_SERVICE) {
                               if (
-                                yamlData["Tenant_Type"][0].Full_service !=
-                                undefined
-                              ) {
+                                yamlData["Tenant_Type"][0].Full_service != undefined  ) {
                                 yamlData["Tenant_Type"][0].Full_service = true;
                               }
                             }
                             if (tagValue === tenant_type_enum.DOC_ONLY) {
-                              if (
-                                yamlData["Tenant_Type"][1].Doc_only !=
-                                undefined
-                              ) {
+                              if ( yamlData["Tenant_Type"][1].Doc_only !=  undefined ) {
                                 yamlData["Tenant_Type"][1].Doc_only = true;
                               }
                             }
                             if (tagValue === tenant_type_enum.LINK_OUT) {
-                              if (
-                                yamlData["Tenant_Type"][2].Link_out !=
-                                undefined
-                              ) {
+                              if (  yamlData["Tenant_Type"][2].Link_out != undefined ) {
                                 yamlData["Tenant_Type"][2].Link_out = true;
                               }
                             }
@@ -282,11 +251,7 @@ const tenantConfigurator = async (issueNo) => {
                             }
 
                             if (tagValue === "Enterprise") {
-                              if (
-                                yamlData.Studio_essentials.Product_Areas[0]
-                                  .Merchants.Customer_segements.Enterprise !=
-                                undefined
-                              ) {
+                              if ( yamlData.Studio_essentials.Product_Areas[0].Merchants.Customer_segements.Enterprise != undefined ) {
                                 yamlData.Studio_essentials.Product_Areas[0].Merchants.Customer_segements.Enterprise = true;
                               }
                             }
@@ -296,31 +261,19 @@ const tenantConfigurator = async (issueNo) => {
                         case tenant_enum.CUSTOMER_SEGMENTS_FOR_FINANCIAL_INSTITUITIONS:
                           {
                             if (tagValue === "Bank") {
-                              if (
-                                yamlData.Studio_essentials.Product_Areas[1]
-                                  .Financial_Instituitions.Customer_segements
-                                  .Banks != undefined
-                              ) {
+                              if (  yamlData.Studio_essentials.Product_Areas[1].Financial_Instituitions.Customer_segements.Banks != undefined) {
                                 yamlData.Studio_essentials.Product_Areas[1].Financial_Instituitions.Customer_segements.Banks = true;
                               }
                             }
 
                             if (tagValue === "Credit Union") {
-                              if (
-                                yamlData.Studio_essentials.Product_Areas[1]
-                                  .Financial_Instituitions.Customer_segements
-                                  .Credit_Unions != undefined
-                              ) {
+                              if ( yamlData.Studio_essentials.Product_Areas[1].Financial_Instituitions.Customer_segements.Credit_Unions != undefined) {
                                 yamlData.Studio_essentials.Product_Areas[1].Financial_Instituitions.Customer_segements.Credit_Unions = true;
                               }
                             }
 
                             if (tagValue === "Large Financial Institution") {
-                              if (
-                                yamlData.Studio_essentials.Product_Areas[1]
-                                  .Financial_Instituitions.Customer_segements
-                                  .Large_financial_instutitions != undefined
-                              ) {
+                              if ( yamlData.Studio_essentials.Product_Areas[1].Financial_Instituitions.Customer_segements.Large_financial_instutitions != undefined ) {
                                 yamlData.Studio_essentials.Product_Areas[1].Financial_Instituitions.Customer_segements.Large_financial_instutitions = true;
                               }
                             }
@@ -332,11 +285,7 @@ const tenantConfigurator = async (issueNo) => {
                             switch (tagValue) {
                               case regions.NORTH_AMERICA:
                                 {
-                                  if (
-                                    yamlData.Studio_essentials.Tags
-                                      .Region_of_Operation.North_America !=
-                                    undefined
-                                  ) {
+                                  if (  yamlData.Studio_essentials.Tags.Region_of_Operation.North_America != undefined) {
                                     yamlData.Studio_essentials.Tags.Region_of_Operation.North_America = true;
                                   }
                                 }
@@ -345,9 +294,7 @@ const tenantConfigurator = async (issueNo) => {
                               case regions.EMEA:
                                 {
                                   if (
-                                    yamlData.Studio_essentials.Tags
-                                      .Region_of_Operation.EMEA != undefined
-                                  ) {
+                                    yamlData.Studio_essentials.Tags.Region_of_Operation.EMEA != undefined) {
                                     yamlData.Studio_essentials.Tags.Region_of_Operation.EMEA = true;
                                   }
                                 }
@@ -356,9 +303,7 @@ const tenantConfigurator = async (issueNo) => {
                               case regions.LATAM:
                                 {
                                   if (
-                                    yamlData.Studio_essentials.Tags
-                                      .Region_of_Operation.LATAM != undefined
-                                  ) {
+                                    yamlData.Studio_essentials.Tags.Region_of_Operation.LATAM != undefined) {
                                     yamlData.Studio_essentials.Tags.Region_of_Operation.LATAM = true;
                                   }
                                 }
@@ -367,9 +312,7 @@ const tenantConfigurator = async (issueNo) => {
                               case regions.APAC:
                                 {
                                   if (
-                                    yamlData.Studio_essentials.Tags
-                                      .Region_of_Operation.APAC != undefined
-                                  ) {
+                                    yamlData.Studio_essentials.Tags.Region_of_Operation.APAC != undefined) {
                                     yamlData.Studio_essentials.Tags.Region_of_Operation.APAC = true;
                                   }
                                 }
