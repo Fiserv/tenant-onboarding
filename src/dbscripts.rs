@@ -72,6 +72,7 @@ pub fn create_dbscripts(execute: bool, yaml: &Vec<Yaml>, env_flag: String) {
     //let full_service = y["Tenant Type"]["Full service"].as_bool().unwrap().to_string(); 
      let has_apis = &y["Tenant_Type"][0]["Full_service"].as_bool().unwrap(); 
     //let link_out = y["Tenant Type"]["Doc only"].as_bool().unwrap().to_string();
+    let internal_tag = &y["Studio_essentials"]["Internal"].as_bool().unwrap() ;
     println!("has_apis {:?}",has_apis);
     // Read Tags: Region Of Operation
     let mut regions_vector = Vec::new();
@@ -151,48 +152,35 @@ pub fn create_dbscripts(execute: bool, yaml: &Vec<Yaml>, env_flag: String) {
 
 
     let dev_db_script = String::from(
-        "db.tenants.insertOne({
-                title: ",
-    ) + "'"
-        + &title
-        + "',"
-        + "tenantHost: "
-        + "'"
-        + &gts_url
-        + "',"
-        + "tenantPort: "
-        + "'8443',"
-        + "providerAPIUrl: '/v1/products/SampleTenant',apiAuth: {},"
-        +  "productTags: ["
-        +  "{category: 'Region', 
-        value: 'Region',
-        tags: ['" 
-        + &region_of_operations
-        +  "'],"
-        + "},"  // end of 'Region' tag
-        +  "{category: 'Integration Type', 
-        value: 'Integration Type',
-        tags: ['" 
-        + &integrations
-        +  "'],"
-        + "},"  // end of 'Region' tag
-        + "{category: 'Industry', 
-        value: 'Industry',
-        tags: ['" 
-        + &industries
-        +  "'],"
-        + "},"  // end of 'industry' tag
-        + "]," // end of 'ProductTags'
-        + "active: true,
-        betaTag: true,
-        internalTag: true,
-        name: '"
-        + &name //CloudAccelerationCenter
-        + "',"
-        + "github: '"
-        + &github_repo_name //cloud-acceleration-center
-        + "',"
-        + "selfServiceFeatures: [
+     "db.tenants.insertOne({
+          title: '".to_owned()+ &title + "',
+          name: '"+ &name +"',
+          tenantHost: '"+ &gts_url+ "',
+          tenantPort: '8443',
+          providerAPIUrl: '/v1/products/"+&name+"',
+          apiAuth: {},
+          productTags: ["
+        +  "{
+            category: 'Region', 
+            value: 'Region',
+            tags: ['"+ &region_of_operations+  "'],
+            },   
+            {
+            category: 'Integration Type', 
+            value: 'Integration Type',
+            tags: ['" + &integrations+  "'],
+            },  
+            {
+            category: 'Industry', 
+            value: 'Industry',
+            tags: ['" + &industries+  "'],
+            },    
+            ],   
+            active: true,
+            betaTag: true,
+            internalTag:" + if *internal_tag { concat!(true) } else { concat!(false)}+",
+            github: '" + &github_repo_name+"',
+            selfServiceFeatures: [
             {
               featureName: 'Explore documentation',
               featureUrl: 'Support/docs/?path=docs/explore-documentation.md',
@@ -213,14 +201,14 @@ pub fn create_dbscripts(execute: bool, yaml: &Vec<Yaml>, env_flag: String) {
               featureUrl: '',
               active: false,
             },
-          ],"
-        + "gitHubFeatureBranches: [
+            ], 
+            gitHubFeatureBranches: [
             {
                 name: 'active',
                 value: 'develop',
                 available: true,
-                hasApis: " + if *has_apis { concat!(true) } else { concat!(false)}
-                +", sandboxType: " + if *mock_server { concat!(true)} else { concat!(false)} +",
+                hasApis: "+ if *has_apis { concat!(true) } else { concat!(false)}+", 
+                sandboxType: " + if *mock_server { concat!(true)} else { concat!(false)} +",
                 mockServerUrl: 'http://tenant-generic-mock-service:8443/sandboxrun'
             },
             {
@@ -239,8 +227,9 @@ pub fn create_dbscripts(execute: bool, yaml: &Vec<Yaml>, env_flag: String) {
                 sandboxType: 'GMS',
                 mockServerUrl: 'http://tenant-generic-mock-service:8443/sandboxrun'
             }
-            ],"
-        + "});";
+            ], 
+            }
+            );");
 
     //Write the contents in the db script files one by one.. this is a test content
     let tenant_db_script = format!("{}{}_{}","../../dbscripts/".to_string()  ,name, "dev_db_script.js".to_string()); 
