@@ -23,14 +23,14 @@ Studio_essentials:
   Carat: true
   Product_Areas:
     - Merchants:
-        Customer_segements:
+        Customer_segments:
           SMB: true
           Enterprise: true
-    - Financial_Instituitions:
-        Customer_segements:
+    - Financial_Institutions:
+        Customer_segments:
           Banks: true
           Credit_Unions: true
-          Large_financial_instutitions: true
+          Large_financial_institutions: true
   Tags:
     Region_of_Operation:
       North_America: true

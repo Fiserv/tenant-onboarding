@@ -25,7 +25,7 @@ use log4rs::{
     filter::threshold::ThresholdFilter,
 };
 mod team;
-mod gitsource { pub mod gitrepo; pub mod gitteam; pub mod githooks; }
+mod gitsource { pub mod gitrepo; pub mod gitteam; pub mod githooks; pub mod authtoken; }
 mod dbscripts;
 use tokio;
 use futures::executor::block_on;

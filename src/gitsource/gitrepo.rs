@@ -6,7 +6,8 @@ use std::time::Duration;
 use yaml_rust::{Yaml, YamlLoader, YamlEmitter};
 use serde_json::Value;
 use reqwest::{Client, Method};
- 
+use crate::gitsource;
+
 #[derive(Serialize, Deserialize, Debug)] 
 struct RepoInfo { 
     owner:String,
@@ -26,19 +27,16 @@ pub async fn create_repo(config_yaml: &Vec<Yaml> , settings_yaml: &Vec<Yaml>) ->
 
     let setting = &settings_yaml[0]; 
     let github_api = setting["github"]["gitHubAPIUrl"].as_str().unwrap();
-    let github_auth_token_env_var = setting["github"]["gitHubAuthTokenEnvVar"].as_str().unwrap();
-    let github_repo_gen_api = setting["github"]["gitHubTemplateRepo"].as_str().unwrap();    
+    let github_auth_token_result = gitsource::authtoken::get_auth_token(setting);
+    if !github_auth_token_result.is_ok() {
+        return Result::Err(github_auth_token_result.err().unwrap());
+    }
+    let github_auth_token = github_auth_token_result.unwrap();
+    let github_repo_gen_api = setting["github"]["gitHubTemplateRepo"].as_str().unwrap();
     let github_owner = setting["github"]["gitHubSourceOwner"].as_str().unwrap();
 
     println!("Adding new Tenant Repo {:#?}", tenant_repo);
 
-    let github_auth_token: String;
-    let github_auth_token_env_var_contents = env::var(github_auth_token_env_var);
-    if !github_auth_token_env_var_contents.is_ok() {
-        let error_string = format!("{} environment variable not found", github_auth_token_env_var);
-        return Err(Box::try_from(error_string).unwrap());
-    }
-    github_auth_token = github_auth_token_env_var_contents.unwrap();
     let repo_data = RepoInfo {
         owner: github_owner.to_string(),
         name: tenant_repo.to_string(),
