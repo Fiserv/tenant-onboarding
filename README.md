@@ -13,12 +13,12 @@ The program will do a few things for the user.
    - Fill out tenant.json and product-layout.yaml file. 
 7. Generate the necessary DB snippets needed (-d)  -- Tania
 8. (delete coming later...) -- Tania
-9. (integrate with Gitlab to commit DB changes) -- Tania
+9. (integrate with GitLab to commit DB changes) -- Tania
 
 ## How to build
 
-1. checkout the repo
-2. in the repo `cargo build`
+1. Clone/checkout the repo
+2. From the cloned directory run: `cargo build`
 
 ## How to use
 
@@ -46,8 +46,6 @@ From root directory run startup script
 Example :  ./startup.sh -f '-te'
 
 ## Using the config file
-
-YAML sucks...
 
 config.yaml will hold specific info that will be used in the repo & files.
 
@@ -101,13 +99,13 @@ to -d
 
 ## How to get started with Rust
 
-Use google.
+Search for information online.
 
 ### Get System up
 
 ### Setup debugger
 
-in VScode setup the launch.json in the same directory
+In VSCode set up launch.json in the same directory.
 
 ```json
 {
