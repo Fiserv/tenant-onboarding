@@ -1,67 +1,63 @@
-#refer to github.com/fiserv/tenant-docs for more instructions
-
-Name of product: Sample Tenant
-
-Tenant Type:
-- Full service: false
-- Doc only: true
-- Link out: false
-
-# Please fill out the below sections if you are a Full service Tenant
-GitHub essentials:
-  Repository Name: sample-tenant
-  Team Memebers: john.doe@fiserv.com, abc.test@fiserv.com
-  Support Contacts:
-  - Bug Reporting:
-      Assignees: andrew.an@fiserv.com, tania.sarkar@fiserv.com, alvin.cho@fiserv.com
-  - Feedback Reporting:
-      Assignees: abhishek.singh@fiserv.com, tania.sarkar@fiserv.com, alvin.cho@fiserv.com
-  - Enhancement Reporting:
-      Assignees: tania.sarkar@fiserv.com, tania.sarkar@fiserv.com, alvin.cho@fiserv.com
-  Github Branches:
+Tenant_Name: test-repo-produced-by-tenant-onboarding
+Tenant_Type:
+  - Full_service: true
+  - Doc_only: false
+  - Link_out: false
+GitHub_essentials:
+  Repository_Name: test-repo-produced-by-tenant-onboarding
+  Team_Members: test-user
+  Support:
+    - Bug_Reporting:
+        Assignees: test-user
+    - Feedback_Reporting:
+        Assignees: test-user
+    - Enhancement_Reporting:
+        Assignees: test-user
+  Github_Branches:
     Preview: true
     Previous: true
-
-Studio essentials:
-  External link: 'https://example.com' #fill out this field if you are a linkout tenant
+Studio_essentials:
+  External_link: https://fiserv.com
   Beta: true
   Internal: false
-  Carat: false
-  Product Areas:
-  - Merchants:
-      Customer segements:
-        SMB: true
-        Enterprise: true
-  - Financial instustions:
-      Customer segements:
-        Banks: false
-        Credit Untions: false
-        Large financial instutitions: false
+  Carat: true
+  Product_Areas:
+    - Merchants:
+        Customer_segements:
+          SMB: true
+          Enterprise: true
+    - Financial_Instituitions:
+        Customer_segements:
+          Banks: true
+          Credit_Unions: true
+          Large_financial_instutitions: true
   Tags:
-    Region of Operation:
-      North America: true
-      EMEA: false
-      LATAM: false
-      APAC: false
+    Region_of_Operation:
+      North_America: true
+      EMEA: true
+      LATAM: true
+      APAC: true
     Integration:
       restful: true
-      sdk: false
+      sdk: true
       soap: false
       xml: false
-    Feature: ["Feature1", "Feature2"]
-    Industry: ["Industry1", "Industry2"]
-Runbox essentials:
+    Feature:
+      - Feature1
+      - Feature2
+    Industry: Banking , Retail
+Runbox_essentials:
   Runbox: true
-  Live edit: true
+  Live_edit: true
   Sandbox:
     Type:
       mock: true
-      live: false #this overrules mock setting
-    Live Sandbox details: #for tenant advocates only.  send info private to your advocate.
-      API gateway details:
-        Gateway Type:
+      live: true
+    Live_Sandbox_details:
+      API_gateway_details:
+        Gateway_Type:
           APIGEE: true
-          Data Power: false
-        Server URL: https://api.test.com/tenantName
-        Authentication Type: HMAC
-        Self signed certificate: false
+          Data_Power: false
+        Server_URL: https://api.test.com/tenantName
+        Authentication_Type: HMAC
+        Self_signed_certificate: false

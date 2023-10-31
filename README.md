@@ -31,6 +31,8 @@ brew install mongodb-database-tools
 
 Either update a config file or pass in data through the CLI
 
+Create an environment variable called GITHUB_AUTH_TOKEN whose value is a valid GitHub auth-token, for example, a Personal Access Token
+
 ## Dry run
 
 Default mode is a dry run that will print out info about what happened to a log.  This way you can confirm you did the right thing before you really create a repo.

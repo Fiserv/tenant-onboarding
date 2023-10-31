@@ -17,7 +17,7 @@ const axios = require("axios");
 
 const fsPromises = fs.promises;
 
-const tenant_onboarding_file = "../Tenant-Onboarding-Form1.yaml";
+const tenant_onboarding_file = "../Tenant-Onboarding-Form.yaml";
 const tenant_json_file = "../tenant.json";
 const settings_yaml = "../settings.yaml";
 
