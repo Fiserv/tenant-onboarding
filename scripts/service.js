@@ -17,7 +17,7 @@ const axios = require("axios");
 
 const fsPromises = fs.promises;
 
-const tenant_onboarding_file = "../Tenant-Onboarding-Form1.yaml";
+const tenant_onboarding_file = "../Tenant-Onboarding-Form.yaml";
 const tenant_json_file = "../tenant.json";
 const settings_yaml = "../settings.yaml";
 
@@ -89,7 +89,7 @@ const tenantConfigurator = async (issueNo) => {
                     }
                     break;
 
-                  case tenant_enum.FEEBDACK_REPORTING:
+                  case tenant_enum.FEEDBACK_REPORTING:
                     {
                       if ( yamlData.GitHub_essentials.Support[1].Feedback_Reporting .Assignees != undefined && tagValue != undefined) {
                         yamlData.GitHub_essentials.Support[1].Feedback_Reporting.Assignees =
@@ -98,7 +98,7 @@ const tenantConfigurator = async (issueNo) => {
                     }
                     break;
 
-                  case tenant_enum.ENCHANCEMENT_REPORTING:
+                  case tenant_enum.ENHANCEMENT_REPORTING:
                     {
                       if ( yamlData.GitHub_essentials.Support[2].Enhancement_Reporting.Assignees != undefined && tagValue != undefined) {
                         yamlData.GitHub_essentials.Support[2].Enhancement_Reporting.Assignees = tagValue;
@@ -243,38 +243,38 @@ const tenantConfigurator = async (issueNo) => {
                         case tenant_enum.CUSTOMER_SEGMENTS_FOR_MERCHANTS:
                           {
                             if (tagValue === "SMB") {
-                              if ( yamlData.Studio_essentials.Product_Areas[0] .Merchants.Customer_segements.SMB != undefined ){  
-                                  yamlData.Studio_essentials.Product_Areas[0].Merchants.Customer_segements.SMB = true;
+                              if ( yamlData.Studio_essentials.Product_Areas[0] .Merchants.Customer_segments.SMB != undefined ){
+                                  yamlData.Studio_essentials.Product_Areas[0].Merchants.Customer_segments.SMB = true;
                               }else{
-                                yamlData.Studio_essentials.Product_Areas[0].Merchants.Customer_segements.SMB = false;
+                                yamlData.Studio_essentials.Product_Areas[0].Merchants.Customer_segments.SMB = false;
                               }
                             }
 
                             if (tagValue === "Enterprise") {
-                              if ( yamlData.Studio_essentials.Product_Areas[0].Merchants.Customer_segements.Enterprise != undefined ) {
-                                yamlData.Studio_essentials.Product_Areas[0].Merchants.Customer_segements.Enterprise = true;
+                              if ( yamlData.Studio_essentials.Product_Areas[0].Merchants.Customer_segments.Enterprise != undefined ) {
+                                yamlData.Studio_essentials.Product_Areas[0].Merchants.Customer_segments.Enterprise = true;
                               }
                             }
                           }
                           break;
 
-                        case tenant_enum.CUSTOMER_SEGMENTS_FOR_FINANCIAL_INSTITUITIONS:
+                        case tenant_enum.CUSTOMER_SEGMENTS_FOR_FINANCIAL_INSTITUTIONS:
                           {
                             if (tagValue === "Bank") {
-                              if (  yamlData.Studio_essentials.Product_Areas[1].Financial_Instituitions.Customer_segements.Banks != undefined) {
-                                yamlData.Studio_essentials.Product_Areas[1].Financial_Instituitions.Customer_segements.Banks = true;
+                              if (  yamlData.Studio_essentials.Product_Areas[1].Financial_Institutions.Customer_segments.Banks != undefined) {
+                                yamlData.Studio_essentials.Product_Areas[1].Financial_Institutions.Customer_segments.Banks = true;
                               }
                             }
 
                             if (tagValue === "Credit Union") {
-                              if ( yamlData.Studio_essentials.Product_Areas[1].Financial_Instituitions.Customer_segements.Credit_Unions != undefined) {
-                                yamlData.Studio_essentials.Product_Areas[1].Financial_Instituitions.Customer_segements.Credit_Unions = true;
+                              if ( yamlData.Studio_essentials.Product_Areas[1].Financial_Institutions.Customer_segments.Credit_Unions != undefined) {
+                                yamlData.Studio_essentials.Product_Areas[1].Financial_Institutions.Customer_segments.Credit_Unions = true;
                               }
                             }
 
                             if (tagValue === "Large Financial Institution") {
-                              if ( yamlData.Studio_essentials.Product_Areas[1].Financial_Instituitions.Customer_segements.Large_financial_instutitions != undefined ) {
-                                yamlData.Studio_essentials.Product_Areas[1].Financial_Instituitions.Customer_segements.Large_financial_instutitions = true;
+                              if ( yamlData.Studio_essentials.Product_Areas[1].Financial_Institutions.Customer_segments.Large_financial_instutitions != undefined ) {
+                                yamlData.Studio_essentials.Product_Areas[1].Financial_Institutions.Customer_segments.Large_financial_instutitions = true;
                               }
                             }
                           }

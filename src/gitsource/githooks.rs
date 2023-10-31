@@ -5,6 +5,7 @@ use std::time::Duration;
 use yaml_rust::{Yaml, YamlLoader, YamlEmitter};
 use serde_json::Value;
 use reqwest::{Client, Method};
+use crate::gitsource;
 
 //const GITHUB_TOKENT:&str = "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";
 //const GITHUB_REPO_HOOKS_API:&str = "https://api.github.com/repos/Fiserv/SampleOnBoardingTenant/hooks";
@@ -35,9 +36,8 @@ pub async fn add_hooks_repo(config_yaml: &Vec<Yaml>, settings_yaml: &Vec<Yaml>) 
     let config = &config_yaml[0]; 
     let tenant_repo = config["GitHub_essentials"]["Repository_Name"].as_str().unwrap();
  
-    let setting = &settings_yaml[0]; 
-    let github_token = setting["github"]["gitHubAuthToken"].as_str().unwrap();
-   
+    let setting = &settings_yaml[0];
+
     let dev_hook = setting["github"]["gitHubDevHook"].as_str().unwrap();
     let dev_hook_key = setting["github"]["gitHubDevHookKey"].as_str().unwrap();
 
@@ -64,12 +64,14 @@ pub async fn add_hooks_repo(config_yaml: &Vec<Yaml>, settings_yaml: &Vec<Yaml>) 
 //#[tokio::main]
 async fn add_hooks(path: &str , key: &str ,tenant_repo: &str, setting_yaml: &Vec<Yaml>) ->  Result<(bool), Box<dyn Error>> {
 
-
-    let setting = &setting_yaml[0]; 
-    let github_token = setting["github"]["gitHubAuthToken"].as_str().unwrap();
-    let github_api = setting["github"]["gitHubAPIRepo"].as_str().unwrap(); 
+    let setting = &setting_yaml[0];
+    let github_auth_token_result = gitsource::authtoken::get_auth_token(setting);
+    if !github_auth_token_result.is_ok() {
+        return Result::Err(github_auth_token_result.err().unwrap());
+    }
+    let github_auth_token = github_auth_token_result.unwrap();
+    let github_api = setting["github"]["gitHubAPIRepo"].as_str().unwrap();
     let github_repo_hooks_api = format!("{}{}{}", github_api.to_string(), tenant_repo.to_string() , "/hooks".to_string());
-    let github_auth = format!("{}{}", "github_pat_11ATLOXZQ0envgS8Xk8OJx_tjsW3CYTBKZEl", github_token.to_string());
     //println!("github_repo_hooks_api: {} ", github_repo_hooks_api);
     let mut check = false;
     let github_client = reqwest::Client::new();
@@ -90,7 +92,7 @@ async fn add_hooks(path: &str , key: &str ,tenant_repo: &str, setting_yaml: &Vec
 
 
     let post_req = github_client.request(Method::POST, github_repo_hooks_api)
-    .bearer_auth(github_auth)
+    .bearer_auth(github_auth_token)
     .header("User-Agent", "tenant-onbaording")
     .header("Accept", "application/vnd.github+json")
     .timeout(Duration::from_secs(5))
