@@ -8,6 +8,7 @@ github:
   gitHubAPIUrl:                           'https://api.github.com/orgs/Fiserv/teams'
   gitHubAPIRepo:                          'https://api.github.com/repos/Fiserv/'
   gitHubTemplateRepo:                     'https://api.github.com/repos/Fiserv/sample-tenant-repo/generate'
+  gitHubBranchProtectionAPITemplate:      'https://api.github.com/repos/Fiserv/{}/branches/{}/protection'
   gitHubDevHook:                          'https://dev-developer.fiserv.com/api/github-push'
   gitHubDevHookKey:                       'secret123'  
   gitHubQAHook:                           'https://qa-developer.fiserv.com/api/github-push'
