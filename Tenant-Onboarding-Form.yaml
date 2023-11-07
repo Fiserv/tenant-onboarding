@@ -4,7 +4,7 @@ Tenant_Type:
   - Doc_only: false
   - Link_out: false
 GitHub_essentials:
-  Repository_Name: test-repo-produced-by-tenant-onboarding
+  Repository_Name: test-new-repo-produced-by-tenant-onboarding
   Team_Members: test-user
   Support:
     - Bug_Reporting:

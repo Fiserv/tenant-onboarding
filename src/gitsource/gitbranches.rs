@@ -1,8 +1,9 @@
 use serde_derive::{Deserialize, Serialize};
 use reqwest;
 use std::error::Error;
+use std::thread::sleep;
 use std::time::Duration;
-use reqwest::{Method, RequestBuilder, Response};
+use reqwest::{Method, RequestBuilder, Response, StatusCode};
 use yaml_rust::{Yaml, YamlLoader, YamlEmitter};
 use serde_json;
 use crate::gitsource;
@@ -83,6 +84,10 @@ impl BranchEnum {
         }
     }
 }
+
+const _MAX_ITERATIONS: i8 = 4;
+const _MAX_RETRIES: i8 = 3;
+const _INITIAL_RETRY_MS: u64 = 200;
 
 #[tokio::main]
 pub async fn process_github_branches(config_yaml: &Vec<Yaml> , settings_yaml: &Vec<Yaml>) -> Result<(bool), Box<dyn Error>> {
@@ -168,30 +173,64 @@ pub async fn process_github_branches(config_yaml: &Vec<Yaml> , settings_yaml: &V
         };
 
         let github_client = reqwest::Client::new();
-        let create_branch_protections_req =
-            create_request(reqwest::Method::PUT, github_branch_protection_api.clone(), github_auth_token.clone())
-                .json(&branch_protection_data);
-        let create_branch_protections_response = create_branch_protections_req.send().await?;
-        println!("Branch Protection Status: {}", create_branch_protections_response.status());
 
-        if create_branch_protections_response.status() != reqwest::StatusCode::OK {
-            return Err(Box::try_from(create_branch_protections_response.status().as_str()).unwrap());
+        let mut iterations = 1;
+        let mut delay_ms = _INITIAL_RETRY_MS;
+        let mut branch_protections_created = false;
+        while iterations <= _MAX_ITERATIONS && !branch_protections_created {
+            let create_branch_protections_request =
+                create_request(reqwest::Method::PUT, github_branch_protection_api.clone(), github_auth_token.clone())
+                    .json(&branch_protection_data);
+            let create_branch_protections_response = create_branch_protections_request.send().await?;
+
+            let status = create_branch_protections_response.status();
+            println!("Branch Protection status: {}", status);
+            if status != StatusCode::OK {
+                if status != StatusCode::NOT_FOUND {
+                    return Err(Box::try_from(create_branch_protections_response.status().as_str()).unwrap());
+                }
+
+                if iterations > _MAX_RETRIES {
+                    println!("aborting");
+                    break;
+                }
+
+                println!("retrying with {}ms delay", delay_ms);
+                sleep(Duration::from_millis(delay_ms));
+                iterations += 1;
+                delay_ms = delay_ms * 2;
+                continue;
+            }
+
+            let res_body = create_branch_protections_response.bytes().await?;
+            let str_body = res_body.to_vec();
+            let str_response = String::from_utf8_lossy(&str_body);
+            println!("Response: {} ", str_response);
+
+            println!("Disabling Unwanted Restrictions for {} branch", branch.as_str());
+            let delete_restrictions_request =
+                create_request(reqwest::Method::DELETE, github_branch_protection_restrictions_api.clone(), github_auth_token.clone());
+            let delete_restrictions_response = delete_restrictions_request.send().await?;
+            println!("Status: {}", delete_restrictions_response.status());
+
+            // There is no retrying when making the call to delete unwanted restrictions.
+            // This call is only made if the call to create the branch protections succeeds.
+            // The assumption is, if the call to create the branch protections succeeds, the
+            // branch exists and therefore there will be no 404 error deleting the unwanted
+            // branch restrictions.
+            if delete_restrictions_response.status() != StatusCode::NO_CONTENT {
+                return Err(Box::try_from(delete_restrictions_response.status().as_str()).unwrap());
+            }
+
+            branch_protections_created = true;
         }
 
-        println!("Disabling Overly Restrictive Restrictions for {} branch", branch.as_str());
-        let delete_restrictions_req =
-            create_request(reqwest::Method::DELETE, github_branch_protection_restrictions_api.clone(), github_auth_token.clone());
-        let delete_restrictions_response = delete_restrictions_req.send().await?;
-        println!("Disabling Overly Restrictive Restrictions Status: {}", delete_restrictions_response.status());
-
-        if delete_restrictions_response.status() != reqwest::StatusCode::NO_CONTENT {
-            return Err(Box::try_from(delete_restrictions_response.status().as_str()).unwrap());
+        if !branch_protections_created {
+            // If the branch protections failed for a single branch due to the branch not yet existing, abort all
+            // branch protection creation
+            created = false;
+            break;
         }
-
-        let res_body = create_branch_protections_response.bytes().await?;
-        let str_body = res_body.to_vec();
-        let str_response = String::from_utf8_lossy(&str_body);
-        println!("Adding Branch Protection Response: {} ", str_response);
         created = true;
     }
 
