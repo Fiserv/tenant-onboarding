@@ -3,7 +3,7 @@ import requests
 ''' --- Variables --- '''
 
 # Github Access Token
-token = "<Github_Access_Token>"
+token = "$API_TOKEN_GITHUB"
 
 # Organization Name
 org_name = "Fiserv"
