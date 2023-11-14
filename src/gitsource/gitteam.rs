@@ -5,6 +5,7 @@ use std::time::Duration;
 use yaml_rust::{Yaml, YamlLoader, YamlEmitter};
 use serde_json::Value;
 use reqwest::{Client, Method};
+use crate::gitsource;
 
 #[derive(Serialize, Deserialize, Debug)] 
 struct TeamInfo { 
@@ -38,13 +39,15 @@ pub async fn process_github_team(config_yaml: &Vec<Yaml> , settings_yaml: &Vec<Y
    
     let setting = &settings_yaml[0];
     let github_api = setting["github"]["gitHubAPIUrl"].as_str().unwrap();
-    let github_token = setting["github"]["gitHubAuthToken"].as_str().unwrap();
+    let github_auth_token_result = gitsource::authtoken::get_auth_token(setting);
+    if !github_auth_token_result.is_ok() {
+        return Result::Err(github_auth_token_result.err().unwrap());
+    }
+    let github_auth = github_auth_token_result.unwrap();
     let github_owner = setting["github"]["gitHubSourceOwner"].as_str().unwrap();
 
-
     let github_teams_api = format!("{}/{}", github_api.to_string(), tenant_team.to_string().to_lowercase());
-    let github_auth = format!("{}{}", "github_pat_11ATLOXZQ0envgS8Xk8OJx_tjsW3CYTBKZEl", github_token.to_string());
- 
+
     let github_client = reqwest::Client::new();
 
     let get_req = github_client.request(Method::GET, github_teams_api.clone())
