@@ -3,7 +3,7 @@ import requests
 ''' --- Variables --- '''
 
 # Github Access Token
-token = "$API_TOKEN_GITHUB"
+token = "<API_TOKEN_GITHUB>"
 
 # Organization Name
 org_name = "Fiserv"
@@ -55,8 +55,8 @@ response = requests.get(url, headers=headers)
 
 # Process the response
 if response.status_code == 200:
-    repositories = response.json()
-    print(repositories) # Prints the list of tenants found on Github under organization
+    repositories = [repo['name'] for repo in response.json()]
+    print(repositories)
 else:
     print("Failed to fetch repositories from the project.")
     exit()
