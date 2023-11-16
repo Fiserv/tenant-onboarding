@@ -149,7 +149,7 @@ pub async fn process_github_team(config_yaml: &Vec<Yaml> , settings_yaml: &Vec<Y
                                 .header("Accept", "application/vnd.github+json")
                                 .header("X-GitHub-Api-Version" , "2022-11-28")
                                 .timeout(Duration::from_secs(5))
-                                .json(&TeamPermission{ permission: "maintain".to_string() });
+                                .json(&TeamPermission{ permission: "admin".to_string() });
 
     let github_data_stats = put_req.send().await?;  
     
