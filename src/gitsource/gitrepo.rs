@@ -26,13 +26,13 @@ pub async fn create_repo(config_yaml: &Vec<Yaml> , settings_yaml: &Vec<Yaml>) ->
     let tenant_repo = config["GitHub_essentials"]["Repository_Name"].as_str().unwrap();
 
     let setting = &settings_yaml[0]; 
-    let github_api = setting["github"]["gitHubAPIUrl"].as_str().unwrap();
+    let github_api = setting["github"]["gitHubOrgsTeamsAPI"].as_str().unwrap();
     let github_auth_token_result = gitsource::authtoken::get_auth_token(setting);
     if !github_auth_token_result.is_ok() {
         return Result::Err(github_auth_token_result.err().unwrap());
     }
     let github_auth_token = github_auth_token_result.unwrap();
-    let github_repo_gen_api = setting["github"]["gitHubTemplateRepo"].as_str().unwrap();
+    let github_repo_gen_api = setting["github"]["gitHubTemplateRepoAPI"].as_str().unwrap();
     let github_owner = setting["github"]["gitHubSourceOwner"].as_str().unwrap();
 
     println!("Adding new Tenant Repo {:#?}", tenant_repo);

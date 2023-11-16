@@ -70,7 +70,7 @@ async fn add_hooks(path: &str , key: &str ,tenant_repo: &str, setting_yaml: &Vec
         return Result::Err(github_auth_token_result.err().unwrap());
     }
     let github_auth_token = github_auth_token_result.unwrap();
-    let github_api = setting["github"]["gitHubAPIRepo"].as_str().unwrap();
+    let github_api = setting["github"]["gitHubReposAPI"].as_str().unwrap();
     let github_repo_hooks_api = format!("{}{}{}", github_api.to_string(), tenant_repo.to_string() , "/hooks".to_string());
     //println!("github_repo_hooks_api: {} ", github_repo_hooks_api);
     let mut check = false;
