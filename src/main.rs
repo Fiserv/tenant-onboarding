@@ -145,33 +145,24 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     }
 
     if args.is_present("do_repo") {
-        //println!("Creating New Tenant Repo");
         do_repo = gitsource::gitrepo::create_repo(&yaml_config , &yaml_settings).unwrap();
         info!("REPO CREATED-----: {:#?} ",  do_repo);
     }
 
     if args.is_present("do_hooks") { 
-        // println!("Calling hooks {}", do_hooks);
-        if do_repo {
-             do_hooks = gitsource::githooks::add_hooks_repo(&yaml_config ,  &yaml_settings).unwrap(); 
-             info!("WEBHOOKS ADDED-----: {:#?} ", do_hooks);
-        } 
+        do_hooks = gitsource::githooks::add_hooks_repo(&yaml_config ,  &yaml_settings).unwrap(); 
+        info!("WEBHOOKS ADDED-----: {:#?} ", do_hooks);
      }
 
     if args.is_present("do_team") {
-       // println!("REPO CREATED 1-----: {:#?} ",  do_repo);
-        if do_repo {
-              //team::do_team(execute, &yaml_config);
-              do_team = gitsource::gitteam::process_github_team(&yaml_config , &yaml_settings).unwrap(); 
-              info!("TEAM CREATED-----: {:#?} ",  do_team); 
-         }
+        //team::do_team(execute, &yaml_config);
+        do_team = gitsource::gitteam::process_github_team(&yaml_config , &yaml_settings).unwrap(); 
+        info!("TEAM CREATED-----: {:#?} ",  do_team);
     }
 
     if args.is_present("do_branches") {
-        if do_repo {
-            do_branches = gitsource::gitbranches::process_github_branches(&yaml_config ,  &yaml_settings).unwrap();
-            info!("BRANCH PROTECTION ADDED-----: {:#?} ", do_branches);
-        }
+        do_branches = gitsource::gitbranches::process_github_branches(&yaml_config ,  &yaml_settings).unwrap();
+        info!("BRANCH PROTECTION ADDED-----: {:#?} ", do_branches);
     }
 
     if args.is_present("dbscripts") {

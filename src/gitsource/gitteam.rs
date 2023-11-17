@@ -127,7 +127,7 @@ pub async fn process_github_team(config_yaml: &Vec<Yaml> , settings_yaml: &Vec<Y
 
             let post_req_w = github_client.request(Method::POST, github_api)
                 .bearer_auth(github_auth.clone())
-                .header("User-Agent", "tenant-onbaording")
+                .header("User-Agent", "tenant-onboarding")
                 .header("Accept", "application/vnd.github+json")
                 .header("X-GitHub-Api-Version" , "2022-11-28")
                 .timeout(Duration::from_secs(5))
