@@ -14,23 +14,6 @@ use crate::gitsource;
 // If the 'restrictions' structure contains any fields which are set to empty strings in the
 // payload, the above property will be enabled. Only if the 'restrictions' object is empty
 // will the property be disabled.
-#[derive(Serialize, Deserialize, Debug)]
-struct BranchProtection {
-    name: String,
-    target: String,
-    enforcement: String,
-    conditions: BranchConditions,
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-struct BranchConditions {
-    ref_name: Branches
-}
-#[derive(Serialize, Deserialize, Debug)]
-struct Branches {
-    include: [String; 5],
-    exclude: [String; 0]
-}
 
 const _MAX_ITERATIONS: i8 = 4;
 const _MAX_RETRIES: i8 = 3;
@@ -62,10 +45,10 @@ pub async fn process_github_branches(config_yaml: &Vec<Yaml> , settings_yaml: &V
                     "refs/heads/develop",
                     "refs/heads/stage",
                     "refs/heads/preview",
-                    "refs/heads/previous",
+                    "refs/heads/previous"
                 ],
-                "exclude": [],
-            },
+                "exclude": []
+            }
         },
         "rules": [
             {"type": "deletion"},
@@ -91,8 +74,8 @@ pub async fn process_github_branches(config_yaml: &Vec<Yaml> , settings_yaml: &V
                 }
             }
         ]
-    "#;
-    let branch_protection_data_json = serde_json::from_str(&branch_protection_data);
+    }"#;
+    let branch_protection_data_json: serde_json::Value = serde_json::from_str(&branch_protection_data).unwrap();
 
     let github_client = reqwest::Client::new();
     let mut iterations = 1;
