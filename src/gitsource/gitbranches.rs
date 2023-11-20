@@ -77,48 +77,28 @@ pub async fn process_github_branches(config_yaml: &Vec<Yaml> , settings_yaml: &V
     }"#;
     let branch_protection_data_json: serde_json::Value = serde_json::from_str(&branch_protection_data).unwrap();
 
-    let github_client = reqwest::Client::new();
-    let mut iterations = 1;
-    let mut delay_ms = _INITIAL_RETRY_MS;
-    let mut rulesets_created = false;
-    if (execute) {
-        while iterations <= _MAX_ITERATIONS && !rulesets_created {
-            let create_rulesets_request =
-                create_request(reqwest::Method::POST, github_rulesets_api.clone(), github_auth_token.clone())  
-                    .json(&branch_protection_data_json);
-            let create_rulesets_response = create_rulesets_request.send().await?;
-
-            let status = create_rulesets_response.status();
-            println!("Rulesets creation status: {}", status);
-            if status != StatusCode::OK && status != StatusCode::CREATED {
-                if (status == StatusCode::UNPROCESSABLE_ENTITY) {
-                    println!("Ruleset with same name may already exist. Please check repository.");
-                    break;
-                }
-                if status != StatusCode::NOT_FOUND {
-                    return Err(Box::try_from(create_rulesets_response.status().as_str()).unwrap());
-                }
-
-                if iterations > _MAX_RETRIES {
-                    println!("aborting");
-                    break;
-                }
-
-                println!("Retrying with {}ms delay", delay_ms);
-                sleep(Duration::from_millis(delay_ms));
-                iterations += 1;
-                delay_ms = delay_ms * 2;
-                continue;
-            }
-
-            let res_body = create_rulesets_response.bytes().await?;
-            let str_body = res_body.to_vec();
-            let str_response = String::from_utf8_lossy(&str_body);
-            println!("Response: {} ", str_response);
-            rulesets_created = true;
-        }
-    } else {
+    if (!execute) {
         println!("JSON data to be sent to {}:\n{:#?}", github_rulesets_api, branch_protection_data_json);
+        return Ok(false);
+    }
+    
+    let github_client = reqwest::Client::new();
+    let mut rulesets_created = false;
+
+    let create_rulesets_request =
+        create_request(reqwest::Method::POST, github_rulesets_api.clone(), github_auth_token.clone())  
+            .json(&branch_protection_data_json);
+    let create_rulesets_response = create_rulesets_request.send().await?;
+
+    let status = create_rulesets_response.status();
+    
+    let res_body = create_rulesets_response.bytes().await?;
+    let str_body = res_body.to_vec();
+    let str_response = String::from_utf8_lossy(&str_body);
+    println!("Rulesets creation status: {}", status);
+    println!("Response: {} ", str_response);
+    if (status == StatusCode::OK || status == StatusCode::CREATED) {
+        rulesets_created = true;
     }
 
     Ok(rulesets_created)

@@ -50,15 +50,15 @@ pub async fn add_repo_hooks(config_yaml: &Vec<Yaml>, settings_yaml: &Vec<Yaml>, 
     let prod_hook = setting["github"]["gitHubProdHook"].as_str().unwrap();
     let prod_hook_key = setting["github"]["gitHubProdHookKey"].as_str().unwrap();
        
-    if (execute) {
-        added = add_hooks(dev_hook, dev_hook_key, tenant_repo, settings_yaml).await? && added; 
-        added = add_hooks(qa_hook, qa_hook_key, tenant_repo, settings_yaml).await? && added; 
-        added = add_hooks(stage_hook, stage_hook_key, tenant_repo, settings_yaml).await? && added; 
-        added = add_hooks(prod_hook, prod_hook_key, tenant_repo, settings_yaml).await? && added;
-    } else {
-        added = false;
+    if (!execute) {
         println!("Webhooks to be added for:\n - {}\n - {}\n - {}\n - {}", dev_hook, qa_hook, stage_hook, prod_hook);
+        return Ok(false);
     }
+
+    added = add_hooks(dev_hook, dev_hook_key, tenant_repo, settings_yaml).await? && added; 
+    added = add_hooks(qa_hook, qa_hook_key, tenant_repo, settings_yaml).await? && added; 
+    added = add_hooks(stage_hook, stage_hook_key, tenant_repo, settings_yaml).await? && added; 
+    added = add_hooks(prod_hook, prod_hook_key, tenant_repo, settings_yaml).await? && added;
 
     Ok((added))
 }
