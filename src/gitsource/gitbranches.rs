@@ -51,55 +51,50 @@ pub async fn process_github_branches(config_yaml: &Vec<Yaml> , settings_yaml: &V
 
     println!("Adding Branch Protection for {}", tenant_repo);
 
-    let branch_protection_data = BranchProtection {
-        name: "DevStudio Rules".to_string(),
-        target: "branch".to_string(),
-        enforcement: "active".to_string(),
-        conditions: BranchConditions { ref_name: Branches {
-            include: [
-                "refs/heads/main".to_string(), 
-                "refs/heads/develop".to_string(), 
-                "refs/heads/stage".to_string(), 
-                "refs/heads/preview".to_string(), 
-                "refs/heads/previous".to_string()
-            ], 
-            exclude: []
-        }}
-    };
-
-    let rules_data = r#"[
-        {"type": "deletion"},
-        {"type": "non_fast_forward"},
-        {
-            "type": "pull_request",
-            "parameters": {
-                "dismiss_stale_reviews_on_push": false,
-                "require_code_owner_review": false,
-                "require_last_push_approval": false,
-                "required_approving_review_count": 0,
-                "required_review_thread_resolution": true
-            }
+    let branch_protection_data = r#"{
+        "name": "DevStudio Rules",
+        "target": "branch",
+        "enforcement": "active",
+        "conditions": {
+            "ref_name": {
+                "include": [
+                    "refs/heads/main",
+                    "refs/heads/develop",
+                    "refs/heads/stage",
+                    "refs/heads/preview",
+                    "refs/heads/previous",
+                ],
+                "exclude": [],
+            },
         },
-        {
-            "type": "required_status_checks",
-            "parameters": {
-                "strict_required_status_checks_policy": true,
-                "required_status_checks": [
-                    {"context": "validator / api_validator / api_validator_actions"},
-                    {"context": "validator / tenant-config-validator / Tenant-Config-Action"}
-                ]
+        "rules": [
+            {"type": "deletion"},
+            {"type": "non_fast_forward"},
+            {
+                "type": "pull_request",
+                "parameters": {
+                    "dismiss_stale_reviews_on_push": false,
+                    "require_code_owner_review": false,
+                    "require_last_push_approval": false,
+                    "required_approving_review_count": 0,
+                    "required_review_thread_resolution": true
+                }
+            },
+            {
+                "type": "required_status_checks",
+                "parameters": {
+                    "strict_required_status_checks_policy": true,
+                    "required_status_checks": [
+                        {"context": "validator / api_validator / api_validator_actions"},
+                        {"context": "validator / tenant-config-validator / Tenant-Config-Action"}
+                    ]
+                }
             }
-        }
-    ]"#;
-
-    let rules_array: serde_json::Value = serde_json::from_str(rules_data).expect("Failed to deserialize JSON");
-    let mut branch_protection_data_json = serde_json::to_value(&branch_protection_data).expect("Failed to serialize JSON");
-    if let serde_json::Value::Object(ref mut existing_json) = branch_protection_data_json {
-        existing_json.insert("rules".to_string(), rules_array);
-    }
+        ]
+    "#;
+    let branch_protection_data_json = serde_json::from_str(&branch_protection_data);
 
     let github_client = reqwest::Client::new();
-
     let mut iterations = 1;
     let mut delay_ms = _INITIAL_RETRY_MS;
     let mut rulesets_created = false;
@@ -140,7 +135,7 @@ pub async fn process_github_branches(config_yaml: &Vec<Yaml> , settings_yaml: &V
             rulesets_created = true;
         }
     } else {
-        println!("JSON data to be sent to {}: {:#?}", github_rulesets_api, branch_protection_data_json);
+        println!("JSON data to be sent to {}:\n{:#?}", github_rulesets_api, branch_protection_data_json);
     }
 
     Ok(rulesets_created)

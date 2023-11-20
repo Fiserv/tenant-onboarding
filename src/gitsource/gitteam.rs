@@ -146,7 +146,7 @@ pub async fn process_github_team(config_yaml: &Vec<Yaml> , settings_yaml: &Vec<Y
         if (github_data.status()  == reqwest::StatusCode::OK) {
             println!("Github team {} already exists. Use API: {}/{}/{}/{}/{}", tenant_team.to_string(), github_api, tenant_team.to_string().to_lowercase(), "repos", github_owner,tenant_repo);
         } else {
-            println!("Creating new team for Github repository. JSON data to be sent to {}: {:#?}", github_api, teams_data);
+            println!("Creating new team for Github repository. JSON data to be sent to {}:\n{:#?}", github_api, teams_data);
         }
     }
 
@@ -165,9 +165,9 @@ pub async fn process_github_team(config_yaml: &Vec<Yaml> , settings_yaml: &Vec<Y
         let github_data_stats = put_req.send().await?;  
         
         if (github_data_stats.status() == reqwest::StatusCode::NO_CONTENT) {
-            println!(" github_data_stats : {} " , github_data_stats.status()); 
+            println!("github_data_stats : {}" , github_data_stats.status()); 
         } else {
-            println!(" Unable to add Team : {} " , github_data_stats.status());
+            println!("Unable to add Team : {}" , github_data_stats.status());
             team_added = false;
         }
     }

@@ -66,7 +66,7 @@ pub async fn create_repo(config_yaml: &Vec<Yaml> , settings_yaml: &Vec<Yaml>, ex
             created = true;
         }
     } else {
-        println!("JSON data to be sent to {}: {:#?}", github_repo_gen_api, repo_data);
+        println!("JSON data to be sent to {}:\n{:#?}", github_repo_gen_api, repo_data);
     }
     
     Ok((created))
