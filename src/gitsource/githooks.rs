@@ -28,7 +28,7 @@ struct HooksConfig{
 }
 
 #[tokio::main]
-pub async fn add_hooks_repo(config_yaml: &Vec<Yaml>, settings_yaml: &Vec<Yaml>, execute: bool) -> Result<(bool), Box<dyn Error>> {
+pub async fn add_repo_hooks(config_yaml: &Vec<Yaml>, settings_yaml: &Vec<Yaml>, execute: bool) -> Result<(bool), Box<dyn Error>> {
 
     let mut added = true;
     //let mut github_repo_hooks_api = String::new();

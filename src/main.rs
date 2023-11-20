@@ -150,7 +150,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     }
 
     if args.is_present("do_hooks") { 
-        do_hooks = gitsource::githooks::add_hooks_repo(&yaml_config, &yaml_settings, execute).unwrap(); 
+        do_hooks = gitsource::githooks::add_repo_hooks(&yaml_config, &yaml_settings, execute).unwrap(); 
         info!("WEBHOOKS ADDED-----: {:#?}\n", do_hooks);
      }
 
