@@ -21,16 +21,16 @@ struct RepoHooksInfo {
 
 #[derive(Serialize, Deserialize, Debug)]
 struct HooksConfig{
-        url:String,
-        content_type:String,
-        insecure_ssl:String,
-        secret:String
+    url:String,
+    content_type:String,
+    insecure_ssl:String,
+    secret:String
 }
 
 #[tokio::main]
-pub async fn add_hooks_repo(config_yaml: &Vec<Yaml>, settings_yaml: &Vec<Yaml>) -> Result<(bool), Box<dyn Error>> {
+pub async fn add_hooks_repo(config_yaml: &Vec<Yaml>, settings_yaml: &Vec<Yaml>, execute: bool) -> Result<(bool), Box<dyn Error>> {
 
-    let mut added = false;
+    let mut added = true;
     //let mut github_repo_hooks_api = String::new();
 
     let config = &config_yaml[0]; 
@@ -50,18 +50,19 @@ pub async fn add_hooks_repo(config_yaml: &Vec<Yaml>, settings_yaml: &Vec<Yaml>) 
     let prod_hook = setting["github"]["gitHubProdHook"].as_str().unwrap();
     let prod_hook_key = setting["github"]["gitHubProdHookKey"].as_str().unwrap();
        
-    added =  add_hooks(dev_hook , dev_hook_key , tenant_repo, settings_yaml).await?; 
+    if (execute) {
+        added = add_hooks(dev_hook, dev_hook_key, tenant_repo, settings_yaml).await? && added; 
+        added = add_hooks(qa_hook, qa_hook_key, tenant_repo, settings_yaml).await? && added; 
+        added = add_hooks(stage_hook, stage_hook_key, tenant_repo, settings_yaml).await? && added; 
+        added = add_hooks(prod_hook, prod_hook_key, tenant_repo, settings_yaml).await? && added;
+    } else {
+        added = false;
+        println!("Webhooks to be added for:\n - {}\n - {}\n - {}\n - {}", dev_hook, qa_hook, stage_hook, prod_hook);
+    }
 
-    added =  add_hooks(qa_hook , qa_hook_key ,tenant_repo, settings_yaml).await?; 
-
-    added =  add_hooks(stage_hook , stage_hook_key  ,tenant_repo, settings_yaml).await?; 
-
-    added =  add_hooks(prod_hook , prod_hook_key  ,tenant_repo, settings_yaml).await?; 
- 
     Ok((added))
 }
 
-//#[tokio::main]
 async fn add_hooks(path: &str , key: &str ,tenant_repo: &str, setting_yaml: &Vec<Yaml>) ->  Result<(bool), Box<dyn Error>> {
 
     let setting = &setting_yaml[0];
@@ -76,7 +77,7 @@ async fn add_hooks(path: &str , key: &str ,tenant_repo: &str, setting_yaml: &Vec
     let mut check = false;
     let github_client = reqwest::Client::new();
 
-    let hoook_config = HooksConfig{
+    let hook_config = HooksConfig{
         url:          path.to_string(),
         content_type: "json".to_string(),
         insecure_ssl: "0".to_string(),
@@ -84,10 +85,10 @@ async fn add_hooks(path: &str , key: &str ,tenant_repo: &str, setting_yaml: &Vec
     };
 
     let repo_hook_data = RepoHooksInfo {
-            name:   "web".to_string(),
-            active: true, 
-            events: ["push".to_string()],
-            config: hoook_config
+        name:   "web".to_string(),
+        active: true, 
+        events: ["push".to_string()],
+        config: hook_config
     };      
 
 

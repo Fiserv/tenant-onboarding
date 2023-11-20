@@ -37,7 +37,7 @@ const _MAX_RETRIES: i8 = 3;
 const _INITIAL_RETRY_MS: u64 = 200;
 
 #[tokio::main]
-pub async fn process_github_branches(config_yaml: &Vec<Yaml> , settings_yaml: &Vec<Yaml>) -> Result<(bool), Box<dyn Error>> {
+pub async fn process_github_branches(config_yaml: &Vec<Yaml> , settings_yaml: &Vec<Yaml>, execute: bool) -> Result<(bool), Box<dyn Error>> {
     let config = &config_yaml[0];
     let tenant_repo = config["GitHub_essentials"]["Repository_Name"].as_str().unwrap();
 
@@ -103,36 +103,44 @@ pub async fn process_github_branches(config_yaml: &Vec<Yaml> , settings_yaml: &V
     let mut iterations = 1;
     let mut delay_ms = _INITIAL_RETRY_MS;
     let mut rulesets_created = false;
-    while iterations <= _MAX_ITERATIONS && !rulesets_created {
-        let create_rulesets_request =
-            create_request(reqwest::Method::POST, github_rulesets_api.clone(), github_auth_token.clone())  
-                .json(&branch_protection_data_json);
-        let create_rulesets_response = create_rulesets_request.send().await?;
+    if (execute) {
+        while iterations <= _MAX_ITERATIONS && !rulesets_created {
+            let create_rulesets_request =
+                create_request(reqwest::Method::POST, github_rulesets_api.clone(), github_auth_token.clone())  
+                    .json(&branch_protection_data_json);
+            let create_rulesets_response = create_rulesets_request.send().await?;
 
-        let status = create_rulesets_response.status();
-        println!("Rulesets creation status: {}", status);
-        if status != StatusCode::OK && status != StatusCode::CREATED {
-            if status != StatusCode::NOT_FOUND {
-                return Err(Box::try_from(create_rulesets_response.status().as_str()).unwrap());
+            let status = create_rulesets_response.status();
+            println!("Rulesets creation status: {}", status);
+            if status != StatusCode::OK && status != StatusCode::CREATED {
+                if (status == StatusCode::UNPROCESSABLE_ENTITY) {
+                    println!("Ruleset with same name may already exist. Please check repository.");
+                    break;
+                }
+                if status != StatusCode::NOT_FOUND {
+                    return Err(Box::try_from(create_rulesets_response.status().as_str()).unwrap());
+                }
+
+                if iterations > _MAX_RETRIES {
+                    println!("aborting");
+                    break;
+                }
+
+                println!("Retrying with {}ms delay", delay_ms);
+                sleep(Duration::from_millis(delay_ms));
+                iterations += 1;
+                delay_ms = delay_ms * 2;
+                continue;
             }
 
-            if iterations > _MAX_RETRIES {
-                println!("aborting");
-                break;
-            }
-
-            println!("Retrying with {}ms delay", delay_ms);
-            sleep(Duration::from_millis(delay_ms));
-            iterations += 1;
-            delay_ms = delay_ms * 2;
-            continue;
+            let res_body = create_rulesets_response.bytes().await?;
+            let str_body = res_body.to_vec();
+            let str_response = String::from_utf8_lossy(&str_body);
+            println!("Response: {} ", str_response);
+            rulesets_created = true;
         }
-
-        let res_body = create_rulesets_response.bytes().await?;
-        let str_body = res_body.to_vec();
-        let str_response = String::from_utf8_lossy(&str_body);
-        println!("Response: {} ", str_response);
-        rulesets_created = true;
+    } else {
+        println!("JSON data to be sent to {}: {:#?}", github_rulesets_api, branch_protection_data_json);
     }
 
     Ok(rulesets_created)
