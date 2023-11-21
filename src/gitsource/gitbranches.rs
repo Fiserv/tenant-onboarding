@@ -15,10 +15,6 @@ use crate::gitsource;
 // payload, the above property will be enabled. Only if the 'restrictions' object is empty
 // will the property be disabled.
 
-const _MAX_ITERATIONS: i8 = 4;
-const _MAX_RETRIES: i8 = 3;
-const _INITIAL_RETRY_MS: u64 = 200;
-
 #[tokio::main]
 pub async fn process_github_branches(config_yaml: &Vec<Yaml> , settings_yaml: &Vec<Yaml>, execute: bool) -> Result<(bool), Box<dyn Error>> {
     let config = &config_yaml[0];
