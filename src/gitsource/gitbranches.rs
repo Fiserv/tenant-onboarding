@@ -7,14 +7,6 @@ use reqwest::{Method, RequestBuilder, Response, StatusCode};
 use yaml_rust::{Yaml, YamlLoader, YamlEmitter};
 use serde_json;
 use crate::gitsource;
-use crate::gitsource::gitbranches::BranchEnum::{DEVELOP, STAGE, PREVIEW, MAIN};
-
-#[derive(Serialize, Deserialize, Clone, Debug)]
-struct Restrictions {
-    users: [String ;1],
-    teams: [String ;1],
-    apps: [String ;1]
-}
 
 // The 'restrictions' object in the 'required_pull_request_reviews' property needs to be
 // empty in the API payload of the PUT request that creates the initial branch protections.
@@ -22,78 +14,9 @@ struct Restrictions {
 // If the 'restrictions' structure contains any fields which are set to empty strings in the
 // payload, the above property will be enabled. Only if the 'restrictions' object is empty
 // will the property be disabled.
-#[derive(Serialize, Deserialize, Clone, Debug)]
-struct DismissalRestrictions {}
-
-#[derive(Serialize, Deserialize, Debug)]
-struct Checks {
-    context: String,
-    app_id: i16
-}
-#[derive(Serialize, Deserialize, Debug)]
-struct RequiredPullRequestReviews {
-    dismissal_restrictions: DismissalRestrictions,
-    dismiss_stale_reviews: bool,
-    require_code_owner_reviews: bool,
-    required_approving_review_count: i8,
-    require_last_push_approval: bool,
-    bypass_pull_request_allowances: Restrictions
-}
-#[derive(Serialize, Deserialize, Debug)]
-struct RequiredStatusChecks {
-    strict: bool,
-    checks: [Checks; 1]
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-struct BranchProtection {
-    required_status_checks: RequiredStatusChecks,
-    enforce_admins: bool,
-    required_pull_request_reviews: RequiredPullRequestReviews,
-    restrictions: Restrictions,
-    required_linear_history: bool,
-    allow_force_pushes: bool,
-    allow_deletions: bool,
-    block_creations: bool,
-    required_conversation_resolution: bool,
-    lock_branch: bool,
-    allow_fork_syncing: bool
-}
-
-#[derive(Debug, Clone)]
-struct BranchSpecificProtections {
-    dismiss_stale_reviews: bool,
-    required_approving_review_count: i8,
-}
-
-#[derive(PartialEq)]
-enum BranchEnum {
-    DEVELOP,
-    STAGE,
-    PREVIEW,
-    MAIN
-}
-
-impl BranchEnum {
-    fn as_str(&self) -> &'static str {
-        match self {
-            DEVELOP => "develop",
-            STAGE => "stage",
-            PREVIEW => "preview",
-            MAIN => "main",
-        }
-    }
-}
-
-const _MAX_ITERATIONS: i8 = 4;
-const _MAX_RETRIES: i8 = 3;
-const _INITIAL_RETRY_MS: u64 = 200;
 
 #[tokio::main]
-pub async fn process_github_branches(config_yaml: &Vec<Yaml> , settings_yaml: &Vec<Yaml>) -> Result<(bool), Box<dyn Error>> {
-
-    let mut created = false;
-
+pub async fn process_github_branches(config_yaml: &Vec<Yaml> , settings_yaml: &Vec<Yaml>, execute: bool) -> Result<(bool), Box<dyn Error>> {
     let config = &config_yaml[0];
     let tenant_repo = config["GitHub_essentials"]["Repository_Name"].as_str().unwrap();
 
@@ -103,146 +26,86 @@ pub async fn process_github_branches(config_yaml: &Vec<Yaml> , settings_yaml: &V
         return Result::Err(github_auth_token_result.err().unwrap());
     }
     let github_auth_token = github_auth_token_result.unwrap();
+    let github_rulesets_api = format!("https://api.github.com/repos/Fiserv/{}/rulesets", tenant_repo);
 
-    // TODO Currently, the template repo (Test-repo) doesn't have a qa branch and therefore
-    //      the tenant repo also will not have a qa branch
-    for branch in [DEVELOP, STAGE, PREVIEW, MAIN] {
-        println!("Adding Branch Protection for {} branch", branch.as_str());
-        let github_branch_protection_api = format!("https://api.github.com/repos/Fiserv/{}/branches/{}/protection", tenant_repo, branch.as_str());
-        let github_branch_protection_restrictions_api = github_branch_protection_api.clone() + "/restrictions";
+    println!("Adding Branch Protection for {}", tenant_repo);
 
-        let dismiss_stale_reviews: bool;
-        let required_approving_review_count: i8;
-
-        // TODO Should there be different protections for qa, stage, and main?
-        //      The Test-repo has the same branch protections for all non-develop branches
-        // TODO Test-repo only includes status checks on the develop branch. Do we
-        //      want status checks on all non-develop branches? (this code is adding
-        //      status checks on all branches)
-        if branch == DEVELOP {
-            dismiss_stale_reviews = false;
-            required_approving_review_count = 0;
-        } else {
-            dismiss_stale_reviews = true;
-            required_approving_review_count = 1;
-        }
-        let branch_specific_protections = BranchSpecificProtections {
-            dismiss_stale_reviews,
-            required_approving_review_count
-        };
-
-        // These properties are not used when applying the branch protections
-        // but are required by the API.
-        let restrictions = Restrictions {
-            users: [format!("{}", "")],
-            teams: [format!("{}", "")],
-            apps: [format!("{}", "")]
-        };
-
-        let checks_data = Checks {
-            context: format!("{}","validator / tenant-config-validator / Tenant-Config-Action"),
-            app_id: 15368
-        };
-
-        let required_status_checks = RequiredStatusChecks {
-            strict: true,
-            checks: [checks_data]
-        };
-
-        let required_pull_request_reviews = RequiredPullRequestReviews {
-            dismissal_restrictions: DismissalRestrictions{},
-            dismiss_stale_reviews: branch_specific_protections.dismiss_stale_reviews,
-            require_code_owner_reviews: false,
-            required_approving_review_count: branch_specific_protections.required_approving_review_count,
-            require_last_push_approval: false,
-            bypass_pull_request_allowances: restrictions.clone()
-        };
-
-        let branch_protection_data = BranchProtection {
-            required_status_checks,
-            enforce_admins: false,
-            required_pull_request_reviews,
-            restrictions: restrictions.clone(),
-            required_linear_history: false,
-            allow_force_pushes: false,
-            allow_deletions: false,
-            block_creations: false,
-            required_conversation_resolution: false,
-            lock_branch: false,
-            allow_fork_syncing: false
-        };
-
-        let github_client = reqwest::Client::new();
-
-        let mut iterations = 1;
-        let mut delay_ms = _INITIAL_RETRY_MS;
-        let mut branch_protections_created = false;
-        while iterations <= _MAX_ITERATIONS && !branch_protections_created {
-            let create_branch_protections_request =
-                create_request(reqwest::Method::PUT, github_branch_protection_api.clone(), github_auth_token.clone())
-                    .json(&branch_protection_data);
-            let create_branch_protections_response = create_branch_protections_request.send().await?;
-
-            let status = create_branch_protections_response.status();
-            println!("Branch Protection status: {}", status);
-            if status != StatusCode::OK {
-                if status != StatusCode::NOT_FOUND {
-                    return Err(Box::try_from(create_branch_protections_response.status().as_str()).unwrap());
-                }
-
-                if iterations > _MAX_RETRIES {
-                    println!("aborting");
-                    break;
-                }
-
-                println!("retrying with {}ms delay", delay_ms);
-                sleep(Duration::from_millis(delay_ms));
-                iterations += 1;
-                delay_ms = delay_ms * 2;
-                continue;
+    let branch_protection_data = r#"{
+        "name": "DevStudio Rules",
+        "target": "branch",
+        "enforcement": "active",
+        "conditions": {
+            "ref_name": {
+                "include": [
+                    "refs/heads/main",
+                    "refs/heads/develop",
+                    "refs/heads/stage",
+                    "refs/heads/preview",
+                    "refs/heads/previous"
+                ],
+                "exclude": []
             }
-
-            let res_body = create_branch_protections_response.bytes().await?;
-            let str_body = res_body.to_vec();
-            let str_response = String::from_utf8_lossy(&str_body);
-            println!("Response: {} ", str_response);
-
-            println!("Disabling Unwanted Restrictions for {} branch", branch.as_str());
-            let delete_restrictions_request =
-                create_request(reqwest::Method::DELETE, github_branch_protection_restrictions_api.clone(), github_auth_token.clone());
-            let delete_restrictions_response = delete_restrictions_request.send().await?;
-            println!("Status: {}", delete_restrictions_response.status());
-
-            // There is no retrying when making the call to delete unwanted restrictions.
-            // This call is only made if the call to create the branch protections succeeds.
-            // The assumption is, if the call to create the branch protections succeeds, the
-            // branch exists and therefore there will be no 404 error deleting the unwanted
-            // branch restrictions.
-            if delete_restrictions_response.status() != StatusCode::NO_CONTENT {
-                return Err(Box::try_from(delete_restrictions_response.status().as_str()).unwrap());
+        },
+        "rules": [
+            {"type": "deletion"},
+            {"type": "non_fast_forward"},
+            {
+                "type": "pull_request",
+                "parameters": {
+                    "dismiss_stale_reviews_on_push": false,
+                    "require_code_owner_review": false,
+                    "require_last_push_approval": false,
+                    "required_approving_review_count": 0,
+                    "required_review_thread_resolution": true
+                }
+            },
+            {
+                "type": "required_status_checks",
+                "parameters": {
+                    "strict_required_status_checks_policy": true,
+                    "required_status_checks": [
+                        {"context": "validator / api_validator / api_validator_actions"},
+                        {"context": "validator / tenant-config-validator / Tenant-Config-Action"}
+                    ]
+                }
             }
+        ]
+    }"#;
+    let branch_protection_data_json: serde_json::Value = serde_json::from_str(&branch_protection_data).unwrap();
 
-            branch_protections_created = true;
-        }
+    if (!execute) {
+        println!("JSON data to be sent to {}:\n{:#?}", github_rulesets_api, branch_protection_data_json);
+        return Ok(false);
+    }
+    
+    let github_client = reqwest::Client::new();
+    let mut rulesets_created = false;
 
-        if !branch_protections_created {
-            // If the branch protections failed for a single branch due to the branch not yet existing, abort all
-            // branch protection creation
-            created = false;
-            break;
-        }
-        created = true;
+    let create_rulesets_request =
+        create_request(reqwest::Method::POST, github_rulesets_api.clone(), github_auth_token.clone())  
+            .json(&branch_protection_data_json);
+    let create_rulesets_response = create_rulesets_request.send().await?;
+
+    let status = create_rulesets_response.status();
+    
+    let res_body = create_rulesets_response.bytes().await?;
+    let str_body = res_body.to_vec();
+    let str_response = String::from_utf8_lossy(&str_body);
+    println!("Rulesets creation status: {}", status);
+    println!("Response: {} ", str_response);
+    if (status == StatusCode::OK || status == StatusCode::CREATED) {
+        rulesets_created = true;
     }
 
-    Ok(created)
+    Ok(rulesets_created)
 }
 
 fn create_request(method: Method, url: String, github_auth_token: String) -> RequestBuilder {
     let github_client = reqwest::Client::new();
     let req = github_client.request(method, url)
         .bearer_auth(github_auth_token.clone())
-        .header("User-Agent", "branch protection")
         .header("Accept", "application/vnd.github+json")
+        .header("User-Agent", "tenant-onboarding")
         .timeout(Duration::from_secs(5));
 
     req

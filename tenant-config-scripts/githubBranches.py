@@ -51,7 +51,7 @@ headers = {
 
 # Fetch repositories in the project
 url = f"https://api.github.com/orgs/{org_name}/repos"
-response = requests.get(url, headers=headers)
+response = requests.get(url, params={"per_page": 100}, headers=headers)
 
 # Process the response
 if response.status_code == 200:

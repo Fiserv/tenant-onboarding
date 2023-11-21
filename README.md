@@ -6,8 +6,8 @@ The program will do a few things for the user.
 
 1. Create a github team (-t) -- Abhishek
 2. Create a github repo from the sample repo using the supplied name (-r) -- Abhishek
-3. Setup the github webooks (-h)-- Abhishek
-4. Setup branch protections
+3. Setup the github webooks (-h) -- Abhishek
+4. Create Ruleset/Branch protection (-b) -- Minh
 5. Add the devstudio and tenant github teams to the repo -- Abhishek
 6. Update the basic files to have the proper names - Abhishek 
    - Fill out tenant.json and product-layout.yaml file. 

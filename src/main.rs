@@ -145,33 +145,24 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     }
 
     if args.is_present("do_repo") {
-        //println!("Creating New Tenant Repo");
-        do_repo = gitsource::gitrepo::create_repo(&yaml_config , &yaml_settings).unwrap();
-        info!("REPO CREATED-----: {:#?} ",  do_repo);
+        do_repo = gitsource::gitrepo::create_repo(&yaml_config, &yaml_settings, execute).unwrap();
+        info!("REPO CREATED-----: {:#?}\n",  do_repo);
     }
 
     if args.is_present("do_hooks") { 
-        // println!("Calling hooks {}", do_hooks);
-        if do_repo {
-             do_hooks = gitsource::githooks::add_hooks_repo(&yaml_config ,  &yaml_settings).unwrap(); 
-             info!("WEBHOOKS ADDED-----: {:#?} ", do_hooks);
-        } 
+        do_hooks = gitsource::githooks::add_repo_hooks(&yaml_config, &yaml_settings, execute).unwrap(); 
+        info!("WEBHOOKS ADDED-----: {:#?}\n", do_hooks);
      }
 
     if args.is_present("do_team") {
-       // println!("REPO CREATED 1-----: {:#?} ",  do_repo);
-        if do_repo {
-              //team::do_team(execute, &yaml_config);
-              do_team = gitsource::gitteam::process_github_team(&yaml_config , &yaml_settings).unwrap(); 
-              info!("TEAM CREATED-----: {:#?} ",  do_team); 
-         }
+        //team::do_team(execute, &yaml_config);
+        do_team = gitsource::gitteam::process_github_team(&yaml_config, &yaml_settings, execute).unwrap(); 
+        info!("TEAM CREATED-----: {:#?}\n",  do_team);
     }
 
     if args.is_present("do_branches") {
-        if do_repo {
-            do_branches = gitsource::gitbranches::process_github_branches(&yaml_config ,  &yaml_settings).unwrap();
-            info!("BRANCH PROTECTION ADDED-----: {:#?} ", do_branches);
-        }
+        do_branches = gitsource::gitbranches::process_github_branches(&yaml_config, &yaml_settings, execute).unwrap();
+        info!("BRANCH PROTECTION ADDED-----: {:#?}\n", do_branches);
     }
 
     if args.is_present("dbscripts") {
@@ -194,23 +185,11 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     debug!("Goes to file only");
     trace!("Goes to file only");*/
     info!("<<<<<<<<TENANT ONBOARDING PROCESS COMPLETED>>>>>>>>>");
-    if (do_repo){
+    if (do_repo && execute){
         let config = &yaml_config[0]; 
         let tenant_repo = config["GitHub_essentials"]["Repository_Name"].as_str().unwrap();
         println!("{}", tenant_repo);
     } 
  
     Ok(())
-
-    /*let args = Cli::parse();
-
-    let content = std::fs::read_to_string(&args.path)
-        .expect("could not read file");
-
-    for line in content.lines() {
-        if line.contains(&args.pattern) {
-            println!("{}", line);
-        }
-    }*/
-
 }
