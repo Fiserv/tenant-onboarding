@@ -148,7 +148,7 @@ pub fn create_dbscripts(execute: bool, yaml: &Vec<Yaml>, env_flag: String) {
     }
     
     // Read Runbox essentials
-    let live_server = &(y["Runbox_essentials"]["Sandbox"]["Type"]["live"].as_bool().unwrap() && !y["Runbox_essentials"]["Sandbox"]["Type"]["mock"].as_bool().unwrap());
+    let mock_server = &(y["Runbox_essentials"]["Sandbox"]["Type"]["mock"].as_bool().unwrap() && !y["Runbox_essentials"]["Sandbox"]["Type"]["live"].as_bool().unwrap());
     let live_server_url = y["Runbox_essentials"]["Sandbox"]["Live_Sandbox_details"]["API_gateway_details"]["Server_URL"].as_str().unwrap().to_string();
     let live_auth_type= y["Runbox_essentials"]["Sandbox"]["Live_Sandbox_details"]["API_gateway_details"]["Authentication_Type"].as_str().unwrap().to_string();
     let live_self_signed_cert = y["Runbox_essentials"]["Sandbox"]["Live_Sandbox_details"]["API_gateway_details"]["Self_signed_certificate"].as_bool().unwrap();
@@ -217,24 +217,24 @@ pub fn create_dbscripts(execute: bool, yaml: &Vec<Yaml>, env_flag: String) {
       value: 'develop',
       available: true,
       hasApis: "+ if *has_apis { concat!(true) } else { concat!(false)}+", 
-      sandboxType: '"+ if *live_server {"live"} else {"mock"} +"',
-      mockServerUrl: 'http://tenant-generic-mock-service:8443/sandboxrun',"+ if *live_server {&live_sandbox} else {" "}+"
+      sandboxType: '"+ if *mock_server {"mock"} else {"live"} +"',
+      mockServerUrl: 'http://tenant-generic-mock-service:8443/sandboxrun',"+ if *mock_server {" "} else {&live_sandbox}+"
     },
     {
       name: 'previous',
       value: 'previous',
       available: false,
       hasApis: false,
-      sandboxType: '"+ if *live_server {"live"} else {"mock"} +"',
-      mockServerUrl: 'http://tenant-generic-mock-service:8443/sandboxrun',"+ if *live_server {&live_sandbox} else {" "}+"
+      sandboxType: '"+ if *mock_server {"mock"} else {"live"} +"',
+      mockServerUrl: 'http://tenant-generic-mock-service:8443/sandboxrun',"+ if *mock_server {" "} else {&live_sandbox}+"
     },
     {
       name: 'preview',
       value: 'preview',
       available: false,
       hasApis: false,
-      sandboxType: '"+ if *live_server {"live"} else {"mock"} +"',
-      mockServerUrl: 'http://tenant-generic-mock-service:8443/sandboxrun',"+ if *live_server {&live_sandbox} else {" "}+"
+      sandboxType: '"+ if *mock_server {"mock"} else {"live"} +"',
+      mockServerUrl: 'http://tenant-generic-mock-service:8443/sandboxrun',"+ if *mock_server {" "} else {&live_sandbox}+"
     }
   ]
 });");
