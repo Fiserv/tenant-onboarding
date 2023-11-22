@@ -148,92 +148,107 @@ pub fn create_dbscripts(execute: bool, yaml: &Vec<Yaml>, env_flag: String) {
     }
     
     // Read Runbox essentials
-    let mock_server = &y["Runbox_essentials"]["Sandbox"]["Type"]["mock"].as_bool().unwrap();
+    let mock_server = &(y["Runbox_essentials"]["Sandbox"]["Type"]["mock"].as_bool().unwrap() && !y["Runbox_essentials"]["Sandbox"]["Type"]["live"].as_bool().unwrap());
+    let live_server_url = y["Runbox_essentials"]["Sandbox"]["Live_Sandbox_details"]["API_gateway_details"]["Server_URL"].as_str().unwrap().to_string();
+    let live_auth_type= y["Runbox_essentials"]["Sandbox"]["Live_Sandbox_details"]["API_gateway_details"]["Authentication_Type"].as_str().unwrap().to_string();
+    let live_self_signed_cert = y["Runbox_essentials"]["Sandbox"]["Live_Sandbox_details"]["API_gateway_details"]["Self_signed_certificate"].as_bool().unwrap();
+    let live_sandbox = "
+      liveSandbox: {
+        serverUrl: '".to_string() + &live_server_url + "',
+        authenticationScheme: '" + &live_auth_type +"',
+        username: '',
+        password: '',
+        selfSignedCert: "+ &live_self_signed_cert.to_string() +"
+      }";
 
+    let db_script_data = String::from("db.tenants.insertOne({
+  title: '".to_owned()+ &title + "',
+  name: '"+ &name +"',
+  tenantHost: '"+ &gts_url+ "',
+  tenantPort: '8443',
+  providerAPIUrl: '/v1/products/"+&name+"',
+  apiAuth: {},
+  productTags: [
+    {
+      category: 'Region', 
+      value: 'Region',
+      tags: ['"+ &region_of_operations+  "'],
+    },   
+    {
+      category: 'Integration Type', 
+      value: 'Integration Type',
+      tags: ['" + &integrations+  "'],
+    },  
+    {
+      category: 'Industry', 
+      value: 'Industry',
+      tags: ['" + &industries+  "'],
+    },    
+  ],   
+  active: true,
+  betaTag: true,
+  internalTag: "+ if *internal_tag { concat!(true) } else { concat!(false)}+",
+  github: '" + &github_repo_name+"',
+  selfServiceFeatures: [
+    {
+      featureName: 'Explore documentation',
+      featureUrl: 'Support/docs/?path=docs/explore-documentation.md',
+      active: true,
+    },
+    {
+      featureName: 'API experimentation with Runbox',
+      featureUrl: 'Support/docs/?path=docs/try-out-the-api-sandbox.md',
+      active: false,
+    },
+    {
+      featureName: 'Generate Credentials',
+      featureUrl: '',
+      active: false,
+    },
+    {
+      featureName: 'Testing & Certification',
+      featureUrl: '',
+      active: false,
+    },
+  ], 
+  gitHubFeatureBranches: [
+    {
+      name: 'active',
+      value: 'develop',
+      available: true,
+      hasApis: "+ if *has_apis { concat!(true) } else { concat!(false)}+", 
+      sandboxType: '"+ if *mock_server {"mock"} else {"live"} +"',
+      mockServerUrl: 'http://tenant-generic-mock-service:8443/sandboxrun',"
+      + if *mock_server {" "} else {&live_sandbox}+"
+    },
+    {
+      name: 'previous',
+      value: 'previous',
+      available: false,
+      hasApis: false,
+      sandboxType: '"+ if *mock_server {"mock"} else {"live"} +"',
+      mockServerUrl: 'http://tenant-generic-mock-service:8443/sandboxrun',"
+      + if *mock_server {" "} else {&live_sandbox}+"
+    },
+    {
+      name: 'preview',
+      value: 'preview',
+      available: false,
+      hasApis: false,
+      sandboxType: '"+ if *mock_server {"mock"} else {"live"} +"',
+      mockServerUrl: 'http://tenant-generic-mock-service:8443/sandboxrun',"
+      + if *mock_server {" "} else {&live_sandbox}+"
+    }
+  ]
+});");
 
-    let dev_db_script = String::from(
-     "db.tenants.insertOne({
-          title: '".to_owned()+ &title + "',
-          name: '"+ &name +"',
-          tenantHost: '"+ &gts_url+ "',
-          tenantPort: '8443',
-          providerAPIUrl: '/v1/products/"+&name+"',
-          apiAuth: {},
-          productTags: ["
-        +  "{
-            category: 'Region', 
-            value: 'Region',
-            tags: ['"+ &region_of_operations+  "'],
-            },   
-            {
-            category: 'Integration Type', 
-            value: 'Integration Type',
-            tags: ['" + &integrations+  "'],
-            },  
-            {
-            category: 'Industry', 
-            value: 'Industry',
-            tags: ['" + &industries+  "'],
-            },    
-            ],   
-            active: true,
-            betaTag: true,
-            internalTag:" + if *internal_tag { concat!(true) } else { concat!(false)}+",
-            github: '" + &github_repo_name+"',
-            selfServiceFeatures: [
-            {
-              featureName: 'Explore documentation',
-              featureUrl: 'Support/docs/?path=docs/explore-documentation.md',
-              active: true,
-            },
-            {
-              featureName: 'API experimentation with Runbox',
-              featureUrl: 'Support/docs/?path=docs/try-out-the-api-sandbox.md',
-              active: false,
-            },
-            {
-              featureName: 'Generate Credentials',
-              featureUrl: '',
-              active: false,
-            },
-            {
-              featureName: 'Testing & Certification',
-              featureUrl: '',
-              active: false,
-            },
-            ], 
-            gitHubFeatureBranches: [
-            {
-                name: 'active',
-                value: 'develop',
-                available: true,
-                hasApis: "+ if *has_apis { concat!(true) } else { concat!(false)}+", 
-                sandboxType: " + if *mock_server { concat!(true)} else { concat!(false)} +",
-                mockServerUrl: 'http://tenant-generic-mock-service:8443/sandboxrun'
-            },
-            {
-                name: 'previous',
-                value: 'previous',
-                available: false,
-                hasApis: false,
-                sandboxType: 'GMS',
-                mockServerUrl: 'http://tenant-generic-mock-service:8443/sandboxrun'
-            },
-            {
-                name: 'preview',
-                value: 'preview',
-                available: false,
-                hasApis: false,
-                sandboxType: 'GMS',
-                mockServerUrl: 'http://tenant-generic-mock-service:8443/sandboxrun'
-            }
-            ], 
-            }
-            );");
-
+  if (!execute) {
+    println!("\n{} env DB Script for {}:\n{}", env_flag.trim(), name, &db_script_data);
+    return;
+  }
     //Write the contents in the db script files one by one.. this is a test content
-    let tenant_db_script = format!("{}{}_{}","../../dbscripts/".to_string()  ,name, "dev_db_script.js".to_string()); 
-    fs::write(tenant_db_script, dev_db_script);
+    let dbscript_path = format!("{}{}_{}_{}", "../../dbscripts/".to_string(), name, env_flag.trim(), "db_script.js".to_string()); 
+    fs::write(dbscript_path, db_script_data);
     //fs::write(path_to_read, dev_db_script);
 
     //ToDo: Once the file is created, download the file in your local machine

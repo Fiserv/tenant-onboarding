@@ -30,10 +30,6 @@ mod dbscripts;
 use tokio;
 use futures::executor::block_on;
 
- 
- 
-//mod dbscripts;
-
 /// Search for a pattern in a file and display the lines that contain it.
 /*#[derive(Parser)]
 struct Cli {
@@ -65,7 +61,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let mut do_hooks  = false;
     let mut do_branches = false;
     let mut execute   = false;
-    let mut dbscripts = false;
+    let mut do_dbscripts = false;
 
     // Build a stderr logger.
     let stderr = ConsoleAppender::builder().target(Target::Stderr).build();
@@ -111,7 +107,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 .help("create github team name"),
             arg!(do_repo: -r --do_repo "create github repo"),
             arg!(do_hooks: -h --do_hooks "create github repo"),
-            arg!(dbscripts: -d --dbscripts "create db scripts"),
+            arg!(do_dbscripts: -d --dbscripts "create db scripts"),
             arg!(do_branches: -b --branches "add branch protection"),
             arg!(execute: -e --execute "execute for real.  without it will just be a dry run")
         ]).get_matches();
@@ -165,25 +161,18 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         info!("BRANCH PROTECTION ADDED-----: {:#?}\n", do_branches);
     }
 
-    if args.is_present("dbscripts") {
-        dbscripts = true;
-        info!("dbscripts flag {}", dbscripts);
-
+    if args.is_present("do_dbscripts") {
         dbscripts::create_dbscripts(execute, &yaml_config , "dev".to_string());
+        if (execute) {
+            dbscripts::create_dbscripts(execute, &yaml_config , "qa".to_string());
+            dbscripts::create_dbscripts(execute, &yaml_config , "perf".to_string());
+            dbscripts::create_dbscripts(execute, &yaml_config , "stage".to_string());
+            dbscripts::create_dbscripts(execute, &yaml_config , "prod".to_string());
+        }
+        info!("DB SCRIPT CREATED-----: {:#?}\n", do_dbscripts && execute);
         //dbscripts::insert_dbscripts(execute);
     }
 
-    //now call each function corresponding to the flags
-    //remember that passing in EXECUTE will control if that actually runs
-    //team::do_team(execute);
-    //repo::do_repo(execute);
-    //dbscripts::dbscripts(execute);
-
-    /*error!("Goes to stderr and file");
-    warn!("Goes to stderr and file");
-    info!("Goes to stderr and file");
-    debug!("Goes to file only");
-    trace!("Goes to file only");*/
     info!("<<<<<<<<TENANT ONBOARDING PROCESS COMPLETED>>>>>>>>>");
     if (do_repo && execute){
         let config = &yaml_config[0]; 
