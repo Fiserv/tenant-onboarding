@@ -218,7 +218,8 @@ pub fn create_dbscripts(execute: bool, yaml: &Vec<Yaml>, env_flag: String) {
       available: true,
       hasApis: "+ if *has_apis { concat!(true) } else { concat!(false)}+", 
       sandboxType: '"+ if *mock_server {"mock"} else {"live"} +"',
-      mockServerUrl: 'http://tenant-generic-mock-service:8443/sandboxrun',"+ if *mock_server {" "} else {&live_sandbox}+"
+      mockServerUrl: 'http://tenant-generic-mock-service:8443/sandboxrun',"
+      + if *mock_server {" "} else {&live_sandbox}+"
     },
     {
       name: 'previous',
@@ -226,7 +227,8 @@ pub fn create_dbscripts(execute: bool, yaml: &Vec<Yaml>, env_flag: String) {
       available: false,
       hasApis: false,
       sandboxType: '"+ if *mock_server {"mock"} else {"live"} +"',
-      mockServerUrl: 'http://tenant-generic-mock-service:8443/sandboxrun',"+ if *mock_server {" "} else {&live_sandbox}+"
+      mockServerUrl: 'http://tenant-generic-mock-service:8443/sandboxrun',"
+      + if *mock_server {" "} else {&live_sandbox}+"
     },
     {
       name: 'preview',
@@ -234,7 +236,8 @@ pub fn create_dbscripts(execute: bool, yaml: &Vec<Yaml>, env_flag: String) {
       available: false,
       hasApis: false,
       sandboxType: '"+ if *mock_server {"mock"} else {"live"} +"',
-      mockServerUrl: 'http://tenant-generic-mock-service:8443/sandboxrun',"+ if *mock_server {" "} else {&live_sandbox}+"
+      mockServerUrl: 'http://tenant-generic-mock-service:8443/sandboxrun',"
+      + if *mock_server {" "} else {&live_sandbox}+"
     }
   ]
 });");
