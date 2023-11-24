@@ -247,7 +247,7 @@ pub fn create_dbscripts(execute: bool, yaml: &Vec<Yaml>, env_flag: String) {
     return;
   }
     //Write the contents in the db script files one by one.. this is a test content
-    let dbscript_path = format!("{}{}_{}_{}", "../../dbscripts/".to_string(), name, env_flag.trim(), "db_script.js".to_string()); 
+    let dbscript_path = format!("../../dbscripts/{}_{}", env_flag.trim(), "db_script.js".to_string()); 
     fs::write(dbscript_path, db_script_data);
     //fs::write(path_to_read, dev_db_script);
 
