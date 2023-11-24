@@ -61,7 +61,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let mut do_hooks  = false;
     let mut do_branches = false;
     let mut execute   = false;
-    let mut do_dbscripts = false;
 
     // Build a stderr logger.
     let stderr = ConsoleAppender::builder().target(Target::Stderr).build();
@@ -169,7 +168,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             dbscripts::create_dbscripts(execute, &yaml_config , "stage".to_string());
             dbscripts::create_dbscripts(execute, &yaml_config , "prod".to_string());
         }
-        info!("DB SCRIPT CREATED-----: {:#?}\n", do_dbscripts && execute);
+        info!("DB SCRIPT CREATED-----: {:#?}\n", execute);
         //dbscripts::insert_dbscripts(execute);
     }
 
