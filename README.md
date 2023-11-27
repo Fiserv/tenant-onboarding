@@ -1,8 +1,8 @@
 # Overview
 
-This is a quick program to make onboarding tenants even faster.  A single command will get the majority setup for us.
+This program is used to onboard new tenants. It automates the process of creating a new repo, adding webhooks, branch protection, etc. It is invoked by the Fiserv [Support workflow](https://github.com/Fiserv/Support/blob/main/.github/workflows/run-onboarding-service.yaml)
 
-The program will do a few things for the user.
+The program provides the following functionality:
 
 1. Create a github team (-t) -- Abhishek
 2. Create a github repo from the sample repo using the supplied name (-r) -- Abhishek
@@ -13,7 +13,7 @@ The program will do a few things for the user.
    - Fill out tenant.json and product-layout.yaml file. 
 7. Generate the necessary DB snippets needed (-d)  -- Tania
 8. (delete coming later...) -- Tania
-9. (integrate with GitLab to commit DB changes) -- Tania
+9. (integrate with GitLab to commit DB changes coming later) -- Tania
 
 ## How to build
 
