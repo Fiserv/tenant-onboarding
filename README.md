@@ -1,19 +1,17 @@
 # Overview
 
-This is a quick program to make onboarding tenants even faster.  A single command will get the majority setup for us.
+This program is used to onboard new tenants. It automates the process of creating a new repo, adding webhooks, branch protection, etc. It is invoked by the Fiserv [Support workflow](https://github.com/Fiserv/Support/blob/main/.github/workflows/run-onboarding-service.yaml)
 
-The program will do a few things for the user.
+The program provides the following functionality:
 
-1. Create a github team (-t) -- Abhishek
-2. Create a github repo from the sample repo using the supplied name (-r) -- Abhishek
-3. Setup the github webooks (-h) -- Abhishek
-4. Create Ruleset/Branch protection (-b) -- Minh
-5. Add the devstudio and tenant github teams to the repo -- Abhishek
-6. Update the basic files to have the proper names - Abhishek 
-   - Fill out tenant.json and product-layout.yaml file. 
-7. Generate the necessary DB snippets needed (-d)  -- Tania
-8. (delete coming later...) -- Tania
-9. (integrate with GitLab to commit DB changes) -- Tania
+1. Create a github repo (-r)
+2. Add the devstudio and tenant github teams to the repo (-t)
+3. Setup the github webooks (-h)
+4. Create Ruleset/Branch protection (-b)
+5. Generate the necessary DB snippets needed (-d)
+6. Fill out tenant.json and product-layout.yaml file.
+7. (delete coming later...)
+8. (integrate with GitLab to commit DB changes coming later)
 
 ## How to build
 
@@ -49,9 +47,7 @@ Example :  ./startup.sh -f '-te'
 
 ## Using the config file
 
-config.yaml will hold specific info that will be used in the repo & files.
-
-TO will look for it at the same level.
+Tenant-Onboarding-Form.yaml holds information that will be used when creating the repo, when creating tenant.json, and the db scripts.
 
 ## Logs
 
@@ -59,11 +55,9 @@ Logs will be written out to logs/to-TIMESTAMP.log
 
 ## DB snippets
 
-To make life easier TO will generate the DB snippets you neee to use.
+DB snippets (scripts) will be stored in the subdirectory: dbscripts
 
-They will be stored in the subdirectory: dbscripts
-
-Don't worry, we'll make the folder if you don't have one.
+The directory will be created if it doesn't exist
 
 For now it will overwrite contents if you run it more than once.
 
@@ -80,24 +74,6 @@ to -trdv  OR to -a
 ### Only DB files
 
 to -d
-
-## Owners
-
-1. skeleton = alvin
-   1. logging = alvin
-2. github calls = abhishek
-3. create github team = abhishek
-   1. assign devstudio members
-   2. assign tenant members (fiserv emails only)
-4. create github repo from template repo = abhishek
-   1. set team
-   2. set webhooks
-   3. add github validators
-5. dbscripts = tania
-6. prep tenant repo = tania
-   1. fill in tenant.json
-   2. fill in product.yaml
-
 
 ## How to get started with Rust
 
