@@ -37,8 +37,14 @@ pub async fn process_github_team(config_yaml: &Vec<Yaml> , settings_yaml: &Vec<Y
     
     let config = &config_yaml[0]; 
     let tenant_team = config["GitHub_essentials"]["Repository_Name"].as_str().unwrap();
-    let tenant_repo = config["GitHub_essentials"]["Repository_Name"].as_str().unwrap(); 
-   
+    let tenant_repo = config["GitHub_essentials"]["Repository_Name"].as_str().unwrap();
+
+    // It has been decided to not add team members when creating the team. This is an artifact
+    // of allowing anyone to create an Onboard New Tenant issue thereby creating a new tenant
+    // repo. By not adding the team members to the github team, we have control over if and
+    // when the tenant will be given access to the repo.
+    // let tenant_members = config["GitHub_essentials"]["Team_Members"].as_str().unwrap();
+
     let setting = &settings_yaml[0];
     let github_api = setting["github"]["gitHubOrgsTeamsAPI"].as_str().unwrap();
     let github_auth_token_result = gitsource::authtoken::get_auth_token(setting);
