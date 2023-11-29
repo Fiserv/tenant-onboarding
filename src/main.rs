@@ -4,6 +4,7 @@ extern crate yaml_rust;
 use yaml_rust::{YamlLoader, YamlEmitter};
 use serde::{Serialize, Deserialize};
 
+use std::fs::create_dir;
 use std::fs::File;
 use std::io::Read;
 use std::env;
@@ -161,13 +162,16 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     }
 
     if args.is_present("do_dbscripts") {
-        dbscripts::create_dbscripts(execute, &yaml_config , "dev".to_string());
         if (execute) {
+            create_dir("../../dbscripts");
             dbscripts::create_dbscripts(execute, &yaml_config , "qa".to_string());
             dbscripts::create_dbscripts(execute, &yaml_config , "perf".to_string());
             dbscripts::create_dbscripts(execute, &yaml_config , "stage".to_string());
             dbscripts::create_dbscripts(execute, &yaml_config , "prod".to_string());
         }
+        // If execute is false, show the dbscript that would be created.
+        // If execute is true, create the dev dbscript
+        dbscripts::create_dbscripts(execute, &yaml_config , "dev".to_string());
         info!("DB SCRIPT CREATED-----: {:#?}\n", execute);
         //dbscripts::insert_dbscripts(execute);
     }
