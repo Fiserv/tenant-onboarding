@@ -1,7 +1,6 @@
 import requests, base64
 
-# token = "<Github_Access_Token>"
-token = "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"
+token = "<Github_Access_Token>"
 
 headers = {
     "Authorization": f"token {token}",
