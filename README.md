@@ -47,7 +47,13 @@ Example :  ./startup.sh -f '-te'
 
 ## Using the config file
 
-Tenant-Onboarding-Form.yaml holds information that will be used when creating the repo, when creating tenant.json, and the db scripts.
+Tenant-Onboarding-Form.yaml holds information that will be used when creating the repo, when updating tenant.json, and the db scripts.
+
+### tenant.json 
+The tenant.json file, that is updated to include values corresponding to the tenant being onboarded, is in the `tenant-onboarding` repo.
+The updated tenant.json is pushed to the tenant's repo created by this program. Therefore, the tenant.json in the `tenant-onboarding` 
+repo must be kept in sync with the tenant.json (`develop` branch) in the `sample-tenant-repo` (the template repo for the tenant's repo 
+created by this program).
 
 ## Logs
 
