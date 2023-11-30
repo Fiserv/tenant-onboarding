@@ -367,6 +367,7 @@ async function updateTenantJSONFile() {
   if (yamlData.Tenant_Name != undefined) {
     tenant_Data.title = yamlData.Tenant_Name;
     tenant_Data.name = convertTokebabCase(yamlData.Tenant_Name);
+    tenant_Data.product.apiSpecification = `/v1/apis/${yamlData.Tenant_Name}`;
     tenant_Data.product.layout = `/v1/layouts/${yamlData.Tenant_Name}`;
     tenant_Data.product.documentation = `/v1/docs/${yamlData.Tenant_Name}`;
     tenant_Data.product.documenttree = `/v1/docs/${yamlData.Tenant_Name}`;
