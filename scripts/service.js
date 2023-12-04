@@ -280,7 +280,6 @@ const tenantConfigurator = async (issueNo) => {
                             }
                           }
                           break;
-
                         case tenant_enum.REGION_OF_OPERATION:
                           {
                             switch (tagValue) {
