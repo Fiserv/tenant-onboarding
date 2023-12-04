@@ -38,7 +38,7 @@ const convertToKebabCase = str =>
     .map(x => x.toLowerCase())
     .join('-'); 
 
-const convertToCamelCase = str =>
+const convertToPascalCase = str =>
   str &&
   str
     .match(/[a-zA-Z0-9]+/g)
@@ -90,5 +90,5 @@ module.exports = {
   tenant_type_enum,
   regions,
   convertToKebabCase,
-  convertToCamelCase
+  convertToPascalCase
 };

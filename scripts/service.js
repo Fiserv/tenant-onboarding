@@ -10,7 +10,7 @@ const {
   tenant_type_enum,
   regions,
   convertToKebabCase,
-  convertToCamelCase
+  convertToPascalCase
 } = require("./tools");
 const md = require("markdown-it")();
 const html2json = require("html2json").html2json;
@@ -366,16 +366,16 @@ async function updateTenantJSONFile() {
 
   if (yamlData.Tenant_Name != undefined) {
     tenant_Data.title = yamlData.Tenant_Name;
-    tenant_Data.name = convertToCamelCase(yamlData.Tenant_Name);
-    tenant_Data.product.apiSpecification = `/v1/apis/${yamlData.Tenant_Name}`;
-    tenant_Data.product.layout = `/v1/layouts/${yamlData.Tenant_Name}`;
-    tenant_Data.product.documentation = `/v1/docs/${yamlData.Tenant_Name}`;
-    tenant_Data.product.documenttree = `/v1/docs/${yamlData.Tenant_Name}`;
-    tenant_Data.product.documenttreeV2 = `/v2/docs/${yamlData.Tenant_Name}`;
-    tenant_Data.product.docsCount = `/v2/docs/count/${yamlData.Tenant_Name}`;
-    tenant_Data.product.sandbox = `/v2/sandboxrun/${yamlData.Tenant_Name}`;
-    tenant_Data.product.accessConfig = `/v1/fileAccess/${yamlData.Tenant_Name}`;
-    tenant_Data.product.assets = `/v1/assets/${yamlData.Tenant_Name}`;
+    tenant_Data.name = convertToPascalCase(yamlData.Tenant_Name);
+    tenant_Data.product.apiSpecification = `/v1/apis/${convertToPascalCase(yamlData.Tenant_Name)}`;
+    tenant_Data.product.layout = `/v1/layouts/${convertToPascalCase(yamlData.Tenant_Name)}`;
+    tenant_Data.product.documentation = `/v1/docs/${convertToPascalCase(yamlData.Tenant_Name)}`;
+    tenant_Data.product.documenttree = `/v1/docs/${convertToPascalCase(yamlData.Tenant_Name)}`;
+    tenant_Data.product.documenttreeV2 = `/v2/docs/${convertToPascalCase(yamlData.Tenant_Name)}`;
+    tenant_Data.product.docsCount = `/v2/docs/count/${convertToPascalCase(yamlData.Tenant_Name)}`;
+    tenant_Data.product.sandbox = `/v2/sandboxrun/${convertToPascalCase(yamlData.Tenant_Name)}`;
+    tenant_Data.product.accessConfig = `/v1/fileAccess/${convertToPascalCase(yamlData.Tenant_Name)}`;
+    tenant_Data.product.assets = `/v1/assets/${convertToPascalCase(yamlData.Tenant_Name)}`;
   }
 
   if (  yamlData.GitHub_essentials.Support[0].Bug_Reporting.Assignees != undefined ) {
