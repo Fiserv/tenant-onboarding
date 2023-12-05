@@ -131,10 +131,10 @@ jobs:
     uses: Fiserv/remote-actions/.github/workflows/validator-service.yaml@main
     secrets: inherit
 '''
-    commit_message = "Fix validator workflow for preview branch"
+    commit_message = f"Fix validator workflow for {base_branch} branch"
     delete_files = [".github/workflows/api-validator.yaml", ".github/workflows/zip-generator.yaml"]
-    pull_request_title = "Preview Branch Validator Update"
-    pull_request_body = "Updating the workflow logic of the preview branch. Please make sure to include same settings in future if pushing from other branches."
+    pull_request_title = f"{base_branch.capitalize()} Branch Validator Update"
+    pull_request_body = f"Updating the workflow logic of the {base_branch} branch. Please make sure to include same settings in future if pushing from other branches."
 
     # Get the repositories in the organization
     repositories = get_organization_repositories(organization)

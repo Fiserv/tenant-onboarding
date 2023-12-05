@@ -20,9 +20,10 @@ Script to parse through an organization's repositories and mass configure branch
 - `ruleset`: Configs for the Ruleset being applied, check [Ruleset Reference](https://docs.github.com/en/rest/repos/rules?apiVersion=2022-11-28#create-a-repository-ruleset) for more details
 - `headers`: Default headers as provided by Github API
 
-For testing, replace `repositories` variable with a list with a single tenant before the for-loop or modify the for-loop itself:
+For testing, replace `repositories` variable with a list containing a single tenant before the for-loop or modify the for-loop itself:
    - ```Python 
      repositories = ["Test-repo"]
+     for repo in repositories:
      ```
    - ```Python 
      for repo in ["Test-repo"]:
@@ -55,9 +56,10 @@ Script to parse through an organization's repositories and mass lock branches (s
    - Settings are configured to our current standard rules. Once Rulesets are enabled they can be set to `null` and `false` to let Ruleset handle parsing.
 - `headers`: Default headers as provided by Github API
 
-For testing, replace `repositories` variable with a list with a single tenant before the for-loop or modify the for-loop itself:
+For testing, replace `repositories` variable with a list containing a single tenant before the for-loop or modify the for-loop itself:
    - ```Python 
      repositories = ["Test-repo"]
+     for repo in repositories:
      ```
    - ```Python 
      for repo in ["Test-repo"]:
@@ -95,9 +97,10 @@ Script to parse through an organization's repositories and create/delete various
 - `pull_request_title`
 - `pull_request_body`: Description
 
-For testing, replace `repositories` variable with a list with a single tenant before the for-loop or modify the for-loop itself:
+For testing, replace `repositories` variable with a list containing a single tenant before the for-loop or modify the for-loop itself:
    - ```Python 
      repositories = ["Test-repo"]
+     for repo in repositories:
      ```
    - ```Python 
      for repo in ["Test-repo"]:
