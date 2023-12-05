@@ -394,7 +394,7 @@ async function updateTenantJSONFile() {
 
     fsPromises .writeFile(tenant_json_file, JSON.stringify(tenant_Data, null, 2))
       .then(() => {
-        resolve(tenant_Data.name);
+        resolve(convertToKebabCase(tenant_Data.title));
       })
       .catch((err) => {
         rejects(false);
