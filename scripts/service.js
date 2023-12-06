@@ -9,7 +9,8 @@ const {
   tenant_enum,
   tenant_type_enum,
   regions,
-  convertTokebabCase,
+  convertToKebabCase,
+  convertToCamelCase
 } = require("./tools");
 const md = require("markdown-it")();
 const html2json = require("html2json").html2json;
@@ -63,9 +64,9 @@ const tenantConfigurator = async (issueNo) => {
                 switch (last_title) {
                   case tenant_enum.TENANT_NAME:
                     { 
-                        yamlData["Tenant_Name"] = convertTokebabCase(tagValue);
-                      if ( yamlData["GitHub_essentials"].Repository_Name !=  undefined && tagValue != undefined) {
-                        yamlData["GitHub_essentials"].Repository_Name = convertTokebabCase(tagValue);
+                        yamlData["Tenant_Name"] = tagValue;
+                      if ( yamlData["GitHub_essentials"].Repository_Name != undefined && tagValue != undefined) {
+                        yamlData["GitHub_essentials"].Repository_Name = convertToKebabCase(tagValue);
                       }
                     }
                     break;
@@ -279,7 +280,6 @@ const tenantConfigurator = async (issueNo) => {
                             }
                           }
                           break;
-
                         case tenant_enum.REGION_OF_OPERATION:
                           {
                             switch (tagValue) {
@@ -366,12 +366,13 @@ async function updateTenantJSONFile() {
 
   if (yamlData.Tenant_Name != undefined) {
     tenant_Data.title = yamlData.Tenant_Name;
-    tenant_Data.name = convertTokebabCase(yamlData.Tenant_Name);
-    tenant_Data.getStartedFilePath = `/docs/getting-started.md`,
+    tenant_Data.name = convertToCamelCase(yamlData.Tenant_Name);
+    tenant_Data.product.apiSpecification = `/v1/apis/${yamlData.Tenant_Name}`;
     tenant_Data.product.layout = `/v1/layouts/${yamlData.Tenant_Name}`;
     tenant_Data.product.documentation = `/v1/docs/${yamlData.Tenant_Name}`;
     tenant_Data.product.documenttree = `/v1/docs/${yamlData.Tenant_Name}`;
     tenant_Data.product.documenttreeV2 = `/v2/docs/${yamlData.Tenant_Name}`;
+    tenant_Data.product.docsCount = `/v2/docs/count/${yamlData.Tenant_Name}`;
     tenant_Data.product.sandbox = `/v2/sandboxrun/${yamlData.Tenant_Name}`;
     tenant_Data.product.accessConfig = `/v1/fileAccess/${yamlData.Tenant_Name}`;
     tenant_Data.product.assets = `/v1/assets/${yamlData.Tenant_Name}`;
@@ -393,7 +394,7 @@ async function updateTenantJSONFile() {
 
     fsPromises .writeFile(tenant_json_file, JSON.stringify(tenant_Data, null, 2))
       .then(() => {
-        resolve(tenant_Data.name);
+        resolve(convertToKebabCase(tenant_Data.title));
       })
       .catch((err) => {
         rejects(false);

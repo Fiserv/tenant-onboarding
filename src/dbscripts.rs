@@ -30,7 +30,7 @@ use convert_case::{Case, Casing};
     build the script file & save to disk
 */
 pub fn create_dbscripts(execute: bool, yaml: &Vec<Yaml>, env_flag: String) {
-    log::info!("dbscript Starting");
+    log::info!("dbscript Starting for {}", env_flag);
 
     if (execute) {
         println!("executing create_dbscripts {}"  , env_flag.trim());
@@ -70,7 +70,7 @@ pub fn create_dbscripts(execute: bool, yaml: &Vec<Yaml>, env_flag: String) {
    
     // Read Tenant Type
     //let full_service = y["Tenant Type"]["Full service"].as_bool().unwrap().to_string(); 
-     let has_apis = &y["Tenant_Type"][0]["Full_service"].as_bool().unwrap(); 
+    let has_apis = &(y["Tenant_Type"][0]["Full_service"].as_bool().unwrap() && !y["Tenant_Type"][1]["Doc_only"].as_bool().unwrap()); 
     //let link_out = y["Tenant Type"]["Doc only"].as_bool().unwrap().to_string();
     let internal_tag = &y["Studio_essentials"]["Internal"].as_bool().unwrap() ;
     println!("has_apis {:?}",has_apis);
@@ -168,6 +168,7 @@ pub fn create_dbscripts(execute: bool, yaml: &Vec<Yaml>, env_flag: String) {
   tenantPort: '8443',
   providerAPIUrl: '/v1/products/"+&name+"',
   apiAuth: {},
+  hasApis: "+ if *has_apis { concat!(true) } else { concat!(false)}+",
   productTags: [
     {
       category: 'Region', 
@@ -216,7 +217,7 @@ pub fn create_dbscripts(execute: bool, yaml: &Vec<Yaml>, env_flag: String) {
       name: 'active',
       value: 'develop',
       available: true,
-      hasApis: "+ if *has_apis { concat!(true) } else { concat!(false)}+", 
+      hasApis: "+ if *has_apis { concat!(true) } else { concat!(false)}+",
       sandboxType: '"+ if *mock_server {"mock"} else {"live"} +"',
       mockServerUrl: 'http://tenant-generic-mock-service:8443/sandboxrun',"
       + if *mock_server {" "} else {&live_sandbox}+"
@@ -247,7 +248,7 @@ pub fn create_dbscripts(execute: bool, yaml: &Vec<Yaml>, env_flag: String) {
     return;
   }
     //Write the contents in the db script files one by one.. this is a test content
-    let dbscript_path = format!("../../dbscripts/{}_{}", env_flag.trim(), "db_script.js".to_string()); 
+    let dbscript_path = format!("../../dbscripts/{}_{}", env_flag.trim(), "db_script.js".to_string());
     fs::write(dbscript_path, db_script_data);
     //fs::write(path_to_read, dev_db_script);
 

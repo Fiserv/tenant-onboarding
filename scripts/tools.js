@@ -31,16 +31,18 @@ const printMessage = (message) => {
 };
 
  
-const convertTokebabCase = str =>
+const convertToKebabCase = str =>
   str &&
   str
     .match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g)
     .map(x => x.toLowerCase())
     .join('-'); 
- 
- 
 
-
+const convertToCamelCase = str =>
+  str &&
+  str
+    .match(/[a-zA-Z0-9]+/g)
+    .join(''); 
 
 const tenant_enum = {
   TENANT_NAME:  "Name of your product / tenant",
@@ -87,5 +89,6 @@ module.exports = {
   tenant_enum,
   tenant_type_enum,
   regions,
-  convertTokebabCase
+  convertToKebabCase,
+  convertToCamelCase
 };
