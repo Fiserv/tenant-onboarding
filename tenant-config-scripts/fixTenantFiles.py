@@ -22,8 +22,12 @@ def create_branch(organization:str, repository:str, base_branch:str, new_branch:
         "sha": latest_sha
     }
     response = requests.post(new_branch_url, headers=headers, json=new_branch_data)
-    # print(response.json())
-    print(f"Branch {new_branch} created from {base_branch}")
+
+    # Process the response
+    if response.status_code == 200:
+        print(f"Branch {new_branch} created from {base_branch}")
+    else:
+        print("Branch not created.", response.json())
 
 def commit_and_push_file(organization:str, repository:str, branch:str, file_content:str, file_path:str, commit_message:str):
     base_url = f"https://api.github.com/repos/{organization}/{repository}/contents/{file_path}"
@@ -60,13 +64,13 @@ def commit_and_push_file(organization:str, repository:str, branch:str, file_cont
     print(f"File {file_path} created/edited")
 
 def delete_file(organization:str, repository:str, branch:str, file_path:str):
-    delete_url = f"https://api.github.com/repos/{organization}/{repository}/contents/{file_path}?ref={branch}"
-    delete_response = requests.get(delete_url, headers=headers)
+    file_url = f"https://api.github.com/repos/{organization}/{repository}/contents/{file_path}?ref={branch}"
+    get_file_response = requests.get(file_url, headers=headers)
     
-    if delete_response.status_code == 200:
+    if get_file_response.status_code == 200:
         # File to be deleted exists, get its current content
-        delete_response_json = delete_response.json()
-        delete_sha = delete_response_json['sha']
+        file_json = get_file_response.json()
+        delete_sha = file_json['sha']
         
         # Delete the file
         delete_data = {
@@ -74,9 +78,13 @@ def delete_file(organization:str, repository:str, branch:str, file_path:str):
             "sha": delete_sha,
             "branch": branch
         }
-        delete_response = requests.delete(delete_url, headers=headers, json=delete_data)
-        # print(delete_response.json())
-        print(f"File {file_path} deleted")
+        delete_response = requests.delete(file_url, headers=headers, json=delete_data)
+
+        # Process the response
+        if delete_response.status_code == 200:
+            print(f"File {file_path} deleted")
+        else:
+            print("File failed to delete.", delete_response.json())
     else:
         print(f"File {file_path} not found")
 
@@ -92,8 +100,12 @@ def create_pull_request(username, repository, base_branch, head_branch, title, b
     }
 
     response = requests.post(base_url, headers=headers, json=pull_request_data)
-    # print(response.json())
-    print(f"PR Created at {response.json()['url']}")
+    
+    # Process the response
+    if response.status_code == 200:
+        print(f"PR Created at {response.json()['url']}")
+    else:
+        print("PR failed to be created.", response.json())
 
 def get_organization_repositories(organization):
     headers = {
