@@ -30,7 +30,7 @@ def create_branch(organization:str, repository:str, base_branch:str, new_branch:
         print("Branch not created.", response.json())
 
 def commit_and_push_file(organization:str, repository:str, branch:str, file_content:str, file_path:str, commit_message:str):
-    base_url = f"https://api.github.com/repos/{organization}/{repository}/contents/{file_path}"
+    base_url = f"https://api.github.com/repos/{organization}/{repository}/contents/{file_path}?ref={branch}"
 
     # Check if validator file already exists
     response = requests.get(base_url, headers=headers)
@@ -49,7 +49,6 @@ def commit_and_push_file(organization:str, repository:str, branch:str, file_cont
     file_content_base64 = base64.b64encode(file_content.encode('utf-8')).decode('ascii')
 
     # Commit the changes
-    commit_url = f"{base_url}?ref={branch}"
     commit_data = {
         "message": commit_message,
         "content": file_content_base64,
