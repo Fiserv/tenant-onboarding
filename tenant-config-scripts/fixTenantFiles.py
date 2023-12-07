@@ -59,9 +59,12 @@ def commit_and_push_file(organization:str, repository:str, branch:str, file_cont
 
     response = requests.put(commit_url, headers=headers, json=commit_data)
 
-    # Print the result
-    # print(response.json())
-    print(f"File {file_path} created/edited")
+    # Process the response
+    if response.status_code == 200:
+        print(f"File {file_path} created/edited")
+    else:
+        print("File failed to create/update.", response.json())
+    
 
 def delete_file(organization:str, repository:str, branch:str, file_path:str):
     file_url = f"https://api.github.com/repos/{organization}/{repository}/contents/{file_path}?ref={branch}"
