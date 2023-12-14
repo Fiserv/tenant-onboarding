@@ -127,6 +127,30 @@ const tenantConfigurator = async (issueNo) => {
                     }
                     break;
 
+                  case tenant_enum.TENANT_TYPE:
+                    {
+                      if (yamlData.Studio_essentials.Internal != undefined) {
+                        switch (tagValue) {
+                          case tenant_type_enum.FULL_SERVICE:
+                            if (yamlData["Tenant_Type"][0].Full_service != undefined) {
+                              yamlData["Tenant_Type"][0].Full_service = true;
+                            }
+                            break;
+                          case tenant_type_enum.DOC_ONLY:
+                            if (yamlData["Tenant_Type"][1].Doc_only != undefined) {
+                              yamlData["Tenant_Type"][1].Doc_only = true;
+                            }
+                            break;
+                          case tenant_type_enum.LINK_OUT:
+                            if (yamlData["Tenant_Type"][2].Link_out != undefined) {
+                              yamlData["Tenant_Type"][2].Link_out = true;
+                            }
+                            break;
+                        }
+                      }
+                    }
+                    break;
+
                   case tenant_enum.CARAT_PRODUCT:
                     {
                       if (yamlData.Studio_essentials.Carat != undefined && tagValue != undefined) {
@@ -220,27 +244,6 @@ const tenantConfigurator = async (issueNo) => {
                       const tagValue = val.slice(4, len - 1).trim();
 
                       switch (last_title) {
-                        case tenant_enum.TENANT_TYPE:
-                          {
-                            if (tagValue === tenant_type_enum.FULL_SERVICE) {
-                              if (
-                                yamlData["Tenant_Type"][0].Full_service != undefined  ) {
-                                yamlData["Tenant_Type"][0].Full_service = true;
-                              }
-                            }
-                            if (tagValue === tenant_type_enum.DOC_ONLY) {
-                              if ( yamlData["Tenant_Type"][1].Doc_only !=  undefined ) {
-                                yamlData["Tenant_Type"][1].Doc_only = true;
-                              }
-                            }
-                            if (tagValue === tenant_type_enum.LINK_OUT) {
-                              if (  yamlData["Tenant_Type"][2].Link_out != undefined ) {
-                                yamlData["Tenant_Type"][2].Link_out = true;
-                              }
-                            }
-                          }
-                          break;
-
                         case tenant_enum.CUSTOMER_SEGMENTS_FOR_MERCHANTS:
                           {
                             if (tagValue === "SMB") {
