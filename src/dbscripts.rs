@@ -64,8 +64,8 @@ pub fn create_dbscripts(execute: bool, yaml: &Vec<Yaml>, env_flag: String) {
     let y = &yaml[0];
 
     // Read Product name
-    let title = y["Tenant_Name"].as_str().unwrap().to_string();
-    let name = title.trim();
+    let title = y["Tenant_Title"].as_str().unwrap().to_string();
+    let name = y["Tenant_Name"].as_str().unwrap().to_string();
     let github_repo_name = name.to_case(Case::Kebab);
    
     // Read Tenant Type

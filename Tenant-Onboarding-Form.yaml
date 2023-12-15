@@ -1,11 +1,12 @@
-Tenant_Name: test-repo-produced-by-tenant-onboarding
+Tenant_Title: Tenant Onboarding Test Repo
+Tenant_Name: TenantOnboardingTestRepo
 Tenant_Type:
-  - Full_service: true
+  - Full_service: false
   - Doc_only: false
   - Link_out: false
 GitHub_essentials:
-  Repository_Name: test-new-repo-produced-by-tenant-onboarding
-  Team_Members: test-user
+  Repository_Name: tenant-onboarding-test-repo
+  Team_Members: sfiserv
   Support:
     - Bug_Reporting:
         Assignees: test-user
@@ -14,32 +15,32 @@ GitHub_essentials:
     - Enhancement_Reporting:
         Assignees: test-user
   Github_Branches:
-    Preview: true
-    Previous: true
+    Preview: false
+    Previous: false
 Studio_essentials:
   External_link: https://fiserv.com
   Beta: true
   Internal: false
-  Carat: true
+  Carat: false
   Product_Areas:
     - Merchants:
         Customer_segments:
-          SMB: true
-          Enterprise: true
+          SMB: false
+          Enterprise: false
     - Financial_Institutions:
         Customer_segments:
-          Banks: true
-          Credit_Unions: true
-          Large_financial_institutions: true
+          Banks: false
+          Credit_Unions: false
+          Large_financial_institutions: false
   Tags:
     Region_of_Operation:
-      North_America: true
-      EMEA: true
-      LATAM: true
-      APAC: true
+      North_America: false
+      EMEA: false
+      LATAM: false
+      APAC: false
     Integration:
-      restful: true
-      sdk: true
+      restful: false
+      sdk: false
       soap: false
       xml: false
     Feature:
@@ -47,16 +48,16 @@ Studio_essentials:
       - Feature2
     Industry: Banking , Retail
 Runbox_essentials:
-  Runbox: true
-  Live_edit: true
+  Runbox: false
+  Live_edit: false
   Sandbox:
     Type:
-      mock: true
-      live: true
+      mock: false
+      live: false
     Live_Sandbox_details:
       API_gateway_details:
         Gateway_Type:
-          APIGEE: true
+          APIGEE: false
           Data_Power: false
         Server_URL: https://api.test.com/tenantName
         Authentication_Type: HMAC
