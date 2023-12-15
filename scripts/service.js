@@ -64,7 +64,8 @@ const tenantConfigurator = async (issueNo) => {
                 switch (last_title) {
                   case tenant_enum.TENANT_NAME:
                     { 
-                        yamlData["Tenant_Name"] = tagValue;
+                        yamlData["Tenant_Title"] = tagValue;
+                        yamlData["Tenant_Name"] = convertToCamelCase(tagValue);
                       if ( yamlData["GitHub_essentials"].Repository_Name != undefined && tagValue != undefined) {
                         yamlData["GitHub_essentials"].Repository_Name = convertToKebabCase(tagValue);
                       }
