@@ -41,7 +41,7 @@ const convertToKebabCase = str =>
 const convertToCamelCase = str =>
   str &&
   str
-    .match(/[a-zA-Z0-9]+/g)
+    .match(/[a-zA-Z0-9.]+/g)
     .join(''); 
 
 const tenant_enum = {
