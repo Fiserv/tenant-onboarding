@@ -27,7 +27,7 @@ def create_branch(organization:str, repository:str, base_branch:str, new_branch:
     if response.status_code == 200 or response.status_code == 201:
         print(f"Branch {new_branch} created from {base_branch}")
     elif response.status_code == 422:
-        print('Branch already exists.')
+        print(f"Branch '{new_branch}' already exists.")
     else:
         print(response.status_code, "Branch not created.", response.json())
 
@@ -107,7 +107,7 @@ def create_pull_request(username, repository, base_branch, head_branch, title, b
     if response.status_code == 200 or response.status_code == 201:
         print(f"PR Created at {response.json()['url']}")
     elif response.status_code == 422:
-        print('PR already exists.')
+        print(f"A pull request already exists for {head_branch}")
     else:
         print(response.status_code, "PR failed to be created.", response.json())
 
