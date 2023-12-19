@@ -24,10 +24,12 @@ def create_branch(organization:str, repository:str, base_branch:str, new_branch:
     response = requests.post(new_branch_url, headers=headers, json=new_branch_data)
 
     # Process the response
-    if response.status_code == 200:
+    if response.status_code == 200 or response.status_code == 201:
         print(f"Branch {new_branch} created from {base_branch}")
+    elif response.status_code == 422:
+        print(f"Branch '{new_branch}' already exists.")
     else:
-        print("Branch not created.", response.json())
+        print(response.status_code, "Branch not created.", response.json())
 
 def commit_and_push_file(organization:str, repository:str, branch:str, file_content:str, file_path:str, commit_message:str):
     base_url = f"https://api.github.com/repos/{organization}/{repository}/contents/{file_path}?ref={branch}"
@@ -55,15 +57,13 @@ def commit_and_push_file(organization:str, repository:str, branch:str, file_cont
         "sha": current_sha,
         "branch": branch
     }
-
-    response = requests.put(commit_url, headers=headers, json=commit_data)
+    response = requests.put(base_url, headers=headers, json=commit_data)
 
     # Process the response
     if response.status_code == 200:
         print(f"File {file_path} created/edited")
     else:
         print("File failed to create/update.", response.json())
-    
 
 def delete_file(organization:str, repository:str, branch:str, file_path:str):
     file_url = f"https://api.github.com/repos/{organization}/{repository}/contents/{file_path}?ref={branch}"
@@ -104,10 +104,12 @@ def create_pull_request(username, repository, base_branch, head_branch, title, b
     response = requests.post(base_url, headers=headers, json=pull_request_data)
     
     # Process the response
-    if response.status_code == 200:
+    if response.status_code == 200 or response.status_code == 201:
         print(f"PR Created at {response.json()['url']}")
+    elif response.status_code == 422:
+        print(f"A pull request already exists for {head_branch}")
     else:
-        print("PR failed to be created.", response.json())
+        print(response.status_code, "PR failed to be created.", response.json())
 
 def get_organization_repositories(organization):
     headers = {
@@ -124,7 +126,7 @@ def get_organization_repositories(organization):
         print(repositories)
         return repositories
     else:
-        print("Failed to fetch repositories from the project.")
+        print("Failed to fetch repositories from the project.", response.json())
         exit()
 
 if __name__ == "__main__":
@@ -173,7 +175,7 @@ jobs:
         create_branch(organization, repo, base_branch, feature_branch)
 
         # Commit and push changes to the feature branch
-        commit_and_push_file(organization, repo, feature_branch, create_file_path, create_file_path, commit_message)
+        commit_and_push_file(organization, repo, feature_branch, create_file_content, create_file_path, commit_message)
 
         # Delete old validator files
         for old_file in delete_files:

@@ -131,6 +131,10 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     //let d: String = serde_yaml::to_string(f)?;
    // println!("Read YAML string: {}", config_contents);
  
+    let config = &yaml_config[0];
+    let tenant_repo = config["Tenant_Name"].as_str().unwrap();
+    info!("Executing onboarding script for: {}", tenant_repo);
+
     //set the flags you need
     if args.is_present("execute") {
         execute = true;
@@ -177,11 +181,5 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     }
 
     info!("<<<<<<<<TENANT ONBOARDING PROCESS COMPLETED>>>>>>>>>");
-    if (do_repo && execute){
-        let config = &yaml_config[0]; 
-        let tenant_repo = config["GitHub_essentials"]["Repository_Name"].as_str().unwrap();
-        println!("{}", tenant_repo);
-    } 
- 
     Ok(())
 }
