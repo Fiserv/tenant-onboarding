@@ -369,8 +369,8 @@ async function updateTenantJSONFile() {
   let tenant_Data = JSON.parse(tenant_json);
 
   if (yamlData.Tenant_Name != undefined) {
-    tenant_Data.title = yamlData.Tenant_Name;
-    tenant_Data.name = convertToCamelCase(yamlData.Tenant_Name);
+    tenant_Data.title = yamlData.Tenant_Title;
+    tenant_Data.name = yamlData.Tenant_Name;
     tenant_Data.product.apiSpecification = `/v1/apis/${yamlData.Tenant_Name}`;
     tenant_Data.product.layout = `/v1/layouts/${yamlData.Tenant_Name}`;
     tenant_Data.product.documentation = `/v1/docs/${yamlData.Tenant_Name}`;
