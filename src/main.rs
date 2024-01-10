@@ -171,7 +171,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             dbscripts::create_dbscripts(execute, &yaml_config , "qa".to_string());
             dbscripts::create_dbscripts(execute, &yaml_config , "perf".to_string());
             dbscripts::create_dbscripts(execute, &yaml_config , "stage".to_string());
-            dbscripts::create_dbscripts(execute, &yaml_config , "prod".to_string());
+            dbscripts::create_dbscripts(execute, &yaml_config , "production".to_string());
         }
         // If execute is false, show the dbscript that would be created.
         // If execute is true, create the dev dbscript

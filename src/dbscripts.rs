@@ -49,7 +49,7 @@ pub fn create_dbscripts(execute: bool, yaml: &Vec<Yaml>, env_flag: String) {
         || "qa".eq(env_flag.trim())
         || "perf".eq(env_flag.trim())
         || "stage".eq(env_flag.trim())
-        || "prod".eq(env_flag.trim()))
+        || "production".eq(env_flag.trim()))
     {
         db_script_file_path =  "../../dbscripts/".to_string() + env_flag.trim() + &"_db_script.js".to_string();
         path_to_read = Path::new(&db_script_file_path);
@@ -241,7 +241,7 @@ pub fn create_dbscripts(execute: bool, yaml: &Vec<Yaml>, env_flag: String) {
       + if *mock_server {" "} else {&live_sandbox}+"
     }
   ]
-});");
+})");
 
   if (!execute) {
     println!("\n{} env DB Script for {}:\n{}", env_flag.trim(), name, &db_script_data);
