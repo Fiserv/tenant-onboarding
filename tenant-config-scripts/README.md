@@ -18,7 +18,7 @@ Script to parse through an organization's repositories and mass lock branches (s
 - `branches`: List of branch names to apply lock to
    - For curl you must manually input one branch per API call
 - `branch_lock`: Configs for the branch protection being applied, check [Branch Protection Reference](https://docs.github.com/en/rest/branches/branch-protection?apiVersion=2022-11-28#update-branch-protection) for more details.
-   - Settings are configured to our current standard rules. Once Rulesets are enabled they can be set to `null` and `false` to let Ruleset handle parsing.
+   - The current script is configured to only set `read_only` and `enforce_admin` since other protections are already being covered under the RuleSets related script.
 - `headers`: Default headers as provided by Github API
 
 For testing, replace `repositories` variable with a list containing a single tenant before the for-loop or modify the for-loop itself:

@@ -32,7 +32,7 @@ branches = ["main"]
 branch_lock = {
     "lock_branch": True,
     "enforce_admins": True,
-    "required_pull_request_reviews": {"required_approving_review_count": 0},
+    "required_pull_request_reviews": None,
     "required_status_checks": None, 
     "restrictions": None
 }
@@ -56,5 +56,5 @@ curl -L \
   -H "Authorization: Bearer <Github_Access_Token>" \
   -H "X-GitHub-Api-Version: 2022-11-28" \
   https://api.github.com/repos/Fiserv/<Repo_Name>/branches/<branch_name>/protection \
-  -d '{"lock_branch": true, "enforce_admins": true, "required_pull_request_reviews": {"required_approving_review_count": 0}, "required_status_checks": null, "restrictions": null}'
+  -d '{"lock_branch": true, "enforce_admins": true, "required_pull_request_reviews": null, "required_status_checks": null, "restrictions": null}'
 '''
