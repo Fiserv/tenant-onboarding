@@ -22,39 +22,28 @@ if response.status_code == 200:
     print(repositories)
 else:
     print("Failed to fetch repositories from the project.")
+    print(response.json())
     exit()
 print()
 
-# Branches to lock
-branches = ["main"]
+branches = ["main", "preview"]
 
-# Branch lock settings
-branch_lock = {
-    "lock_branch": True,
-    "enforce_admins": True,
-    "required_pull_request_reviews": None,
-    "required_status_checks": None, 
-    "restrictions": None
-}
-
-# for repo in repositories:
 for repo in repositories:
     for branch in branches:
         url = f"https://api.github.com/repos/{org_name}/{repo}/branches/{branch}/protection"
-        response = requests.put(url, json=branch_lock, headers=headers)
+        response = requests.delete(url, headers=headers)
 
-        if response.status_code == 200 or response.status_code == 201:
-            print(f"'{branch}' branch locked for {repo}.")
+        if response.status_code == 200 or response.status_code == 204:
+            print(f"'{branch}' branch unlocked for {repo}.")
         else:
-            print(f"Failed lock '{branch}' branch for {repo}.")
+            print(f"Failed unlock '{branch}' branch for {repo}.")
             print(response.json())
 
 '''
 curl -L \
-  -X PUT \
+  -X DELETE \
   -H "Accept: application/vnd.github+json" \
   -H "Authorization: Bearer <Github_Access_Token>" \
   -H "X-GitHub-Api-Version: 2022-11-28" \
-  https://api.github.com/repos/Fiserv/<Repo_Name>/branches/<branch_name>/protection \
-  -d '{"lock_branch": true, "enforce_admins": true, "required_pull_request_reviews": null, "required_status_checks": null, "restrictions": null}'
+  https://api.github.com/repos/Fiserv/Test-repo/branches/main/protection \
 '''
