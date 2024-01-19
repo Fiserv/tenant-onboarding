@@ -40,6 +40,7 @@ pub fn create_dbscripts(execute: bool, yaml: &Vec<Yaml>, env_flag: String) {
 
     let mut path_to_read = Path::new("");
     let mut db_script_file_path = String::new();
+    let mut github_main_branch = String::new();
     let mut gts_url = String::new();
 
     //Create the db-script files
@@ -57,8 +58,14 @@ pub fn create_dbscripts(execute: bool, yaml: &Vec<Yaml>, env_flag: String) {
         println!("Value of gts_dev_url: {}", gts_url);
     } else {
         // environment value mismatched
-        println!("Incorrect enviornment value");
+        println!("Incorrect environment value");
     }
+
+    match env_flag.trim() { 
+      "stage" => github_main_branch = "stage".to_string(), 
+      "production" => github_main_branch = "main".to_string(), 
+      _ => github_main_branch = "develop".to_string(), 
+    };
 
     // Read the values from tenant-onboarding-form.yaml file
     let y = &yaml[0];
@@ -73,7 +80,6 @@ pub fn create_dbscripts(execute: bool, yaml: &Vec<Yaml>, env_flag: String) {
     let has_apis = &(y["Tenant_Type"][0]["Full_service"].as_bool().unwrap() && !y["Tenant_Type"][1]["Doc_only"].as_bool().unwrap()); 
     //let link_out = y["Tenant Type"]["Doc only"].as_bool().unwrap().to_string();
     let internal_tag = &y["Studio_essentials"]["Internal"].as_bool().unwrap() ;
-    println!("has_apis {:?}",has_apis);
     // Read Tags: Region Of Operation
     let mut regions_vector = Vec::new();
     
@@ -89,7 +95,6 @@ pub fn create_dbscripts(execute: bool, yaml: &Vec<Yaml>, env_flag: String) {
     if true.eq(&y["Studio_essentials"]["Tags"]["Region_of_Operation"]["APAC"].as_bool().unwrap()) {
         regions_vector.push("APAC");
     }
-    println!("{:?}",regions_vector);
 
     let mut region_of_operations: String = String::new();
     let space = "','";
@@ -116,7 +121,6 @@ pub fn create_dbscripts(execute: bool, yaml: &Vec<Yaml>, env_flag: String) {
     if true.eq(&y["Studio_essentials"]["Tags"]["Integration"]["xml"].as_bool().unwrap()) {
         integration_vector.push("xml");
     }
-    println!("{:?}",integration_vector);
 
     let mut integrations: String = String::new();
     let space = "','";
@@ -131,11 +135,6 @@ pub fn create_dbscripts(execute: bool, yaml: &Vec<Yaml>, env_flag: String) {
     // Read Tags: Industry
     let mut industry_vector = Vec::new();
     industry_vector.push(y["Studio_essentials"]["Tags"]["Industry"].as_str().unwrap().to_string());
-    //industry_vector.push(y["Studio_essentials"]["Tags"]["Industry"]["Industry2"].as_str().unwrap().to_string());
-    //industry_vector.push(y["Studio_essentials"]["Tags"]["Industry"]["Industry3"].as_str().unwrap().to_string());
-    //industry_vector.push(y["Studio_essentials"]["Tags"]["Industry"]["Industry4"].as_str().unwrap().to_string());
-    //industry_vector.push(y["Studio_essentials"]["Tags"]["Industry"]["Industry5"].as_str().unwrap().to_string());
-    println!("{:?}",industry_vector);
     
     let mut industries: String = String::new();
     let space = "','";
@@ -148,12 +147,11 @@ pub fn create_dbscripts(execute: bool, yaml: &Vec<Yaml>, env_flag: String) {
     }
     
     // Read Runbox essentials
-    let mock_server = &(y["Runbox_essentials"]["Sandbox"]["Type"]["mock"].as_bool().unwrap() && !y["Runbox_essentials"]["Sandbox"]["Type"]["live"].as_bool().unwrap());
+    let mock_server = &(!*has_apis || !y["Runbox_essentials"]["Sandbox"]["Type"]["live"].as_bool().unwrap());
     let live_server_url = y["Runbox_essentials"]["Sandbox"]["Live_Sandbox_details"]["API_gateway_details"]["Server_URL"].as_str().unwrap().to_string();
     let live_auth_type= y["Runbox_essentials"]["Sandbox"]["Live_Sandbox_details"]["API_gateway_details"]["Authentication_Type"].as_str().unwrap().to_string();
     let live_self_signed_cert = y["Runbox_essentials"]["Sandbox"]["Live_Sandbox_details"]["API_gateway_details"]["Self_signed_certificate"].as_bool().unwrap();
-    let live_sandbox = "
-      liveSandbox: {
+    let live_sandbox = "liveSandbox: {
         serverUrl: '".to_string() + &live_server_url + "',
         authenticationScheme: '" + &live_auth_type +"',
         username: '',
@@ -189,7 +187,7 @@ pub fn create_dbscripts(execute: bool, yaml: &Vec<Yaml>, env_flag: String) {
   active: true,
   betaTag: true,
   internalTag: "+ if *internal_tag { concat!(true) } else { concat!(false)}+",
-  github: '" + &github_repo_name+"',
+  github: '" + &github_repo_name + "',
   selfServiceFeatures: [
     {
       featureName: 'Explore documentation',
@@ -215,12 +213,11 @@ pub fn create_dbscripts(execute: bool, yaml: &Vec<Yaml>, env_flag: String) {
   gitHubFeatureBranches: [
     {
       name: 'active',
-      value: 'develop',
+      value: '" + &github_main_branch + "',
       available: true,
       hasApis: "+ if *has_apis { concat!(true) } else { concat!(false)}+",
       sandboxType: '"+ if *mock_server {"mock"} else {"live"} +"',
-      mockServerUrl: 'http://tenant-generic-mock-service:8443/sandboxrun',"
-      + if *mock_server {" "} else {&live_sandbox}+"
+      " + if *mock_server {"mockServerUrl: 'http://tenant-generic-mock-service:8443/sandboxrun',"} else {&live_sandbox}+"
     },
     {
       name: 'previous',
@@ -228,8 +225,7 @@ pub fn create_dbscripts(execute: bool, yaml: &Vec<Yaml>, env_flag: String) {
       available: false,
       hasApis: false,
       sandboxType: '"+ if *mock_server {"mock"} else {"live"} +"',
-      mockServerUrl: 'http://tenant-generic-mock-service:8443/sandboxrun',"
-      + if *mock_server {" "} else {&live_sandbox}+"
+      " + if *mock_server {"mockServerUrl: 'http://tenant-generic-mock-service:8443/sandboxrun',"} else {&live_sandbox}+"
     },
     {
       name: 'preview',
@@ -237,8 +233,7 @@ pub fn create_dbscripts(execute: bool, yaml: &Vec<Yaml>, env_flag: String) {
       available: false,
       hasApis: false,
       sandboxType: '"+ if *mock_server {"mock"} else {"live"} +"',
-      mockServerUrl: 'http://tenant-generic-mock-service:8443/sandboxrun',"
-      + if *mock_server {" "} else {&live_sandbox}+"
+      " + if *mock_server {"mockServerUrl: 'http://tenant-generic-mock-service:8443/sandboxrun',"} else {&live_sandbox}+"
     }
   ]
 })");
