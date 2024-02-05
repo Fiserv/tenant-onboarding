@@ -12,12 +12,6 @@ org_name = "Fiserv"
 ruleset = {
   "rules": [
     {
-      "type": "update",
-      "parameters": {
-        "update_allows_fetch_and_merge": True
-      }
-    },
-    {
       "type": "deletion",
       "parameters": None
     },
