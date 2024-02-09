@@ -152,16 +152,25 @@ const tenantConfigurator = async (issueNo) => {
                     }
                     break;
 
-                  case tenant_enum.CARAT_PRODUCT:
-                    {
-                      if (yamlData.Studio_essentials.Carat != undefined && tagValue != undefined) {
-                        if (tagValue === "No") {
-                          yamlData.Studio_essentials.Carat = false;
-                        } else {
-                          yamlData.Studio_essentials.Carat = true;
-                        }
-                      }
+                  case tenant_enum.MERCHANT_PRODUCT:
+                    if (yamlData.Studio_essentials.Merchant != undefined && tagValue === "Yes") {
+                        yamlData.Studio_essentials.Merchant = true;
                     }
+                    break;
+                  case tenant_enum.FI_PRODUCT:
+                    if (yamlData.Studio_essentials.FI != undefined && tagValue === "Yes") {
+                        yamlData.Studio_essentials.FI = true;
+                    }
+                    break;
+                  case tenant_enum.Fintech_PRODUCT:
+                    if (yamlData.Studio_essentials.Carat != undefined && tagValue === "Yes") {
+                        yamlData.Studio_essentials.Fintech = true;
+                    }
+                    break;
+                  case tenant_enum.CARAT_PRODUCT:
+                    if (yamlData.Studio_essentials.Carat != undefined && tagValue === "Yes") {
+                        yamlData.Studio_essentials.Carat = true;
+                      }
                     break;
 
                   case tenant_enum.RESTFUL:
@@ -353,8 +362,6 @@ const tenantConfigurator = async (issueNo) => {
   return check;
 };
 
-
-  
 async function updateTenantJSONFile() {
  
   const tenant_yaml = fs.readFileSync(
@@ -368,9 +375,24 @@ async function updateTenantJSONFile() {
   const tenant_json = fs.readFileSync(tenant_json_file, "utf8");
   let tenant_Data = JSON.parse(tenant_json);
 
+  const solutions = []
+  if (yamlData.Studio_essentials.Merchant) {
+    solutions.push('merchants');
+  }
+  if (yamlData.Studio_essentials.Merchant) {
+    solutions.push('financial-institutions');
+  }
+  if (yamlData.Studio_essentials.Merchant) {
+    solutions.push('fintech');
+  }
+  if (yamlData.Studio_essentials.Merchant) {
+    solutions.push('carat');
+  }
+  
   if (yamlData.Tenant_Name != undefined) {
     tenant_Data.title = yamlData.Tenant_Title;
     tenant_Data.name = yamlData.Tenant_Name;
+    tenant_Data.solution = solutions;
     tenant_Data.product.apiSpecification = `/v1/apis/${yamlData.Tenant_Name}`;
     tenant_Data.product.layout = `/v1/layouts/${yamlData.Tenant_Name}`;
     tenant_Data.product.documentation = `/v1/docs/${yamlData.Tenant_Name}`;
