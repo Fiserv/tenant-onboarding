@@ -163,7 +163,7 @@ const tenantConfigurator = async (issueNo) => {
                     }
                     break;
                   case tenant_enum.FINTECH_PRODUCT:
-                    if (yamlData.Studio_essentials.Carat != undefined && tagValue === "Yes") {
+                    if (yamlData.Studio_essentials.Fintech != undefined && tagValue === "Yes") {
                         yamlData.Studio_essentials.Fintech = true;
                     }
                     break;
@@ -363,7 +363,6 @@ const tenantConfigurator = async (issueNo) => {
 };
 
 async function updateTenantJSONFile() {
- 
   const tenant_yaml = fs.readFileSync(
     tenant_onboarding_file,
     "utf8"
@@ -379,13 +378,13 @@ async function updateTenantJSONFile() {
   if (yamlData.Studio_essentials.Merchant) {
     solutions.push('merchants');
   }
-  if (yamlData.Studio_essentials.Merchant) {
+  if (yamlData.Studio_essentials.FI) {
     solutions.push('financial-institutions');
   }
-  if (yamlData.Studio_essentials.Merchant) {
+  if (yamlData.Studio_essentials.Fintech) {
     solutions.push('fintech');
   }
-  if (yamlData.Studio_essentials.Merchant) {
+  if (yamlData.Studio_essentials.Carat) {
     solutions.push('carat');
   }
   
@@ -418,7 +417,7 @@ async function updateTenantJSONFile() {
 
    // printMessage(JSON.stringify(tenant_Data, null, 2));
 
-    fsPromises .writeFile(tenant_json_file, JSON.stringify(tenant_Data, null, 2))
+    fsPromises.writeFile(tenant_json_file, JSON.stringify(tenant_Data, null, 2))
       .then(() => {
         resolve(convertToKebabCase(tenant_Data.title));
       })
@@ -427,9 +426,6 @@ async function updateTenantJSONFile() {
       });
   }); 
 }
-
-
-
 
 async function service() {
   let check = false;
