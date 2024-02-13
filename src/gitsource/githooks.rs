@@ -7,10 +7,6 @@ use serde_json::Value;
 use reqwest::{Client, Method};
 use crate::gitsource;
 
-//const GITHUB_TOKENT:&str = "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";
-//const GITHUB_REPO_HOOKS_API:&str = "https://api.github.com/repos/Fiserv/SampleOnBoardingTenant/hooks";
- 
- 
 #[derive(Serialize, Deserialize, Debug)] 
 struct RepoHooksInfo { 
     name:String,
@@ -39,32 +35,47 @@ pub async fn add_repo_hooks(config_yaml: &Vec<Yaml>, settings_yaml: &Vec<Yaml>, 
     let setting = &settings_yaml[0];
 
     let dev_hook = setting["github"]["gitHubDevHook"].as_str().unwrap();
-    let dev_hook_key = setting["github"]["gitHubDevHookKey"].as_str().unwrap();
+    // let dev_hook_key = setting["github"]["gitHubDevHookKey"].as_str().unwrap();
+    let dev_hook_key = gitsource::authtoken::get_webhook_key("dev".to_string(), setting);
+    if !dev_hook_key.is_ok() {
+        return Result::Err(dev_hook_key.err().unwrap());
+    }
 
     let qa_hook = setting["github"]["gitHubQAHook"].as_str().unwrap();
-    let qa_hook_key = setting["github"]["gitHubQAHookKey"].as_str().unwrap();
+    // let qa_hook_key = setting["github"]["gitHubQAHookKey"].as_str().unwrap();
+    let qa_hook_key = gitsource::authtoken::get_webhook_key("qa".to_string(), setting);
+    if !qa_hook_key.is_ok() {
+        return Result::Err(qa_hook_key.err().unwrap());
+    }
 
     let stage_hook = setting["github"]["gitHubStageHook"].as_str().unwrap();
-    let stage_hook_key = setting["github"]["gitHubStageHookKey"].as_str().unwrap();
+    // let stage_hook_key = setting["github"]["gitHubStageHookKey"].as_str().unwrap();
+    let stage_hook_key = gitsource::authtoken::get_webhook_key("stage".to_string(), setting);
+    if !stage_hook_key.is_ok() {
+        return Result::Err(stage_hook_key.err().unwrap());
+    }
 
     let prod_hook = setting["github"]["gitHubProdHook"].as_str().unwrap();
-    let prod_hook_key = setting["github"]["gitHubProdHookKey"].as_str().unwrap();
+    // let prod_hook_key = setting["github"]["gitHubProdHookKey"].as_str().unwrap();
+    let prod_hook_key = gitsource::authtoken::get_webhook_key("production".to_string(), setting);
+    if !prod_hook_key.is_ok() {
+        return Result::Err(prod_hook_key.err().unwrap());
+    }
        
     if (!execute) {
         println!("Webhooks to be added for:\n - {}\n - {}\n - {}\n - {}", dev_hook, qa_hook, stage_hook, prod_hook);
         return Ok(false);
     }
 
-    added = add_hooks(dev_hook, dev_hook_key, tenant_repo, settings_yaml).await? && added; 
-    added = add_hooks(qa_hook, qa_hook_key, tenant_repo, settings_yaml).await? && added; 
-    added = add_hooks(stage_hook, stage_hook_key, tenant_repo, settings_yaml).await? && added; 
-    added = add_hooks(prod_hook, prod_hook_key, tenant_repo, settings_yaml).await? && added;
+    added = add_hooks(dev_hook, &dev_hook_key.unwrap(), tenant_repo, settings_yaml).await? && added; 
+    added = add_hooks(qa_hook, &qa_hook_key.unwrap(), tenant_repo, settings_yaml).await? && added; 
+    added = add_hooks(stage_hook, &stage_hook_key.unwrap(), tenant_repo, settings_yaml).await? && added; 
+    added = add_hooks(prod_hook, &prod_hook_key.unwrap(), tenant_repo, settings_yaml).await? && added;
 
     Ok((added))
 }
 
-async fn add_hooks(path: &str , key: &str ,tenant_repo: &str, setting_yaml: &Vec<Yaml>) ->  Result<(bool), Box<dyn Error>> {
-
+async fn add_hooks(path: &str, key: &str ,tenant_repo: &str, setting_yaml: &Vec<Yaml>) ->  Result<(bool), Box<dyn Error>> {
     let setting = &setting_yaml[0];
     let github_auth_token_result = gitsource::authtoken::get_auth_token(setting);
     if !github_auth_token_result.is_ok() {
