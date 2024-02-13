@@ -13,9 +13,9 @@ github:
   gitHubQAHook:                           'https://qa-developer.fiserv.com/api/github-push'
   gitHubQAHookKey:                        'secret123'
   gitHubStageHook:                        'https://stage-developer.fiserv.com/api/github-push'
-  gitHubStageHookKey:                     'MrMOLygC7iwjaI5pYbNiDSESwAIH6Tr'
+  gitHubStageHookKey:                     'STAGE_WEBHOOK_KEY'
   gitHubProdHook:                         'https://developer.fiserv.com/api/github-push'
-  gitHubProdHookKey:                      'E9MGlkPtquWbd3oIeeTzvt7ezdT02rjMu'
+  gitHubProdHookKey:                      'PROD_WEBHOOK_KEY'
 mongdb:
   db:                                     ''
   url:                                    ''
