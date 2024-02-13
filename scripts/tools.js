@@ -55,7 +55,7 @@ const tenant_enum = {
   INTERNAL_TENANT:"Internal tenant",
   MERCHANT_PRODUCT:"Merchants solution area",
   FI_PRODUCT:"Financial Institutions solution area",
-  Fintech_PRODUCT:"Fintech solution area",
+  FiINTECH_PRODUCT:"Fintech solution area",
   CARAT_PRODUCT:"Product of Carat",
   MERCHANT_AREA:"Merchants solution area",
   CUSTOMER_SEGMENTS_FOR_MERCHANTS:"Customer Segments for Merchants",

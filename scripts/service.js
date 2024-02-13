@@ -162,7 +162,7 @@ const tenantConfigurator = async (issueNo) => {
                         yamlData.Studio_essentials.FI = true;
                     }
                     break;
-                  case tenant_enum.Fintech_PRODUCT:
+                  case tenant_enum.FINTECH_PRODUCT:
                     if (yamlData.Studio_essentials.Carat != undefined && tagValue === "Yes") {
                         yamlData.Studio_essentials.Fintech = true;
                     }
