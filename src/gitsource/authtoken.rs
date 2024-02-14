@@ -19,7 +19,7 @@ pub fn get_webhook_key(env: String, settings_yaml: &Yaml) -> Result<String, Box<
     match env.trim() { 
         "stage" => webhook_secret_env_var = settings_yaml["github"]["gitHubStageHookKey"].as_str().unwrap(), 
         "production" => webhook_secret_env_var = settings_yaml["github"]["gitHubProdHookKey"].as_str().unwrap(), 
-        _ => return Ok(settings_yaml["github"]["gitHubDevHookKey"].as_str().unwrap()), 
+        _ => return Ok(settings_yaml["github"]["gitHubDevHookKey"].as_str().unwrap().to_string()), 
     };
 
     let github_webhook_secret: String;
