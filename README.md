@@ -24,12 +24,21 @@ The program provides the following functionality:
 It makes use of MongoDB tools. mongodbimport.  You'll need to have this installed first.
 If you're on mac then you can just homebrew install it.
 
+```
 brew tap mongodb/brew
 brew install mongodb-database-tools
+```
 
-Either update a config file or pass in data through the CLI
+Create an environment variable called GITHUB_AUTH_TOKEN whose value is a valid GitHub auth-token, for example, a Personal Access Token.
+```
+export GITHUB_AUTH_TOKEN="<auth_token>"
+```
 
-Create an environment variable called GITHUB_AUTH_TOKEN whose value is a valid GitHub auth-token, for example, a Personal Access Token
+Create an environment variable called `STAGE_WEBHOOK_KEY` and `PROD_WEBHOOK_KEY` whose value would be used to set the tenant Github Webhook secrets for those environments.
+```
+export STAGE_WEBHOOK_KEY="stage_secret"
+export PROD_WEBHOOK_KEY="prod_secret"
+```
 
 ## Dry run
 

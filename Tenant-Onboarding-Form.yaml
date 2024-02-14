@@ -1,7 +1,7 @@
 Tenant_Title: Tenant Onboarding Test Repo
 Tenant_Name: TenantOnboardingTestRepo
 Tenant_Type:
-  - Full_service: false
+  - Full_service: true
   - Doc_only: false
   - Link_out: false
 GitHub_essentials:
@@ -21,6 +21,9 @@ Studio_essentials:
   External_link: https://fiserv.com
   Beta: true
   Internal: false
+  Merchant: false
+  FI: false
+  Fintech: false
   Carat: false
   Product_Areas:
     - Merchants:

@@ -19,7 +19,6 @@ struct RepoInfo {
 
 #[tokio::main]
 pub async fn create_repo(config_yaml: &Vec<Yaml> , settings_yaml: &Vec<Yaml>, execute: bool) -> Result<(bool), Box<dyn Error>> {
-
     let mut created = false;
 
     let config = &config_yaml[0]; 
@@ -52,11 +51,11 @@ pub async fn create_repo(config_yaml: &Vec<Yaml> , settings_yaml: &Vec<Yaml>, ex
     
     let github_client = reqwest::Client::new();
     let post_req = github_client.request(Method::POST, github_repo_gen_api)
-    .bearer_auth(github_auth_token)
-    .header("User-Agent", "tenant-onboarding")
-    .header("Accept", "application/vnd.github+json")
-    .timeout(Duration::from_secs(5))
-    .json(&repo_data);
+                                .bearer_auth(github_auth_token)
+                                .header("User-Agent", "tenant-onboarding")
+                                .header("Accept", "application/vnd.github+json")
+                                .timeout(Duration::from_secs(5))
+                                .json(&repo_data);
 
     let resp_data = post_req.send().await?;
     println!("Adding Repo Status {}", resp_data.status());
