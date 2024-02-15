@@ -97,13 +97,17 @@ pub fn create_dbscripts(execute: bool, yaml: &Vec<Yaml>, env_flag: String) {
     }
 
     let mut region_of_operations: String = String::new();
-    let space = "','";
     let all_regions = regions_vector.len();
-    for (i, region) in regions_vector.iter().enumerate() {
-        region_of_operations.push_str(region);
-        if i < all_regions-1 {
-            region_of_operations.push_str(space);
-        }
+    if (all_regions > 0) {
+      let space = "','";
+      region_of_operations.push_str("'");
+      for (i, region) in regions_vector.iter().enumerate() {
+          region_of_operations.push_str(region);
+          if i < all_regions-1 {
+              region_of_operations.push_str(space);
+          }
+      }
+      region_of_operations.push_str("'");
     }
 
     // Read Tags: Integration
@@ -125,25 +129,33 @@ pub fn create_dbscripts(execute: bool, yaml: &Vec<Yaml>, env_flag: String) {
     let mut integrations: String = String::new();
     let space = "','";
     let all_integrations = integration_vector.len();
-    for (i, integration) in integration_vector.iter().enumerate() {
-        integrations.push_str(integration);
-        if i < all_integrations -1 {
-            integrations.push_str(space);
-        }
+    if (all_integrations > 0) {
+      integrations.push_str("'");
+      for (i, integration) in integration_vector.iter().enumerate() {
+          integrations.push_str(integration);
+          if i < all_integrations -1 {
+              integrations.push_str(space);
+          }
+      }
+      integrations.push_str("'");
     }
  
-    // Read Tags: Industry
-    let mut industry_vector = Vec::new();
-    industry_vector.push(y["Studio_essentials"]["Tags"]["Industry"].as_str().unwrap().to_string());
-    
     let mut industries: String = String::new();
-    let space = "','";
-    let all_industries = industry_vector.len();
-    for (i, industry) in industry_vector.iter().enumerate() {
+    // Read Tags: Industry
+    if (y["Studio_essentials"]["Tags"]["Industry"].as_str() != None) {
+      let mut industry_vector = Vec::new();
+      industry_vector.push(y["Studio_essentials"]["Tags"]["Industry"].as_str().unwrap().to_string());
+      
+      let space = "','";
+      let all_industries = industry_vector.len();
+      industries.push_str("'");
+      for (i, industry) in industry_vector.iter().enumerate() {
         industries.push_str(industry);
         if i < all_industries -1 {
-            industries.push_str(space);
+          industries.push_str(space);
         }
+      }
+      industries.push_str("'");
     }
     
     // Read Runbox essentials
@@ -171,17 +183,17 @@ pub fn create_dbscripts(execute: bool, yaml: &Vec<Yaml>, env_flag: String) {
     {
       category: 'Region', 
       value: 'Region',
-      tags: ['"+ &region_of_operations+  "'],
+      tags: ["+ &region_of_operations+  "],
     },   
     {
       category: 'Integration Type', 
       value: 'Integration Type',
-      tags: ['" + &integrations+  "'],
+      tags: [" + &integrations+  "],
     },  
     {
       category: 'Industry', 
       value: 'Industry',
-      tags: ['" + &industries+  "'],
+      tags: [" + &industries+  "],
     },    
   ],   
   active: true,
