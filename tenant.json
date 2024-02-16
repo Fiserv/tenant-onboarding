@@ -49,17 +49,17 @@
   },
   "supportConfig": [{ 
     "bug": {
-      "label": "bug,CommerceHub",
+      "label": "bug",
       "template": "bug.md",
       "assignees": "<github-id>"
     },  
     "feedback": {
-      "label": "feedback,CommerceHub",
+      "label": "feedback",
       "template": "feedback.md",
       "assignees": "<github-id>"
     },
     "enhancement": {
-      "label": "enhancement,CommerceHub",
+      "label": "enhancement",
       "template": "feature.md",
       "assignees": "<github-id>"
     }

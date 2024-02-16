@@ -49,7 +49,7 @@ Studio_essentials:
     Feature:
       - Feature1
       - Feature2
-    Industry: Banking , Retail
+    Industry:
 Runbox_essentials:
   Runbox: false
   Live_edit: false
