@@ -32,9 +32,9 @@ Studio_essentials:
           Enterprise: false
     - Financial_Institutions:
         Customer_segments:
-          Banks: false
-          Credit_Unions: false
-          Large_financial_institutions: false
+          Bank: false
+          Credit_Union: false
+          Large_Financial_Institution: false
   Tags:
     Region_of_Operation:
       North_America: false

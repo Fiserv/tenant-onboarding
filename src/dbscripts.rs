@@ -77,7 +77,7 @@ pub fn create_dbscripts(execute: bool, yaml: &Vec<Yaml>, env_flag: String) {
    
     // Read Tenant Type
     //let full_service = y["Tenant Type"]["Full service"].as_bool().unwrap().to_string(); 
-    let has_apis = &(y["Tenant_Type"][0]["Full_service"].as_bool().unwrap() && !y["Tenant_Type"][1]["Doc_only"].as_bool().unwrap()); 
+    let has_apis = &(y["Tenant_Type"][0]["Full_service"].as_bool().unwrap() && !y["Tenant_Type"][1]["Doc_only"].as_bool().unwrap() && y["Runbox_essentials"]["Runbox"].as_bool().unwrap()); 
     //let link_out = y["Tenant Type"]["Doc only"].as_bool().unwrap().to_string();
     let internal_tag = &y["Studio_essentials"]["Internal"].as_bool().unwrap() ;
     // Read Tags: Region Of Operation
@@ -139,7 +139,7 @@ pub fn create_dbscripts(execute: bool, yaml: &Vec<Yaml>, env_flag: String) {
       }
       integrations.push_str("'");
     }
- 
+
     let mut industries: String = String::new();
     // Read Tags: Industry
     if (y["Studio_essentials"]["Tags"]["Industry"].as_str() != None) {
@@ -157,14 +157,49 @@ pub fn create_dbscripts(execute: bool, yaml: &Vec<Yaml>, env_flag: String) {
       }
       industries.push_str("'");
     }
+
+    // Read Tags: Customer Segments
+    let mut segment_vector = Vec::new();
     
+    if (y["Studio_essentials"]["Product_Areas"][0]["Merchants"]["Customer_segments"]["SMB"].as_bool().unwrap()) {
+      segment_vector.push("SMB");
+    }
+    if (y["Studio_essentials"]["Product_Areas"][0]["Merchants"]["Customer_segments"]["Enterprise"].as_bool().unwrap()) {
+      segment_vector.push("Enterprise");
+    }
+    if (y["Studio_essentials"]["Product_Areas"][1]["Financial_Institutions"]["Customer_segments"]["Bank"].as_bool().unwrap()) {
+      segment_vector.push("Bank");
+    }
+    if (y["Studio_essentials"]["Product_Areas"][1]["Financial_Institutions"]["Customer_segments"]["Credit_Union"].as_bool().unwrap()) {
+      segment_vector.push("Credit Union");
+    }
+    if (y["Studio_essentials"]["Product_Areas"][1]["Financial_Institutions"]["Customer_segments"]["Large_Financial_Institution"].as_bool().unwrap()) {
+      segment_vector.push("Large Financial Institution");
+    }
+    
+    let mut segments: String = String::new();
+    let space = "','";
+    let all_segments = segment_vector.len();
+    if (all_segments > 0) {
+      segments.push_str("'");
+      for (i, segment) in segment_vector.iter().enumerate() {
+          segments.push_str(segment);
+          if i < all_segments -1 {
+            segments.push_str(space);
+          }
+      }
+      segments.push_str("'");
+    }
+
     // Read Runbox essentials
-    let mock_server = &(!*has_apis || !y["Runbox_essentials"]["Sandbox"]["Type"]["live"].as_bool().unwrap());
+
+    // Use mock server as default if: No APIs, both `mock` and `live` are checked, or neither is checked
+    let mock_server = &(!*has_apis || y["Runbox_essentials"]["Sandbox"]["Type"]["mock"].as_bool().unwrap() || !y["Runbox_essentials"]["Sandbox"]["Type"]["live"].as_bool().unwrap());
     let live_server_url = y["Runbox_essentials"]["Sandbox"]["Live_Sandbox_details"]["API_gateway_details"]["Server_URL"].as_str().unwrap().to_string();
     let live_auth_type= y["Runbox_essentials"]["Sandbox"]["Live_Sandbox_details"]["API_gateway_details"]["Authentication_Type"].as_str().unwrap().to_string();
     let live_self_signed_cert = y["Runbox_essentials"]["Sandbox"]["Live_Sandbox_details"]["API_gateway_details"]["Self_signed_certificate"].as_bool().unwrap();
     let live_sandbox = "liveSandbox: {
-        serverUrl: '".to_string() + &live_server_url + "',
+      serverUrl: '".to_string() + &live_server_url + "',
         authenticationScheme: '" + &live_auth_type +"',
         username: '',
         password: '',
@@ -187,13 +222,18 @@ pub fn create_dbscripts(execute: bool, yaml: &Vec<Yaml>, env_flag: String) {
     },   
     {
       category: 'Integration Type', 
-      value: 'Integration Type',
+      value: 'Integration_Type',
       tags: [" + &integrations+  "],
     },  
     {
       category: 'Industry', 
       value: 'Industry',
       tags: [" + &industries+  "],
+    },    
+    {
+      category: 'Customer Segment', 
+      value: 'Customer_Segment',
+      tags: [" + &segments+  "],
     },    
   ],   
   active: true,

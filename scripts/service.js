@@ -275,20 +275,20 @@ const tenantConfigurator = async (issueNo) => {
                         case tenant_enum.CUSTOMER_SEGMENTS_FOR_FINANCIAL_INSTITUTIONS:
                           {
                             if (tagValue === "Bank") {
-                              if (  yamlData.Studio_essentials.Product_Areas[1].Financial_Institutions.Customer_segments.Banks != undefined) {
-                                yamlData.Studio_essentials.Product_Areas[1].Financial_Institutions.Customer_segments.Banks = true;
+                              if (  yamlData.Studio_essentials.Product_Areas[1].Financial_Institutions.Customer_segments.Bank != undefined) {
+                                yamlData.Studio_essentials.Product_Areas[1].Financial_Institutions.Customer_segments.Bank = true;
                               }
                             }
 
                             if (tagValue === "Credit Union") {
-                              if ( yamlData.Studio_essentials.Product_Areas[1].Financial_Institutions.Customer_segments.Credit_Unions != undefined) {
-                                yamlData.Studio_essentials.Product_Areas[1].Financial_Institutions.Customer_segments.Credit_Unions = true;
+                              if ( yamlData.Studio_essentials.Product_Areas[1].Financial_Institutions.Customer_segments.Credit_Union != undefined) {
+                                yamlData.Studio_essentials.Product_Areas[1].Financial_Institutions.Customer_segments.Credit_Union = true;
                               }
                             }
 
                             if (tagValue === "Large Financial Institution") {
-                              if ( yamlData.Studio_essentials.Product_Areas[1].Financial_Institutions.Customer_segments.Large_financial_instutitions != undefined ) {
-                                yamlData.Studio_essentials.Product_Areas[1].Financial_Institutions.Customer_segments.Large_financial_instutitions = true;
+                              if ( yamlData.Studio_essentials.Product_Areas[1].Financial_Institutions.Customer_segments.Large_Financial_Institution != undefined ) {
+                                yamlData.Studio_essentials.Product_Areas[1].Financial_Institutions.Customer_segments.Large_Financial_Institution = true;
                               }
                             }
                           }
