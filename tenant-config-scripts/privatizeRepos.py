@@ -11,7 +11,7 @@ org_name = "Fiserv"
 prod_tenants = ["AccessOne", "BackOffice", "Commerce-Hub", "SnapPay", "Support", "acceptance-solutions-apac", "ai-center", "alldata", "banking-hub", "cloud-acceleration-center","design-center", "digital-disbursements", 
                 "exchange", "firstvision-apac", "firstvision-emea", "firstvision-latam", "ipg-na", "issuer-solutions", "merchant-acquiring-latam", "reporting", "signature-international", "silvercore"]
 
-devstudio_backend_repos = ["tenants-data", "remote-actions", "sample-tenant-repo", "TTPPackage", "TTPSampleApp", "developer-studio-support", "tenants-doc"]
+devstudio_backend_repos = ["tenants-data", "remote-actions", "sample-tenant-repo", "TTPPackage", "TTPSampleApp", "developer-studio-support", "tenants-doc", "specifications-portal"]
 
 headers = {
   "Authorization": f"token {token}",
