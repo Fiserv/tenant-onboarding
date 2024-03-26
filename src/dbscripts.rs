@@ -237,7 +237,7 @@ pub fn create_dbscripts(execute: bool, yaml: &Vec<Yaml>, env_flag: String) {
     },    
   ],   
   active: true,
-  betaTag: true,
+  betaTag: false,
   internalTag: "+ if *internal_tag { concat!(true) } else { concat!(false)}+",
   github: '" + &github_repo_name + "',
   selfServiceFeatures: [
