@@ -72,6 +72,38 @@ python3 tenant-config-scripts/branchUnlock.py
 
 A commented out curl command is also placed at the bottom of the script for reference.
 
+## directFixTenantFiles.py
+
+Script to parse through an organization's repositories and directly create/delete various files for certain branches (after removing their rulesets/protections). Primarily used to update a repo to use new workflow files.
+
+- Utilizes `python3` so make sure you have it installed
+- Will require a personal access token with proper organization/project read-write permissions to modify repo (and workflow if changing those yaml files)
+
+### Variables
+
+- `token`: Github access token - variable `<Github_Access_Token>` will need to be replaced with proper data
+   - Should be saved in Github secret if we want to utilize pipeline
+   - If running locally, you will need to generate your own access token with proper permission
+- `organization`: Name for Github organization/project owner you'd like to make changes for
+- `repo_exceptions`: Repositories to skip during processing
+- `branches`: List of branch names you'd like to change.
+- `create_file_path`/`update_file_path`: File path for a file being added/edited.
+- `create_file_content`/`update_file_content`: File content to create/edit at the `file_path`. Does not append, simply overwrite.
+
+For testing, replace `repositories` variable with a list containing a single tenant before the for-loop or modify the for-loop itself:
+   - ```Python 
+     repositories = ["Test-repo"]
+     for repo in repositories:
+     ```
+   - ```Python 
+     for repo in ["Test-repo"]:
+     ```
+
+### Usage
+
+``` Bash
+python3 tenant-config-scripts/fixTenantFiles.py
+```
 ## fixTenantFiles.py
 
 Script to parse through an organization's repositories and create/delete various files for a certain branch. Primarily used to update a certain branch (such as `preview`) to use new workflow files.
