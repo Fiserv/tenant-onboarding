@@ -1,6 +1,6 @@
 import requests, base64
 
-token = "<API_TOKEN_GITHUB>"
+token = "<Github_Access_Token>"
 
 headers = {
     "Authorization": f"token {token}",
@@ -161,26 +161,19 @@ if __name__ == "__main__":
     create_file_path = ".github/workflows/zip-generator.yaml"
     create_file_content = '''name: Studio Zip Generator
 on:
-  # Triggers the zip generator workflow on push for the dev, stage, main, preview, and previous branch.
   push:
     branches: [ develop,stage,main,preview,previous ]
     paths:
       - 'reference/**'
 
 jobs:
-  api_validator: 
-    uses: Fiserv/remote-actions/.github/workflows/github-yaml-validator.yaml@main
-    secrets: inherit
-  api-zip-generator:
-    needs: api_validator
-    uses: Fiserv/remote-actions/.github/workflows/github-zip-generator.yaml@main
-    if: ${{!contains( needs.api_validator.outputs.statuscheck , 'SKIPPED')}}
+  push_actions:
+    uses: Fiserv/remote-actions/.github/workflows/file-update-service.yaml@main
     secrets: inherit
 '''
     validator_file_path = ".github/workflows/validator.yaml"
     validator_file_content = '''name: Studio Validator
 on:
-  # Triggers the workflow on pull request events for the dev, stage, main, preview, and previous branch.
   pull_request:
     branches: [ develop,stage,main,preview,previous ]
 
