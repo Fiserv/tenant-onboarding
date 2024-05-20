@@ -7,7 +7,9 @@ headers = {
     "Accept": "application/vnd.github.v3+json"
 }
 
-repo_exceptions = ["tenants-data", "remote-actions", "tenant-onboarding", "tenants-doc", "TTPPackage", "TTPSampleApp", "developer-studio-support"]
+repo_exceptions = ["tenants-data", "remote-actions", "remote-actions-v1", "tenant-onboarding", "tenants-doc", 
+                   "TTPPackage", "TTPSampleApp", "developer-studio-support", "vscode-dsbot", 
+                   "FiservTTP_Bin", "FiservTTP_BinApp", "mdncontent", "Support"]
 
 def getRulesetID(org_name:str, repo:str) -> int:   
     # Fetch rulesets from the repo
