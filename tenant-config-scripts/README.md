@@ -102,7 +102,7 @@ For testing, replace `repositories` variable with a list containing a single ten
 ### Usage
 
 ``` Bash
-python3 tenant-config-scripts/fixTenantFiles.py
+python3 tenant-config-scripts/directFixTenantFiles.py
 ```
 ## fixTenantFiles.py
 
