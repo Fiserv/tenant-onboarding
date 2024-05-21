@@ -32,7 +32,7 @@ ruleset = {
             }
         },
         {"type": "required_status_checks", "parameters": {
-            "strict_required_status_checks_policy": True, 
+            "strict_required_status_checks_policy": False, 
             "required_status_checks": [
                 {"context": "validator / api_validator / api_validator_actions"},
                 {"context": "validator / tenant-config-validator / Tenant-Config-Action"}
