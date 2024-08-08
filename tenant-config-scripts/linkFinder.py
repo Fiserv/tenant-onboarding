@@ -55,9 +55,9 @@ if __name__ == "__main__":
             continue
         links_list.append(repo + '\n')
         print(f"Repo: {repo}")
-        for folder in ["docs", "reference"]:
+        for folders in ["docs", "reference"]:
 
-            contents_url = f'https://api.github.com/repos/{organization}/{repo}/contents/{folder}'
+            contents_url = f'https://api.github.com/repos/{organization}/{repo}/contents/{folders}'
             contents_response = requests.get(contents_url, headers=headers).json()
 
             if not validateFileContent(contents_response):

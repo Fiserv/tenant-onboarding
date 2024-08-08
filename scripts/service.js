@@ -434,12 +434,10 @@ async function service() {
     //printMessage(`Gihub Issue No. ---->>> ${args}`);
     if (args?.length > 0) {
       check = await tenantConfigurator(args);
-      
+
       if (check) {
          tname = await updateTenantJSONFile();
-        
       }
-      
     }
   } catch (e) {
     errorMessage("FAILED", e.message);

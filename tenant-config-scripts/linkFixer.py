@@ -149,7 +149,7 @@ if __name__ == "__main__":
 
             create_branch(organization, repo, branch, feature_branch)
 
-            for folder in ["docs", "reference"]:
+            for folder in ["config", "docs", "reference"]:
                 contents_url = f'https://api.github.com/repos/{organization}/{repo}/contents/{folder}'
                 contents_response = requests.get(contents_url, headers=headers).json()
 
