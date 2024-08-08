@@ -51,13 +51,15 @@ def check_file_content(contents) -> tuple:
     for content_file in contents:
         if type(content_file) is not dict:
             continue
+        
+        download_url = content_file['url']
+        response = requests.get(download_url, headers=headers)
+        file_details = response.json()
+        
         if content_file['type'] == 'file':
             has_docs = True
-            download_url = content_file['git_url']
-            response = requests.get(download_url, headers=headers)
             if response.status_code == 200:
-              file_details = response.json()
-              file_content = base64.b64decode(file_details['content']).decode('utf-8')
+                file_content = base64.b64decode(file_details['content']).decode('utf-8')
             else:
                 continue
 
@@ -66,17 +68,13 @@ def check_file_content(contents) -> tuple:
                 replace_links(content_file['path'], file_content)
                 changed_files = True
         elif content_file['type'] == 'dir':
-            current_path = content_file['path']
-            sub_contents_url = f'https://api.github.com/repos/{organization}/{repo}/contents/{current_path}'
-            sub_contents_response = requests.get(sub_contents_url, headers=headers).json()
-            result = check_file_content(sub_contents_response)
+            result = check_file_content(file_details)
             has_docs = result[0] or has_docs
             changed_files = result[1] or changed_files
     return (has_docs, changed_files)
 
 def replace_links(file_path:str, file_content:str):
     updated_content = re.sub(github_direct_link_regex, '/assets/', file_content)
-    print(updated_content)
     commit_and_push_file(organization, repo, feature_branch, updated_content, file_path, "Fix githubusercontent links")
 
 def commit_and_push_file(organization:str, repository:str, branch:str, file_content:str, file_path:str, commit_message:str):
@@ -150,7 +148,7 @@ if __name__ == "__main__":
             create_branch(organization, repo, branch, feature_branch)
 
             for folder in ["config", "docs", "reference"]:
-                contents_url = f'https://api.github.com/repos/{organization}/{repo}/contents/{folder}'
+                contents_url = f'https://api.github.com/repos/{organization}/{repo}/contents/{folder}?ref={feature_branch}'
                 contents_response = requests.get(contents_url, headers=headers).json()
 
                 result = check_file_content(contents_response)
@@ -159,7 +157,7 @@ if __name__ == "__main__":
                     break
                 if not result[1]:
                     print(f"No changes made for {repo} - {folder}")
-                    break
+                    continue
                 changed = True
             if changed:
                 create_pull_request(organization, repo, branch, feature_branch, pull_request_title, pull_request_body)
