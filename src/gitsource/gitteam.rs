@@ -132,7 +132,7 @@ pub async fn process_github_team(config_yaml: &Vec<Yaml> , settings_yaml: &Vec<Y
     }
 
     /* Adding '@Fiserv/admins' team as admin to repository */
-    let put_req_api = format!("{}/{}/{}/{}/{}", github_api, "fiserv-developer-studio", "repos", github_owner, tenant_repo);
+    let put_req_api = format!("{}/{}/{}/{}/{}", github_api, "developer-studio-admin", "repos", github_owner, tenant_repo);
 
     let put_req = github_client.request(Method::PUT, put_req_api)
                                 .bearer_auth(github_auth.clone())
