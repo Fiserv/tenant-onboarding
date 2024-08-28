@@ -45,39 +45,39 @@ const convertToCamelCase = str =>
     .join(''); 
 
 const tenant_enum = {
-  TENANT_NAME:  "Name of your product / tenant",
+  TENANT_NAME: "Name of your product / tenant",
   TENANT_TYPE: "Type of Tenant",
   TENANT_MEMBERS: "Team Members",
-  BUG_REPORTING:"Bug Reporting",
-  FEEDBACK_REPORTING:"Feedback Reporting",
-  ENHANCEMENT_REPORTING:"Enhancement Reporting",
-  EXTERNAL_LINK:"External link",
-  INTERNAL_TENANT:"Internal tenant",
-  MERCHANT_PRODUCT:"Merchants solution area",
-  FI_PRODUCT:"Financial Institutions solution area",
-  FINTECH_PRODUCT:"Fintech solution area",
-  CARAT_PRODUCT:"Product of Carat",
-  MERCHANT_AREA:"Merchants solution area",
-  CUSTOMER_SEGMENTS_FOR_MERCHANTS:"Customer Segments for Merchants",
-  FINANCIAL_INSTITUTIONS_SOLUTION_AREA:"Financial Institutions solution area",
-  CUSTOMER_SEGMENTS_FOR_FINANCIAL_INSTITUTIONS:"Customer Segments for Financial Institutions",
-  REGION_OF_OPERATION:"Region of Operation",
-  RESTFUL:"RESTful",
-  SDK:"SDK",
-  INDUSTRY:"Industry",
-  RUNBOX:"Runbox",
-  MOCK_SANDBOX:"Mock Sandbox",
-  LIVE_SERVER:"Live Server"
+  BUG_REPORTING: "Bug Reporting",
+  FEEDBACK_REPORTING: "Feedback Reporting",
+  ENHANCEMENT_REPORTING:" Enhancement Reporting",
+  EXTERNAL_LINK: "External link",
+  INTERNAL_TENANT: "Internal tenant",
+  MERCHANT_PRODUCT: "Payments category",
+  FI_PRODUCT: "Banking category",
+  FINTECH_PRODUCT: "Fintech solution area",
+  CARAT_PRODUCT: "Product of Carat",
+  MERCHANT_AREA: "Merchants solution area",
+  CUSTOMER_SEGMENTS_FOR_MERCHANTS: "Customer Segments for Merchants",
+  CAPABILITIES_FOR_MERCHANTS: "Capabilities for Payments",
+  FINANCIAL_INSTITUTIONS_SOLUTION_AREA: "Financial Institutions solution area",
+  CUSTOMER_SEGMENTS_FOR_FINANCIAL_INSTITUTIONS: "Customer Segments for Financial Institutions",
+  CAPABILITIES_FOR_FINANCIAL_INSTITUTIONS: "Capabilities for Banking",
+  REGION_OF_OPERATION: "Region of Operation",
+  CONTACT_SALES: "Sales Contact",
+  CONTACT_SALES_PERSON: "Sales Contact Information",
+  MOCK_SANDBOX: "Mock Sandbox",
+  LIVE_SERVER: "Live Server"
 }; 
 
 const tenant_type_enum ={
-  FULL_SERVICE : "Full service",
-  DOC_ONLY : "Doc only",
-  LINK_OUT :"Link out"
+  FULL_SERVICE: "Full service",
+  DOC_ONLY: "Doc only",
+  LINK_OUT: "Link out"
 }
 
 const regions ={
-  NORTH_AMERICA:'North America',
+  NORTH_AMERICA: 'North America',
   EMEA: 'EMEA',
   LATAM: 'LATAM',
   APAC: 'APAC'

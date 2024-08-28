@@ -173,40 +173,6 @@ const tenantConfigurator = async (issueNo) => {
                       }
                     break;
 
-                  case tenant_enum.RESTFUL:
-                    {
-                      if (
-                        yamlData.Studio_essentials.Tags.Integration.restful != undefined  && tagValue != undefined) {
-                        if (tagValue === "Yes") {
-                          yamlData.Studio_essentials.Tags.Integration.restful = true;
-                        } else {
-                          yamlData.Studio_essentials.Tags.Integration.restful = false;
-                        }
-                      }
-                    }
-                    break;
-
-                  case tenant_enum.SDK:
-                    {
-                      if (
-                        yamlData.Studio_essentials.Tags.Integration.sdk != undefined  && tagValue != undefined) {
-                        if (tagValue === "Yes") {
-                          yamlData.Studio_essentials.Tags.Integration.sdk = true;
-                        } else {
-                          yamlData.Studio_essentials.Tags.Integration.sdk = false;
-                        }
-                      }
-                    }
-                    break;
-
-                  case tenant_enum.INDUSTRY:
-                    {
-                      if ( yamlData.Studio_essentials.Tags.Industry != undefined && tagValue != undefined) {
-                          yamlData.Studio_essentials.Tags.Industry = tagValue;
-                      } 
-                    }
-                    break;
-
                   case tenant_enum.RUNBOX:
                     {
                       if (yamlData.Runbox_essentials.Runbox != undefined && tagValue != undefined) {
@@ -233,15 +199,24 @@ const tenantConfigurator = async (issueNo) => {
                     break;
 
                   case tenant_enum.LIVE_SERVER:
-                    {
-                      if (
-                        yamlData.Runbox_essentials.Sandbox.Type.live !=  undefined  && tagValue != undefined) {
-                        if (tagValue === "Yes") {
-                          yamlData.Runbox_essentials.Sandbox.Type.live = true;
-                        } else {
-                          yamlData.Runbox_essentials.Sandbox.Type.live = false;
-                        }
+                    if (yamlData.Runbox_essentials.Sandbox.Type.live !=  undefined && tagValue != undefined) {
+                      if (tagValue === "Yes") {
+                        yamlData.Runbox_essentials.Sandbox.Type.live = true;
+                      } else {
+                        yamlData.Runbox_essentials.Sandbox.Type.live = false;
                       }
+                    }
+                    break;
+
+                  case tenant_enum.CONTACT_SALES:
+                    if (yamlData.Studio_essentials.Contact_Sales != undefined && tagValue === "Yes") {
+                      yamlData.Studio_essentials.Contact_Sales = true;
+                    }
+                    break;
+
+                  case tenant_enum.CONTACT_SALES_PERSON:
+                    if (yamlData.Studio_essentials.Contact_Sales_Info != undefined && tagValue != undefined) {
+                        yamlData.Studio_essentials.Contact_Sales_Info = tagValue;
                     }
                     break;
                 }
@@ -289,6 +264,67 @@ const tenantConfigurator = async (issueNo) => {
                             if (tagValue === "Large Financial Institution") {
                               if ( yamlData.Studio_essentials.Product_Areas[1].Financial_Institutions.Customer_segments.Large_Financial_Institution != undefined ) {
                                 yamlData.Studio_essentials.Product_Areas[1].Financial_Institutions.Customer_segments.Large_Financial_Institution = true;
+                              }
+                            }
+                          }
+                          break;
+
+                        case tenant_enum.CAPABILITIES_FOR_MERCHANTS:
+                          {
+                            if (tagValue === "Analytics") {
+                              if (yamlData.Studio_essentials.Product_Areas[0].Payments.Capabilities.Analytics != undefined) {
+                                  yamlData.Studio_essentials.Product_Areas[0].Payments.Capabilities.Analytics = true;
+                              }
+                            }
+
+                            if (tagValue === "Boarding & Management") {
+                              if (yamlData.Studio_essentials.Product_Areas[0].Merchants.Capabilities.Boarding_and_Management != undefined) {
+                                yamlData.Studio_essentials.Product_Areas[0].Merchants.Capabilities.Boarding_and_Management = true;
+                              }
+                            }
+
+                            if (tagValue === "Disbursements") {
+                              if (yamlData.Studio_essentials.Product_Areas[0].Payments.Capabilities.Disbursements != undefined) {
+                                  yamlData.Studio_essentials.Product_Areas[0].Payments.Capabilities.Disbursements = true;
+                              }
+                            }
+
+                            if (tagValue === "Omni-Channel") {
+                              if (yamlData.Studio_essentials.Product_Areas[0].Merchants.Capabilities.Omni_Channel != undefined) {
+                                yamlData.Studio_essentials.Product_Areas[0].Merchants.Capabilities.Omni_Channel = true;
+                              }
+                            }
+
+                            if (tagValue === "Value Added Services") {
+                              if (yamlData.Studio_essentials.Product_Areas[0].Merchants.Capabilities.Value_Added_Services != undefined) {
+                                yamlData.Studio_essentials.Product_Areas[0].Merchants.Capabilities.Value_Added_Services = true;
+                              }
+                            }
+                          }
+                          break;
+                        case tenant_enum.CAPABILITIES_FOR_FINANCIAL_INSTITUTIONS:
+                          {
+                            if (tagValue === "Banking-as-a-Service") {
+                              if (yamlData.Studio_essentials.Product_Areas[1].Banking.Capabilities.Banking_as_a_Service != undefined) {
+                                yamlData.Studio_essentials.Product_Areas[1].Banking.Capabilities.Banking_as_a_Service = true;
+                              }
+                            }
+
+                            if (tagValue === "Financial Data Management") {
+                              if (yamlData.Studio_essentials.Product_Areas[1].Banking.Capabilities.Financial_Data_Management != undefined) {
+                                yamlData.Studio_essentials.Product_Areas[1].Banking.Capabilities.Financial_Data_Management = true;
+                              }
+                            }
+
+                            if (tagValue === "Issuing") {
+                              if (yamlData.Studio_essentials.Product_Areas[1].Banking.Capabilities.Issuing != undefined) {
+                                yamlData.Studio_essentials.Product_Areas[1].Banking.Capabilities.Issuing = true;
+                              }
+                            }
+
+                            if (tagValue === "Licensing") {
+                              if (yamlData.Studio_essentials.Product_Areas[1].Banking.Capabilities.Licensing != undefined) {
+                                yamlData.Studio_essentials.Product_Areas[1].Banking.Capabilities.Licensing = true;
                               }
                             }
                           }
