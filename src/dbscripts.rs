@@ -202,9 +202,9 @@ pub fn create_dbscripts(execute: bool, yaml: &Vec<Yaml>, env_flag: String) {
       password: '',
       selfSignedCert: "+ &live_self_signed_cert.to_string() +"
       }";
-      let contact_sales = &y["Studio_essentials"]["Contact_Sales"].as_bool().unwrap();
-      
-      let db_script_data = String::from("db.tenants.insertOne({
+    let contact_sales = &y["Studio_essentials"]["Contact_Sales"].as_bool().unwrap();
+    
+    let db_script_data = String::from("db.tenants.insertOne({
   title: '".to_owned()+ &title + "',
   name: '"+ &name +"',
   tenantHost: '"+ &gts_url+ "',
