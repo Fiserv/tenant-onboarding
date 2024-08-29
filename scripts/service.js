@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 const fs = require("fs");
+const he = require('he');
 const yaml = require("js-yaml");
 const args = process.argv.slice(2);
 const {
@@ -189,11 +190,11 @@ const tenantConfigurator = async (issueNo) => {
 
                   case tenant_enum.CAPABILITIES_FOR_MERCHANTS:
                     if (tagValue?.length)
-                      yamlData.Studio_essentials.Product_Areas[0].Payments.Capabilities = tagValue;
+                      yamlData.Studio_essentials.Product_Areas[0].Payments.Capabilities = he.decode(tagValue);
                     break;
                   case tenant_enum.CAPABILITIES_FOR_FINANCIAL_INSTITUTIONS:
                     if (tagValue?.length)
-                      yamlData.Studio_essentials.Product_Areas[1].Banking.Capabilities = tagValue;
+                      yamlData.Studio_essentials.Product_Areas[1].Banking.Capabilities = he.decode(tagValue);
                     break;
 
                   case tenant_enum.RUNBOX:
