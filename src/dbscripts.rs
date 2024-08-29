@@ -80,7 +80,7 @@ pub fn create_dbscripts(execute: bool, yaml: &Vec<Yaml>, env_flag: String) {
     let internal_tag = &y["Studio_essentials"]["Internal"].as_bool().unwrap();
 
     // Read Tags: Region Of Operation
-    let mut regions = &y["Studio_essentials"]["Tags"]["Region_of_Operation"].as_str().unwrap();
+    let mut regions = &y["Studio_essentials"]["Tags"]["Region_of_Operation"].as_str().unwrap_or("");
     let region_of_operations = if regions.is_empty() {
       String::new()
     } else {
@@ -88,34 +88,42 @@ pub fn create_dbscripts(execute: bool, yaml: &Vec<Yaml>, env_flag: String) {
     };
 
     // Read Tags: Customer Segments
-    let mut payment_segments = y["Studio_essentials"]["Product_Areas"][0]["Payments"]["Customer_segments"].as_str().unwrap();
+    let mut payment_segments = y["Studio_essentials"]["Product_Areas"][0]["Payments"]["Customer_segments"].as_str().unwrap_or("");
     let payment_seg = if payment_segments.is_empty() {
       String::new()
     } else {
       format!("\"{}\"", payment_segments.replace(", ", "\",\""))
     };
-    let mut banking_segments = y["Studio_essentials"]["Product_Areas"][1]["Banking"]["Customer_segments"].as_str().unwrap();
+    let mut banking_segments = y["Studio_essentials"]["Product_Areas"][1]["Banking"]["Customer_segments"].as_str().unwrap_or("");
     let banking_seg = if banking_segments.is_empty() {
       String::new()
     } else {
       format!("\"{}\"", banking_segments.replace(", ", "\",\""))
     };
-    let customer_segments = format!("{},{}", payment_seg, banking_seg);
+    let customer_segments = if payment_seg.is_empty() || banking_seg.is_empty() {
+      format!("{}{}", payment_seg, banking_seg)
+    } else {
+      format!("{},{}", payment_seg, banking_seg)
+    };
 
     // Read Tags: Customer Segments
-    let mut payment_capablities = y["Studio_essentials"]["Product_Areas"][0]["Payments"]["Capabilities"].as_str().unwrap();
+    let mut payment_capablities = y["Studio_essentials"]["Product_Areas"][0]["Payments"]["Capabilities"].as_str().unwrap_or("");
     let payment_cap = if payment_capablities.is_empty() {
       String::new()
     } else {
       format!("\"{}\"", payment_capablities.replace(", ", "\",\""))
     };
-    let mut banking_capabilities = y["Studio_essentials"]["Product_Areas"][1]["Banking"]["Capabilities"].as_str().unwrap();
+    let mut banking_capabilities = y["Studio_essentials"]["Product_Areas"][1]["Banking"]["Capabilities"].as_str().unwrap_or("");
     let banking_cap = if banking_capabilities.is_empty() {
       String::new()
     } else {
       format!("\"{}\"", banking_capabilities.replace(", ", "\",\""))
     };
-    let capabilities = format!("{},{}", payment_cap, banking_cap);
+    let capabilities = if payment_cap.is_empty() || banking_cap.is_empty() {
+      format!("{}{}", payment_cap, banking_cap)
+    } else {
+      format!("{},{}", payment_cap, banking_cap)
+    };
 
     // Read Runbox essentials
 
