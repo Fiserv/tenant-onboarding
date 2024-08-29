@@ -76,117 +76,46 @@ pub fn create_dbscripts(execute: bool, yaml: &Vec<Yaml>, env_flag: String) {
     let github_repo_name = name.to_case(Case::Kebab);
 
     // Read Tenant Type
-    //let full_service = y["Tenant Type"]["Full service"].as_bool().unwrap().to_string(); 
     let has_apis = &(y["Tenant_Type"][0]["Full_service"].as_bool().unwrap() && !y["Tenant_Type"][1]["Doc_only"].as_bool().unwrap() && y["Runbox_essentials"]["Runbox"].as_bool().unwrap()); 
-    //let link_out = y["Tenant Type"]["Doc only"].as_bool().unwrap().to_string();
     let internal_tag = &y["Studio_essentials"]["Internal"].as_bool().unwrap();
-    // Read Tags: Region Of Operation
-    let mut regions_vector = Vec::new();
-    
-    if true.eq(&y["Studio_essentials"]["Tags"]["Region_of_Operation"]["North_America"].as_bool().unwrap()) {
-        regions_vector.push("North America");
-    } 
-    if true.eq(&y["Studio_essentials"]["Tags"]["Region_of_Operation"]["EMEA"].as_bool().unwrap()) {
-        regions_vector.push("EMEA");
-    } 
-    if true.eq(&y["Studio_essentials"]["Tags"]["Region_of_Operation"]["LATAM"].as_bool().unwrap()) {
-        regions_vector.push("LATAM");
-    } 
-    if true.eq(&y["Studio_essentials"]["Tags"]["Region_of_Operation"]["APAC"].as_bool().unwrap()) {
-        regions_vector.push("APAC");
-    }
 
-    let mut region_of_operations: String = String::new();
-    let all_regions = regions_vector.len();
-    if (all_regions > 0) {
-      let space = "','";
-      region_of_operations.push_str("'");
-      for (i, region) in regions_vector.iter().enumerate() {
-          region_of_operations.push_str(region);
-          if i < all_regions-1 {
-              region_of_operations.push_str(space);
-          }
-      }
-      region_of_operations.push_str("'");
-    }
+    // Read Tags: Region Of Operation
+    let mut regions = &y["Studio_essentials"]["Tags"]["Region_of_Operation"].as_str().unwrap();
+    let region_of_operations = if regions.is_empty() {
+      String::new()
+    } else {
+      format!("\"{}\"", regions.replace(", ", "\",\""))
+    };
 
     // Read Tags: Customer Segments
-    let mut segment_vector = Vec::new();
-    
-    if (y["Studio_essentials"]["Product_Areas"][0]["Payments"]["Customer_segments"]["SMB"].as_bool().unwrap()) {
-      segment_vector.push("SMB");
-    }
-    if (y["Studio_essentials"]["Product_Areas"][0]["Payments"]["Customer_segments"]["Enterprise"].as_bool().unwrap()) {
-      segment_vector.push("Enterprise");
-    }
-    if (y["Studio_essentials"]["Product_Areas"][1]["Banking"]["Customer_segments"]["Bank"].as_bool().unwrap()) {
-      segment_vector.push("Bank");
-    }
-    if (y["Studio_essentials"]["Product_Areas"][1]["Banking"]["Customer_segments"]["Credit_Union"].as_bool().unwrap()) {
-      segment_vector.push("Credit Union");
-    }
-    if (y["Studio_essentials"]["Product_Areas"][1]["Banking"]["Customer_segments"]["Large_Financial_Institution"].as_bool().unwrap()) {
-      segment_vector.push("Large Financial Institution");
-    }
+    let mut payment_segments = y["Studio_essentials"]["Product_Areas"][0]["Payments"]["Customer_segments"].as_str().unwrap();
+    let payment_seg = if payment_segments.is_empty() {
+      String::new()
+    } else {
+      format!("\"{}\"", payment_segments.replace(", ", "\",\""))
+    };
+    let mut banking_segments = y["Studio_essentials"]["Product_Areas"][1]["Banking"]["Customer_segments"].as_str().unwrap();
+    let banking_seg = if banking_segments.is_empty() {
+      String::new()
+    } else {
+      format!("\"{}\"", banking_segments.replace(", ", "\",\""))
+    };
+    let customer_segments = format!("{},{}", payment_seg, banking_seg);
 
-    let mut segments: String = String::new();
-    let space = "','";
-    let all_segments = segment_vector.len();
-    if (all_segments > 0) {
-      segments.push_str("'");
-      for (i, segment) in segment_vector.iter().enumerate() {
-          segments.push_str(segment);
-          if i < all_segments -1 {
-            segments.push_str(space);
-          }
-      }
-      segments.push_str("'");
-    }
-
-    // Read Tags: Capabilities
-    let mut capabilities_vector = Vec::new();
-    
-    if (y["Studio_essentials"]["Product_Areas"][0]["Payments"]["Capabilities"]["Analytics"].as_bool().unwrap()) {
-      capabilities_vector.push("Analytics");
-    }
-    if (y["Studio_essentials"]["Product_Areas"][0]["Payments"]["Capabilities"]["Boarding_and_Management"].as_bool().unwrap()) {
-      capabilities_vector.push("Boarding & Management");
-    }
-    if (y["Studio_essentials"]["Product_Areas"][0]["Payments"]["Capabilities"]["Disbursements"].as_bool().unwrap()) {
-      capabilities_vector.push("Disbursements");
-    }
-    if (y["Studio_essentials"]["Product_Areas"][0]["Payments"]["Capabilities"]["Omni_Channel"].as_bool().unwrap()) {
-      capabilities_vector.push("Omni-Channel");
-    }
-    if (y["Studio_essentials"]["Product_Areas"][0]["Payments"]["Capabilities"]["Value_Added_Services"].as_bool().unwrap()) {
-      capabilities_vector.push("Value Added Services");
-    }
-    if (y["Studio_essentials"]["Product_Areas"][1]["Banking"]["Capabilities"]["Banking_as_a_Service"].as_bool().unwrap()) {
-      capabilities_vector.push("Banking as a Service");
-    }
-    if (y["Studio_essentials"]["Product_Areas"][1]["Banking"]["Capabilities"]["Financial_Data_Management"].as_bool().unwrap()) {
-      capabilities_vector.push("Financial Data Management");
-    }
-    if (y["Studio_essentials"]["Product_Areas"][1]["Banking"]["Capabilities"]["Issuing"].as_bool().unwrap()) {
-      capabilities_vector.push("Issuing");
-    }
-    if (y["Studio_essentials"]["Product_Areas"][1]["Banking"]["Capabilities"]["Licensing"].as_bool().unwrap()) {
-      capabilities_vector.push("Licensing");
-    }
-    
-    let mut capabilities: String = String::new();
-    let space = "','";
-    let all_capabilities = capabilities_vector.len();
-    if (all_capabilities > 0) {
-      capabilities.push_str("'");
-      for (i, capability) in capabilities_vector.iter().enumerate() {
-        capabilities.push_str(capability);
-          if i < all_capabilities - 1 {
-            capabilities.push_str(space);
-          }
-      }
-      capabilities.push_str("'");
-    }
+    // Read Tags: Customer Segments
+    let mut payment_capablities = y["Studio_essentials"]["Product_Areas"][0]["Payments"]["Capabilities"].as_str().unwrap();
+    let payment_cap = if payment_capablities.is_empty() {
+      String::new()
+    } else {
+      format!("\"{}\"", payment_capablities.replace(", ", "\",\""))
+    };
+    let mut banking_capabilities = y["Studio_essentials"]["Product_Areas"][1]["Banking"]["Capabilities"].as_str().unwrap();
+    let banking_cap = if banking_capabilities.is_empty() {
+      String::new()
+    } else {
+      format!("\"{}\"", banking_capabilities.replace(", ", "\",\""))
+    };
+    let capabilities = format!("{},{}", payment_cap, banking_cap);
 
     // Read Runbox essentials
 
@@ -221,7 +150,7 @@ pub fn create_dbscripts(execute: bool, yaml: &Vec<Yaml>, env_flag: String) {
     {
       category: 'Customer Segment', 
       value: 'Customer_Segment',
-      tags: [" + &segments+  "],
+      tags: [" + &customer_segments+  "],
     },    
     {
       category: 'Capability', 
