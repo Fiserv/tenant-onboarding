@@ -174,41 +174,26 @@ const tenantConfigurator = async (issueNo) => {
                     break;
 
                   case tenant_enum.REGION_OF_OPERATION:
-                    if (tagValue?.length > 0) {
-                      if (yamlData.Studio_essentials.Tags.Region_of_Operation != undefined) {
-                        yamlData.Studio_essentials.Tags.Region_of_Operation = tagValue;
-                      }
-                    }
+                    if (tagValue?.length)
+                      yamlData.Studio_essentials.Tags?.Region_of_Operation = tagValue;
                     break;
 
                   case tenant_enum.CUSTOMER_SEGMENTS_FOR_MERCHANTS:
-                    if (tagValue?.length > 0) {
-                      if (yamlData.Studio_essentials.Product_Areas[0].Payments.Customer_segments != undefined){
-                          yamlData.Studio_essentials.Product_Areas[0].Payments.Customer_segments = tagValue;
-                      }
-                    }
+                    if (tagValue?.length)
+                      yamlData.Studio_essentials.Product_Areas[0]?.Payments?.Customer_segments = tagValue;
                     break;
                   case tenant_enum.CUSTOMER_SEGMENTS_FOR_FINANCIAL_INSTITUTIONS:
-                    if (tagValue?.length > 0) {
-                      if (yamlData.Studio_essentials.Product_Areas[1].Banking.Customer_segments != undefined) {
-                        yamlData.Studio_essentials.Product_Areas[1].Banking.Customer_segments.Bank = tagValue;
-                      }
-                    }
+                    if (tagValue?.length)
+                      yamlData.Studio_essentials.Product_Areas[1]?.Banking?.Customer_segments = tagValue;
                     break;
 
                   case tenant_enum.CAPABILITIES_FOR_MERCHANTS:
-                    if (tagValue?.length) {
-                      if (yamlData.Studio_essentials.Product_Areas[0].Payments.Capabilities != undefined) {
-                          yamlData.Studio_essentials.Product_Areas[0].Payments.Capabilities = tagValue;
-                      }
-                    }
+                    if (tagValue?.length)
+                      yamlData.Studio_essentials.Product_Areas[0]?.Payments?.Capabilities = tagValue;
                     break;
                   case tenant_enum.CAPABILITIES_FOR_FINANCIAL_INSTITUTIONS:
-                    if (tagValue?.length) {
-                      if (yamlData.Studio_essentials.Product_Areas[1].Banking.Capabilities != undefined) {
-                        yamlData.Studio_essentials.Product_Areas[1].Banking.Capabilities = tagValue;
-                      }
-                    }
+                    if (tagValue?.length)
+                      yamlData.Studio_essentials.Product_Areas[1]?.Banking?.Capabilities = tagValue;
                     break;
 
                   case tenant_enum.RUNBOX:
@@ -322,6 +307,7 @@ async function updateTenantJSONFile() {
     tenant_Data.product.sandbox = `/v2/sandboxrun/${yamlData.Tenant_Name}`;
     tenant_Data.product.accessConfig = `/v1/fileAccess/${yamlData.Tenant_Name}`;
     tenant_Data.product.assets = `/v1/assets/${yamlData.Tenant_Name}`;
+    tenant_Data.product.feature[0].value = yamlData.Runbox_essentials.Runbox;
   }
 
   if (  yamlData.GitHub_essentials.Support[0].Bug_Reporting.Assignees != undefined ) {
