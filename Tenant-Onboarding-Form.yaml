@@ -6,7 +6,7 @@ Tenant_Type:
   - Link_out: false
 GitHub_essentials:
   Repository_Name: tenant-onboarding-test-repo
-  Team_Members: sfiserv
+  Team_Members:
   Support:
     - Bug_Reporting:
         Assignees: test-user
