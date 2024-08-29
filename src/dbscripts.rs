@@ -76,7 +76,7 @@ pub fn create_dbscripts(execute: bool, yaml: &Vec<Yaml>, env_flag: String) {
     let github_repo_name = name.to_case(Case::Kebab);
 
     // Read Tenant Type
-    let has_apis = &(y["Tenant_Type"][0]["Full_service"].as_bool().unwrap() && !y["Tenant_Type"][1]["Doc_only"].as_bool().unwrap() && y["Runbox_essentials"]["Runbox"].as_bool().unwrap()); 
+    let has_apis = &(y["Tenant_Type"][0]["Full_service"].as_bool().unwrap() && !y["Tenant_Type"][1]["Doc_only"].as_bool().unwrap()); 
     let internal_tag = &y["Studio_essentials"]["Internal"].as_bool().unwrap();
 
     // Read Tags: Region Of Operation
