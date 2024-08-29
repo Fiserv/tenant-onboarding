@@ -13,8 +13,7 @@ struct TeamInfo {
     description: String,
     permission:String,
     privacy:String,
-    repo_names:[String ;1],
-    maintainers:Vec<std::string::String>
+    repo_names:[String ;1]
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -73,7 +72,7 @@ pub async fn process_github_team(config_yaml: &Vec<Yaml> , settings_yaml: &Vec<Y
         permission: "push".to_string(),  
         privacy: "closed".to_string(),
         repo_names: [format!("{}/{}", github_owner, tenant_repo).to_string()]
-        };
+    };
     println!("Team stats {} " , github_data.status());
 
     if (!execute) {
