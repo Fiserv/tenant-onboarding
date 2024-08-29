@@ -74,12 +74,12 @@ pub fn create_dbscripts(execute: bool, yaml: &Vec<Yaml>, env_flag: String) {
     let title = y["Tenant_Title"].as_str().unwrap().to_string();
     let name = y["Tenant_Name"].as_str().unwrap().to_string();
     let github_repo_name = name.to_case(Case::Kebab);
-   
+
     // Read Tenant Type
     //let full_service = y["Tenant Type"]["Full service"].as_bool().unwrap().to_string(); 
     let has_apis = &(y["Tenant_Type"][0]["Full_service"].as_bool().unwrap() && !y["Tenant_Type"][1]["Doc_only"].as_bool().unwrap() && y["Runbox_essentials"]["Runbox"].as_bool().unwrap()); 
     //let link_out = y["Tenant Type"]["Doc only"].as_bool().unwrap().to_string();
-    let internal_tag = &y["Studio_essentials"]["Internal"].as_bool().unwrap() ;
+    let internal_tag = &y["Studio_essentials"]["Internal"].as_bool().unwrap();
     // Read Tags: Region Of Operation
     let mut regions_vector = Vec::new();
     
@@ -110,73 +110,25 @@ pub fn create_dbscripts(execute: bool, yaml: &Vec<Yaml>, env_flag: String) {
       region_of_operations.push_str("'");
     }
 
-    // Read Tags: Integration
-    let mut integration_vector = Vec::new();
-    
-    if true.eq(&y["Studio_essentials"]["Tags"]["Integration"]["restful"].as_bool().unwrap()) {
-        integration_vector.push("restful");
-    } 
-    if true.eq(&y["Studio_essentials"]["Tags"]["Integration"]["sdk"].as_bool().unwrap()) {
-        integration_vector.push("sdk");
-    } 
-    if true.eq(&y["Studio_essentials"]["Tags"]["Integration"]["soap"].as_bool().unwrap()) {
-        integration_vector.push("soap");
-    } 
-    if true.eq(&y["Studio_essentials"]["Tags"]["Integration"]["xml"].as_bool().unwrap()) {
-        integration_vector.push("xml");
-    }
-
-    let mut integrations: String = String::new();
-    let space = "','";
-    let all_integrations = integration_vector.len();
-    if (all_integrations > 0) {
-      integrations.push_str("'");
-      for (i, integration) in integration_vector.iter().enumerate() {
-          integrations.push_str(integration);
-          if i < all_integrations -1 {
-              integrations.push_str(space);
-          }
-      }
-      integrations.push_str("'");
-    }
-
-    let mut industries: String = String::new();
-    // Read Tags: Industry
-    if (y["Studio_essentials"]["Tags"]["Industry"].as_str() != None) {
-      let mut industry_vector = Vec::new();
-      industry_vector.push(y["Studio_essentials"]["Tags"]["Industry"].as_str().unwrap().to_string());
-      
-      let space = "','";
-      let all_industries = industry_vector.len();
-      industries.push_str("'");
-      for (i, industry) in industry_vector.iter().enumerate() {
-        industries.push_str(industry);
-        if i < all_industries -1 {
-          industries.push_str(space);
-        }
-      }
-      industries.push_str("'");
-    }
-
     // Read Tags: Customer Segments
     let mut segment_vector = Vec::new();
     
-    if (y["Studio_essentials"]["Product_Areas"][0]["Merchants"]["Customer_segments"]["SMB"].as_bool().unwrap()) {
+    if (y["Studio_essentials"]["Product_Areas"][0]["Payments"]["Customer_segments"]["SMB"].as_bool().unwrap()) {
       segment_vector.push("SMB");
     }
-    if (y["Studio_essentials"]["Product_Areas"][0]["Merchants"]["Customer_segments"]["Enterprise"].as_bool().unwrap()) {
+    if (y["Studio_essentials"]["Product_Areas"][0]["Payments"]["Customer_segments"]["Enterprise"].as_bool().unwrap()) {
       segment_vector.push("Enterprise");
     }
-    if (y["Studio_essentials"]["Product_Areas"][1]["Financial_Institutions"]["Customer_segments"]["Bank"].as_bool().unwrap()) {
+    if (y["Studio_essentials"]["Product_Areas"][1]["Banking"]["Customer_segments"]["Bank"].as_bool().unwrap()) {
       segment_vector.push("Bank");
     }
-    if (y["Studio_essentials"]["Product_Areas"][1]["Financial_Institutions"]["Customer_segments"]["Credit_Union"].as_bool().unwrap()) {
+    if (y["Studio_essentials"]["Product_Areas"][1]["Banking"]["Customer_segments"]["Credit_Union"].as_bool().unwrap()) {
       segment_vector.push("Credit Union");
     }
-    if (y["Studio_essentials"]["Product_Areas"][1]["Financial_Institutions"]["Customer_segments"]["Large_Financial_Institution"].as_bool().unwrap()) {
+    if (y["Studio_essentials"]["Product_Areas"][1]["Banking"]["Customer_segments"]["Large_Financial_Institution"].as_bool().unwrap()) {
       segment_vector.push("Large Financial Institution");
     }
-    
+
     let mut segments: String = String::new();
     let space = "','";
     let all_segments = segment_vector.len();
@@ -191,6 +143,51 @@ pub fn create_dbscripts(execute: bool, yaml: &Vec<Yaml>, env_flag: String) {
       segments.push_str("'");
     }
 
+    // Read Tags: Capabilities
+    let mut capabilities_vector = Vec::new();
+    
+    if (y["Studio_essentials"]["Product_Areas"][0]["Payments"]["Capabilities"]["Analytics"].as_bool().unwrap()) {
+      capabilities_vector.push("Analytics");
+    }
+    if (y["Studio_essentials"]["Product_Areas"][0]["Payments"]["Capabilities"]["Boarding_and_Management"].as_bool().unwrap()) {
+      capabilities_vector.push("Boarding & Management");
+    }
+    if (y["Studio_essentials"]["Product_Areas"][0]["Payments"]["Capabilities"]["Disbursements"].as_bool().unwrap()) {
+      capabilities_vector.push("Disbursements");
+    }
+    if (y["Studio_essentials"]["Product_Areas"][0]["Payments"]["Capabilities"]["Omni_Channel"].as_bool().unwrap()) {
+      capabilities_vector.push("Omni-Channel");
+    }
+    if (y["Studio_essentials"]["Product_Areas"][0]["Payments"]["Capabilities"]["Value_Added_Services"].as_bool().unwrap()) {
+      capabilities_vector.push("Value Added Services");
+    }
+    if (y["Studio_essentials"]["Product_Areas"][1]["Banking"]["Capabilities"]["Banking_as_a_Service"].as_bool().unwrap()) {
+      capabilities_vector.push("Banking as a Service");
+    }
+    if (y["Studio_essentials"]["Product_Areas"][1]["Banking"]["Capabilities"]["Financial_Data_Management"].as_bool().unwrap()) {
+      capabilities_vector.push("Financial Data Management");
+    }
+    if (y["Studio_essentials"]["Product_Areas"][1]["Banking"]["Capabilities"]["Issuing"].as_bool().unwrap()) {
+      capabilities_vector.push("Issuing");
+    }
+    if (y["Studio_essentials"]["Product_Areas"][1]["Banking"]["Capabilities"]["Licensing"].as_bool().unwrap()) {
+      capabilities_vector.push("Licensing");
+    }
+    
+    let mut capabilities: String = String::new();
+    let space = "','";
+    let all_capabilities = capabilities_vector.len();
+    if (all_capabilities > 0) {
+      capabilities.push_str("'");
+      for (i, capability) in capabilities_vector.iter().enumerate() {
+        capabilities.push_str(capability);
+          if i < all_capabilities - 1 {
+            capabilities.push_str(space);
+          }
+      }
+      capabilities.push_str("'");
+    }
+
     // Read Runbox essentials
 
     // Use mock server as default if: No APIs, both `mock` and `live` are checked, or neither is checked
@@ -200,12 +197,13 @@ pub fn create_dbscripts(execute: bool, yaml: &Vec<Yaml>, env_flag: String) {
     let live_self_signed_cert = y["Runbox_essentials"]["Sandbox"]["Live_Sandbox_details"]["API_gateway_details"]["Self_signed_certificate"].as_bool().unwrap();
     let live_sandbox = "liveSandbox: {
       serverUrl: '".to_string() + &live_server_url + "',
-        authenticationScheme: '" + &live_auth_type +"',
-        username: '',
-        password: '',
-        selfSignedCert: "+ &live_self_signed_cert.to_string() +"
+      authenticationScheme: '" + &live_auth_type +"',
+      username: '',
+      password: '',
+      selfSignedCert: "+ &live_self_signed_cert.to_string() +"
       }";
-
+    let contact_sales = &y["Studio_essentials"]["Contact_Sales"].as_bool().unwrap();
+    
     let db_script_data = String::from("db.tenants.insertOne({
   title: '".to_owned()+ &title + "',
   name: '"+ &name +"',
@@ -219,22 +217,17 @@ pub fn create_dbscripts(execute: bool, yaml: &Vec<Yaml>, env_flag: String) {
       category: 'Region', 
       value: 'Region',
       tags: ["+ &region_of_operations+  "],
-    },   
-    {
-      category: 'Integration Type', 
-      value: 'Integration_Type',
-      tags: [" + &integrations+  "],
-    },  
-    {
-      category: 'Industry', 
-      value: 'Industry',
-      tags: [" + &industries+  "],
     },    
     {
       category: 'Customer Segment', 
       value: 'Customer_Segment',
       tags: [" + &segments+  "],
     },    
+    {
+      category: 'Capability', 
+      value: 'Capability',
+      tags: ["+ &capabilities+  "],
+    },
   ],   
   active: true,
   betaTag: false,
@@ -287,24 +280,14 @@ pub fn create_dbscripts(execute: bool, yaml: &Vec<Yaml>, env_flag: String) {
       sandboxType: '"+ if *mock_server {"mock"} else {"live"} +"',
       " + if *mock_server {"mockServerUrl: 'http://tenant-generic-mock-service:8443/sandboxrun',"} else {&live_sandbox}+"
     }
-  ]
+  ],
+  contactSales: "+ if *contact_sales { concat!(true) } else { concat!(false)}+",
 })");
 
   if (!execute) {
     println!("\n{} env DB Script for {}:\n{}", env_flag.trim(), name, &db_script_data);
     return;
   }
-    //Write the contents in the db script files one by one.. this is a test content
     let dbscript_path = format!("../../dbscripts/{}_{}", env_flag.trim(), "db_script.js".to_string());
     fs::write(dbscript_path, db_script_data);
-    //fs::write(path_to_read, dev_db_script);
-
-    //ToDo: Once the file is created, download the file in your local machine
-
-    //ToDo: Format the db script file
-    // command: sane-fmt --write db-scripts/dev_db_script.js
 }
-
-// fn type_of(_: T) -> &'static str {
-//     type_name::()
-// }
