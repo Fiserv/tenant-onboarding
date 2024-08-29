@@ -183,15 +183,15 @@ const tenantConfigurator = async (issueNo) => {
 
                   case tenant_enum.CUSTOMER_SEGMENTS_FOR_MERCHANTS:
                     if (tagValue?.length > 0) {
-                      if ( yamlData.Studio_essentials.Product_Areas[0] .Merchants.Customer_segments != undefined ){
-                          yamlData.Studio_essentials.Product_Areas[0].Merchants.Customer_segments = tagValue;
+                      if (yamlData.Studio_essentials.Product_Areas[0].Payments.Customer_segments != undefined){
+                          yamlData.Studio_essentials.Product_Areas[0].Payments.Customer_segments = tagValue;
                       }
                     }
                     break;
                   case tenant_enum.CUSTOMER_SEGMENTS_FOR_FINANCIAL_INSTITUTIONS:
                     if (tagValue?.length > 0) {
-                      if (yamlData.Studio_essentials.Product_Areas[1].Financial_Institutions.Customer_segments != undefined) {
-                        yamlData.Studio_essentials.Product_Areas[1].Financial_Institutions.Customer_segments.Bank = tagValue;
+                      if (yamlData.Studio_essentials.Product_Areas[1].Banking.Customer_segments != undefined) {
+                        yamlData.Studio_essentials.Product_Areas[1].Banking.Customer_segments.Bank = tagValue;
                       }
                     }
                     break;
