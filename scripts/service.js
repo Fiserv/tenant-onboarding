@@ -173,6 +173,44 @@ const tenantConfigurator = async (issueNo) => {
                       }
                     break;
 
+                  case tenant_enum.REGION_OF_OPERATION:
+                    if (tagValue?.length > 0) {
+                      if (yamlData.Studio_essentials.Tags.Region_of_Operation != undefined) {
+                        yamlData.Studio_essentials.Tags.Region_of_Operation = tagValue;
+                      }
+                    }
+                    break;
+
+                  case tenant_enum.CUSTOMER_SEGMENTS_FOR_MERCHANTS:
+                    if (tagValue?.length > 0) {
+                      if ( yamlData.Studio_essentials.Product_Areas[0] .Merchants.Customer_segments != undefined ){
+                          yamlData.Studio_essentials.Product_Areas[0].Merchants.Customer_segments = tagValue;
+                      }
+                    }
+                    break;
+                  case tenant_enum.CUSTOMER_SEGMENTS_FOR_FINANCIAL_INSTITUTIONS:
+                    if (tagValue?.length > 0) {
+                      if (yamlData.Studio_essentials.Product_Areas[1].Financial_Institutions.Customer_segments != undefined) {
+                        yamlData.Studio_essentials.Product_Areas[1].Financial_Institutions.Customer_segments.Bank = tagValue;
+                      }
+                    }
+                    break;
+
+                  case tenant_enum.CAPABILITIES_FOR_MERCHANTS:
+                    if (tagValue?.length) {
+                      if (yamlData.Studio_essentials.Product_Areas[0].Payments.Capabilities != undefined) {
+                          yamlData.Studio_essentials.Product_Areas[0].Payments.Capabilities = tagValue;
+                      }
+                    }
+                    break;
+                  case tenant_enum.CAPABILITIES_FOR_FINANCIAL_INSTITUTIONS:
+                    if (tagValue?.length) {
+                      if (yamlData.Studio_essentials.Product_Areas[1].Banking.Capabilities != undefined) {
+                        yamlData.Studio_essentials.Product_Areas[1].Banking.Capabilities = tagValue;
+                      }
+                    }
+                    break;
+
                   case tenant_enum.RUNBOX:
                     {
                       if (yamlData.Runbox_essentials.Runbox != undefined && tagValue != undefined) {
@@ -219,159 +257,6 @@ const tenantConfigurator = async (issueNo) => {
                         yamlData.Studio_essentials.Contact_Sales_Info = tagValue;
                     }
                     break;
-                }
-              } else if (obj?.tag === "ul") {
-                for (const chd of obj?.child) {
-                  if (chd?.node === "element") {
-                    const val = JSON.stringify(chd?.child[0]?.text?.trim());
-                    if (val.includes("[X]")) {
-                      const len = val.length;
-                      const tagValue = val.slice(4, len - 1).trim();
-
-                      switch (last_title) {
-                        case tenant_enum.CUSTOMER_SEGMENTS_FOR_MERCHANTS:
-                          {
-                            if (tagValue === "SMB") {
-                              if ( yamlData.Studio_essentials.Product_Areas[0] .Merchants.Customer_segments.SMB != undefined ){
-                                  yamlData.Studio_essentials.Product_Areas[0].Merchants.Customer_segments.SMB = true;
-                              }else{
-                                yamlData.Studio_essentials.Product_Areas[0].Merchants.Customer_segments.SMB = false;
-                              }
-                            }
-
-                            if (tagValue === "Enterprise") {
-                              if ( yamlData.Studio_essentials.Product_Areas[0].Merchants.Customer_segments.Enterprise != undefined ) {
-                                yamlData.Studio_essentials.Product_Areas[0].Merchants.Customer_segments.Enterprise = true;
-                              }
-                            }
-                          }
-                          break;
-
-                        case tenant_enum.CUSTOMER_SEGMENTS_FOR_FINANCIAL_INSTITUTIONS:
-                          {
-                            if (tagValue === "Bank") {
-                              if (  yamlData.Studio_essentials.Product_Areas[1].Financial_Institutions.Customer_segments.Bank != undefined) {
-                                yamlData.Studio_essentials.Product_Areas[1].Financial_Institutions.Customer_segments.Bank = true;
-                              }
-                            }
-
-                            if (tagValue === "Credit Union") {
-                              if ( yamlData.Studio_essentials.Product_Areas[1].Financial_Institutions.Customer_segments.Credit_Union != undefined) {
-                                yamlData.Studio_essentials.Product_Areas[1].Financial_Institutions.Customer_segments.Credit_Union = true;
-                              }
-                            }
-
-                            if (tagValue === "Large Financial Institution") {
-                              if ( yamlData.Studio_essentials.Product_Areas[1].Financial_Institutions.Customer_segments.Large_Financial_Institution != undefined ) {
-                                yamlData.Studio_essentials.Product_Areas[1].Financial_Institutions.Customer_segments.Large_Financial_Institution = true;
-                              }
-                            }
-                          }
-                          break;
-
-                        case tenant_enum.CAPABILITIES_FOR_MERCHANTS:
-                          {
-                            if (tagValue === "Analytics") {
-                              if (yamlData.Studio_essentials.Product_Areas[0].Payments.Capabilities.Analytics != undefined) {
-                                  yamlData.Studio_essentials.Product_Areas[0].Payments.Capabilities.Analytics = true;
-                              }
-                            }
-
-                            if (tagValue === "Boarding & Management") {
-                              if (yamlData.Studio_essentials.Product_Areas[0].Merchants.Capabilities.Boarding_and_Management != undefined) {
-                                yamlData.Studio_essentials.Product_Areas[0].Merchants.Capabilities.Boarding_and_Management = true;
-                              }
-                            }
-
-                            if (tagValue === "Disbursements") {
-                              if (yamlData.Studio_essentials.Product_Areas[0].Payments.Capabilities.Disbursements != undefined) {
-                                  yamlData.Studio_essentials.Product_Areas[0].Payments.Capabilities.Disbursements = true;
-                              }
-                            }
-
-                            if (tagValue === "Omni-Channel") {
-                              if (yamlData.Studio_essentials.Product_Areas[0].Merchants.Capabilities.Omni_Channel != undefined) {
-                                yamlData.Studio_essentials.Product_Areas[0].Merchants.Capabilities.Omni_Channel = true;
-                              }
-                            }
-
-                            if (tagValue === "Value Added Services") {
-                              if (yamlData.Studio_essentials.Product_Areas[0].Merchants.Capabilities.Value_Added_Services != undefined) {
-                                yamlData.Studio_essentials.Product_Areas[0].Merchants.Capabilities.Value_Added_Services = true;
-                              }
-                            }
-                          }
-                          break;
-                        case tenant_enum.CAPABILITIES_FOR_FINANCIAL_INSTITUTIONS:
-                          {
-                            if (tagValue === "Banking-as-a-Service") {
-                              if (yamlData.Studio_essentials.Product_Areas[1].Banking.Capabilities.Banking_as_a_Service != undefined) {
-                                yamlData.Studio_essentials.Product_Areas[1].Banking.Capabilities.Banking_as_a_Service = true;
-                              }
-                            }
-
-                            if (tagValue === "Financial Data Management") {
-                              if (yamlData.Studio_essentials.Product_Areas[1].Banking.Capabilities.Financial_Data_Management != undefined) {
-                                yamlData.Studio_essentials.Product_Areas[1].Banking.Capabilities.Financial_Data_Management = true;
-                              }
-                            }
-
-                            if (tagValue === "Issuing") {
-                              if (yamlData.Studio_essentials.Product_Areas[1].Banking.Capabilities.Issuing != undefined) {
-                                yamlData.Studio_essentials.Product_Areas[1].Banking.Capabilities.Issuing = true;
-                              }
-                            }
-
-                            if (tagValue === "Licensing") {
-                              if (yamlData.Studio_essentials.Product_Areas[1].Banking.Capabilities.Licensing != undefined) {
-                                yamlData.Studio_essentials.Product_Areas[1].Banking.Capabilities.Licensing = true;
-                              }
-                            }
-                          }
-                          break;
-                        case tenant_enum.REGION_OF_OPERATION:
-                          {
-                            switch (tagValue) {
-                              case regions.NORTH_AMERICA:
-                                {
-                                  if (  yamlData.Studio_essentials.Tags.Region_of_Operation.North_America != undefined) {
-                                    yamlData.Studio_essentials.Tags.Region_of_Operation.North_America = true;
-                                  }
-                                }
-                                break;
-
-                              case regions.EMEA:
-                                {
-                                  if (
-                                    yamlData.Studio_essentials.Tags.Region_of_Operation.EMEA != undefined) {
-                                    yamlData.Studio_essentials.Tags.Region_of_Operation.EMEA = true;
-                                  }
-                                }
-                                break;
-
-                              case regions.LATAM:
-                                {
-                                  if (
-                                    yamlData.Studio_essentials.Tags.Region_of_Operation.LATAM != undefined) {
-                                    yamlData.Studio_essentials.Tags.Region_of_Operation.LATAM = true;
-                                  }
-                                }
-                                break;
-
-                              case regions.APAC:
-                                {
-                                  if (
-                                    yamlData.Studio_essentials.Tags.Region_of_Operation.APAC != undefined) {
-                                    yamlData.Studio_essentials.Tags.Region_of_Operation.APAC = true;
-                                  }
-                                }
-                                break;
-                            }
-                          }
-                          break;
-                      }
-                    }
-                  }
                 }
               }
 

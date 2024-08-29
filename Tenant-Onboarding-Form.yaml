@@ -28,30 +28,12 @@ Studio_essentials:
   Product_Areas:
     - Payments:
         Customer_segments:
-          SMB: false
-          Enterprise: false
         Capabilities:
-          Analytics: false
-          Boarding_and_Management: false
-          Disbursements: false
-          Omni_Channel: false
-          Value_Added_Services: false
     - Banking:
         Customer_segments:
-          Bank: false
-          Credit_Union: false
-          Large_Financial_Institution: false
         Capabilities:
-          Banking_as_a_Service: false
-          Financial_Data_Management: false
-          Issuing: false
-          Licensing: false
   Tags:
     Region_of_Operation:
-      North_America: false
-      EMEA: false
-      LATAM: false
-      APAC: false
   Contact_Sales: false
   Contact_Sales_Info:
 Runbox_essentials:
