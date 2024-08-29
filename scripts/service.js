@@ -175,25 +175,25 @@ const tenantConfigurator = async (issueNo) => {
 
                   case tenant_enum.REGION_OF_OPERATION:
                     if (tagValue?.length)
-                      yamlData.Studio_essentials.Tags?.Region_of_Operation = tagValue;
+                      yamlData.Studio_essentials.Tags.Region_of_Operation = tagValue;
                     break;
 
                   case tenant_enum.CUSTOMER_SEGMENTS_FOR_MERCHANTS:
                     if (tagValue?.length)
-                      yamlData.Studio_essentials.Product_Areas[0]?.Payments?.Customer_segments = tagValue;
+                      yamlData.Studio_essentials.Product_Areas[0].Payments.Customer_segments = tagValue;
                     break;
                   case tenant_enum.CUSTOMER_SEGMENTS_FOR_FINANCIAL_INSTITUTIONS:
                     if (tagValue?.length)
-                      yamlData.Studio_essentials.Product_Areas[1]?.Banking?.Customer_segments = tagValue;
+                      yamlData.Studio_essentials.Product_Areas[1].Banking.Customer_segments = tagValue;
                     break;
 
                   case tenant_enum.CAPABILITIES_FOR_MERCHANTS:
                     if (tagValue?.length)
-                      yamlData.Studio_essentials.Product_Areas[0]?.Payments?.Capabilities = tagValue;
+                      yamlData.Studio_essentials.Product_Areas[0].Payments.Capabilities = tagValue;
                     break;
                   case tenant_enum.CAPABILITIES_FOR_FINANCIAL_INSTITUTIONS:
                     if (tagValue?.length)
-                      yamlData.Studio_essentials.Product_Areas[1]?.Banking?.Capabilities = tagValue;
+                      yamlData.Studio_essentials.Product_Areas[1].Banking.Capabilities = tagValue;
                     break;
 
                   case tenant_enum.RUNBOX:
