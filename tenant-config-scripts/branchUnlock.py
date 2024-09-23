@@ -12,6 +12,8 @@ headers = {
 # Organization Name
 org_name = "Fiserv"
 
+devstudio_backend_repos = ["tenants-data", "remote-actions", "sample-tenant-repo", "TTPPackage", "TTPSampleApp", "developer-studio-support", "tenants-doc"]
+
 # Fetch repositories in the project
 url = f"https://api.github.com/orgs/{org_name}/repos"
 response = requests.get(url, params={"per_page": 100}, headers=headers)
@@ -29,6 +31,9 @@ print()
 branches = ["main", "preview"]
 
 for repo in repositories:
+    if repo in devstudio_backend_repos:
+        continue
+    
     for branch in branches:
         url = f"https://api.github.com/repos/{org_name}/{repo}/branches/{branch}/protection"
         response = requests.delete(url, headers=headers)
