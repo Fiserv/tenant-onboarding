@@ -1,5 +1,5 @@
 Tenant_Title: Tenant Onboarding Test Repo
-Tenant_Description: REPLACE ME > This is a short description with less than 112 characters of the product.
+Tenant_Description: This is a short description with less than 112 characters of the product.
 Tenant_Name: TenantOnboardingTestRepo
 Tenant_Type:
   - Full_service: true
