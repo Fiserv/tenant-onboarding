@@ -23,6 +23,8 @@ const tenant_onboarding_file = "../Tenant-Onboarding-Form.yaml";
 const tenant_json_file = "../tenant.json";
 const settings_yaml = "../settings.yaml";
 
+const description_length = 112;
+
 const tenantConfigurator = async (issueNo) => {
   let check = true;
   try {
@@ -74,7 +76,7 @@ const tenantConfigurator = async (issueNo) => {
                     break;
 
                   case tenant_enum.TENANT_DESCRIPTION:
-                    if ( yamlData["GitHub_essentials"].Tenant_Description != undefined && tagValue != undefined)
+                    if ( yamlData["GitHub_essentials"].Tenant_Description != undefined && tagValue != undefined && tagValue.length != 0 && tagValue.length < description_length)
                       yamlData["GitHub_essentials"].Tenant_Description = tagValue;
                     break;
 
