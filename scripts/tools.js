@@ -46,6 +46,7 @@ const convertToCamelCase = str =>
 
 const tenant_enum = {
   TENANT_NAME: "Name of your product / tenant",
+  TENANT_DESCRIPTION: "Short Description of Tenant",
   TENANT_TYPE: "Type of Tenant",
   TENANT_MEMBERS: "Team Members",
   BUG_REPORTING: "Bug Reporting",

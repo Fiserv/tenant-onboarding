@@ -23,6 +23,8 @@ const tenant_onboarding_file = "../Tenant-Onboarding-Form.yaml";
 const tenant_json_file = "../tenant.json";
 const settings_yaml = "../settings.yaml";
 
+const description_length = 112;
+
 const tenantConfigurator = async (issueNo) => {
   let check = true;
   try {
@@ -71,6 +73,11 @@ const tenantConfigurator = async (issueNo) => {
                         yamlData["GitHub_essentials"].Repository_Name = convertToKebabCase(tagValue);
                       }
                     }
+                    break;
+
+                  case tenant_enum.TENANT_DESCRIPTION:
+                    if ( yamlData["GitHub_essentials"].Tenant_Description != undefined && tagValue != undefined && tagValue.length != 0 && tagValue.length < description_length)
+                      yamlData["GitHub_essentials"].Tenant_Description = tagValue;
                     break;
 
                   case tenant_enum.TENANT_MEMBERS:
@@ -299,6 +306,7 @@ async function updateTenantJSONFile() {
     tenant_Data.title = yamlData.Tenant_Title;
     tenant_Data.name = yamlData.Tenant_Name;
     tenant_Data.solution = solutions;
+    tenant_Data.product.description = yamlData.Tenant_Description;
     tenant_Data.product.apiSpecification = `/v1/apis/${yamlData.Tenant_Name}`;
     tenant_Data.product.layout = `/v1/layouts/${yamlData.Tenant_Name}`;
     tenant_Data.product.documentation = `/v1/docs/${yamlData.Tenant_Name}`;
