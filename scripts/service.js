@@ -76,8 +76,8 @@ const tenantConfigurator = async (issueNo) => {
                     break;
 
                   case tenant_enum.TENANT_DESCRIPTION:
-                    if ( yamlData["GitHub_essentials"].Tenant_Description != undefined && tagValue != undefined && tagValue.length != 0 && tagValue.length < description_length)
-                      yamlData["GitHub_essentials"].Tenant_Description = tagValue;
+                    if ( yamlData.Tenant_Description != undefined && tagValue != undefined && tagValue.length != 0 && tagValue.length < description_length)
+                      yamlData.Tenant_Description = tagValue;
                     break;
 
                   case tenant_enum.TENANT_MEMBERS:
@@ -319,20 +319,17 @@ async function updateTenantJSONFile() {
     tenant_Data.product.feature[0].value = yamlData.Runbox_essentials.Runbox;
   }
 
-  if (  yamlData.GitHub_essentials.Support[0].Bug_Reporting.Assignees != undefined ) {
+  if (yamlData.GitHub_essentials.Support[0].Bug_Reporting.Assignees != undefined)
     tenant_Data.supportConfig[0].bug.assignees = yamlData.GitHub_essentials.Support[0].Bug_Reporting.Assignees;
-  }
 
-  if ( yamlData.GitHub_essentials.Support[1].Feedback_Reporting.Assignees != undefined ) {
+  if (yamlData.GitHub_essentials.Support[1].Feedback_Reporting.Assignees != undefined)
     tenant_Data.supportConfig[0].feedback.assignees = yamlData.GitHub_essentials.Support[1].Feedback_Reporting.Assignees;
-  }
-  if (  yamlData.GitHub_essentials.Support[2].Enhancement_Reporting.Assignees != undefined  ) {
+
+  if (yamlData.GitHub_essentials.Support[2].Enhancement_Reporting.Assignees != undefined)
     tenant_Data.supportConfig[0].enhancement.assignees = yamlData.GitHub_essentials.Support[2].Enhancement_Reporting.Assignees;
-  }
+
   return new Promise((resolve, rejects) => {
-
-   // printMessage(JSON.stringify(tenant_Data, null, 2));
-
+    // printMessage(JSON.stringify(tenant_Data, null, 2));
     fsPromises.writeFile(tenant_json_file, JSON.stringify(tenant_Data, null, 2))
       .then(() => {
         resolve(convertToKebabCase(tenant_Data.title));
