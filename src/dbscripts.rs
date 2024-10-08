@@ -198,7 +198,7 @@ pub fn create_dbscripts(execute: bool, yaml: &Vec<Yaml>, env_flag: String) {
       value: '" + &github_main_branch + "',
       available: true,
       hasApis: "+ if *has_apis { concat!(true) } else { concat!(false)}+",
-      sandboxType: '"+ if *mock_server {"mock"} else {"live"} +"',
+      sandboxType: '"+ if *mock_server {"GMS"} else {"live"} +"',
       " + if *mock_server {"mockServerUrl: 'http://tenant-generic-mock-service:8443/sandboxrun',"} else {&live_sandbox}+"
     },
     {
@@ -206,7 +206,7 @@ pub fn create_dbscripts(execute: bool, yaml: &Vec<Yaml>, env_flag: String) {
       value: 'previous',
       available: false,
       hasApis: false,
-      sandboxType: '"+ if *mock_server {"mock"} else {"live"} +"',
+      sandboxType: '"+ if *mock_server {"GMS"} else {"live"} +"',
       " + if *mock_server {"mockServerUrl: 'http://tenant-generic-mock-service:8443/sandboxrun',"} else {&live_sandbox}+"
     },
     {
@@ -214,7 +214,7 @@ pub fn create_dbscripts(execute: bool, yaml: &Vec<Yaml>, env_flag: String) {
       value: 'preview',
       available: false,
       hasApis: false,
-      sandboxType: '"+ if *mock_server {"mock"} else {"live"} +"',
+      sandboxType: '"+ if *mock_server {"GMS"} else {"live"} +"',
       " + if *mock_server {"mockServerUrl: 'http://tenant-generic-mock-service:8443/sandboxrun',"} else {&live_sandbox}+"
     }
   ],
