@@ -148,7 +148,6 @@ pub fn create_dbscripts(execute: bool, yaml: &Vec<Yaml>, env_flag: String) {
   tenantPort: '8443',
   providerAPIUrl: '/v1/products/"+&name+"',
   apiAuth: {},
-  hasApis: "+ if *has_apis { concat!(true) } else { concat!(false)}+",
   productTags: [
     {
       category: 'Region', 
