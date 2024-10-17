@@ -39,7 +39,6 @@ branch_lock = {
     "restrictions": None
 }
 
-# for repo in repositories:
 for repo in repositories:
     if repo in devstudio_backend_repos:
         continue

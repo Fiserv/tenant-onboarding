@@ -7,7 +7,8 @@ headers = {
     "Accept": "application/vnd.github.v3+json"
 }
 
-github_direct_link_regex = r'(http[s]?://?raw.githubusercontent.*)/assets/'
+file_direct_link_regex = r'(?<!\!)(<a[^>]*|\[.*\]\()(http[s]?://raw.githubusercontent.*)/assets/' # Checks for markdown format [](githubusercontent_file) or <a src='githubusercontent_file'
+github_direct_link_regex = r'(http[s]?://raw.githubusercontent.*)/assets/' # Checks for every other githubusercontent_link
 devstudio_backend_repos = ["tenants-data", "remote-actions", "tenant-onboarding", "sample-tenant-repo", "developer-studio-support", "TTPPackage", "TTPSampleApp", "tenants-doc", "Support", "mdncontent"]
 
 def get_organization_repositories(organization):
@@ -74,8 +75,9 @@ def check_file_content(contents) -> tuple:
     return (has_docs, changed_files)
 
 def replace_links(file_path:str, file_content:str):
-    updated_content = re.sub(github_direct_link_regex, '/assets/', file_content)
-    commit_and_push_file(organization, repo, feature_branch, updated_content, file_path, "Fix githubusercontent links")
+    updated_content = re.sub(file_direct_link_regex, lambda x: x.group(0).replace(x.group(2), 'download'), file_content)
+    updated_content = re.sub(github_direct_link_regex, lambda x: x.group(0).replace(x.group(1), ''), updated_content)
+    commit_and_push_file(organization, repo, feature_branch, updated_content, file_path, "Fix githubusercontent links for " + file_path)
 
 def commit_and_push_file(organization:str, repository:str, branch:str, file_content:str, file_path:str, commit_message:str):
     base_url = f"https://api.github.com/repos/{organization}/{repository}/contents/{file_path}?ref={branch}"
