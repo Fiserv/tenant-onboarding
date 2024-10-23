@@ -127,25 +127,5 @@ pub async fn process_github_team(config_yaml: &Vec<Yaml> , settings_yaml: &Vec<Y
         }
     }
 
-    /* Adding '@Fiserv/admins' team as admin to repository */
-    let put_req_api = format!("{}/{}/{}/{}/{}", github_api, "developer-studio-admin", "repos", github_owner, tenant_repo);
-
-    let put_req = github_client.request(Method::PUT, put_req_api)
-                                .bearer_auth(github_auth.clone())
-                                .header("User-Agent", "tenant-onbaording")
-                                .header("Accept", "application/vnd.github+json")
-                                .header("X-GitHub-Api-Version" , "2022-11-28")
-                                .timeout(Duration::from_secs(5))
-                                .json(&TeamPermission{ permission: "admin".to_string() });
-
-    let github_data_stats = put_req.send().await?;  
-    
-    if (github_data_stats.status() == reqwest::StatusCode::NO_CONTENT) {
-        println!("github_data_stats : {}" , github_data_stats.status()); 
-    } else {
-        println!("Unable to add Team : {}" , github_data_stats.status());
-        team_added = false;
-    }
-
     Ok((team_added))
 }
