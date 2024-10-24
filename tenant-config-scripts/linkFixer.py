@@ -137,8 +137,7 @@ def create_pull_request(username, repository, base_branch, head_branch, title, b
 if __name__ == "__main__":
     organization = "Fiserv"
 
-    # for repo in get_organization_repositories(organization):
-    for repo in ['developer-studio-test']:
+    for repo in get_organization_repositories(organization):
         if repo in devstudio_backend_repos:
             continue
         print(f"Repo: {repo}")
