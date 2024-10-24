@@ -7,8 +7,8 @@ headers = {
     "Accept": "application/vnd.github.v3+json"
 }
 
-file_direct_link_regex = r'(?<!\!)(<a[^>]*|\[.*\]\()(http[s]?://raw.githubusercontent.*)/assets/' # Checks for markdown format [](githubusercontent_file) or <a src='githubusercontent_file'
-github_direct_link_regex = r'(http[s]?://raw.githubusercontent.*)/assets/' # Checks for every other githubusercontent_link
+file_direct_link_regex = r'(?<!\!)(<a[^>]*|\[.*\]\()(http[s]?://raw.githubusercontent[^)>]*)/assets/' # Checks for markdown format [](githubusercontent_file) or <a src='githubusercontent_file'
+github_direct_link_regex = r'(http[s]?://raw.githubusercontent[^)>]*)/assets/' # Checks for every other githubusercontent_link
 devstudio_backend_repos = ["tenants-data", "remote-actions", "tenant-onboarding", "sample-tenant-repo", "developer-studio-support", "TTPPackage", "TTPSampleApp", "tenants-doc", "Support", "mdncontent"]
 
 def get_organization_repositories(organization):
@@ -137,7 +137,8 @@ def create_pull_request(username, repository, base_branch, head_branch, title, b
 if __name__ == "__main__":
     organization = "Fiserv"
 
-    for repo in get_organization_repositories(organization):
+    # for repo in get_organization_repositories(organization):
+    for repo in ['developer-studio-test']:
         if repo in devstudio_backend_repos:
             continue
         print(f"Repo: {repo}")
